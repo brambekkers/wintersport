@@ -4,6 +4,7 @@ import Home from "../views/Home";
 import Login from "../views/Login";
 import Settings from "../views/Settings";
 import Weather from "../views/Weather";
+import Chat from "../views/Chat";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,11 @@ const routes = [
     path: "/weather",
     name: "Weather",
     component: Weather,
+  },
+  {
+    path: "/chat",
+    name: "Chat",
+    component: Chat,
   },
 ];
 

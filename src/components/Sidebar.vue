@@ -1,6 +1,6 @@
 <template>
 	<v-navigation-drawer app v-model="sidebar" light>
-		<v-list dense class="h-100">
+		<v-list dense class="sidebarList d-flex flex-column justify-space-between">
 			<template v-for="(header, i) of headers">
 				<div :key="i" :class="header.class">
 					<v-subheader>{{ header.name }}</v-subheader>
@@ -76,7 +76,7 @@ export default {
 						{
 							title: "Chat",
 							icon: "chat",
-							route: "routes",
+							route: "chat",
 						},
 					],
 				},
@@ -101,4 +101,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.sidebarList {
+	height: 100vh;
+	max-height: 100vh;
+}
+</style>
