@@ -60,4 +60,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+background {
+	color: "black";
+}
+</style>
