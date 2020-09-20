@@ -46,7 +46,7 @@ export default {
 						{
 							title: "Weather",
 							icon: "ac_unit",
-							action: "weather",
+							route: "weather",
 						},
 						{
 							title: "Map",

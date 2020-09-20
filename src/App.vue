@@ -6,7 +6,7 @@
 				v-if="isHome"
 				@click="$store.commit('sidebar', !$store.getters.sidebar)"
 			></v-app-bar-nav-icon>
-			<v-btn v-else icon @click="$router.go(-1)">
+			<v-btn v-else icon @click="$router.push('/')">
 				<v-icon>arrow_back</v-icon>
 			</v-btn>
 			<v-toolbar-title> {{ routerName }} </v-toolbar-title>

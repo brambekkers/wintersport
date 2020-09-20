@@ -9,8 +9,12 @@
 						aspect-ratio="1"
 					></v-img>
 					<v-card-text>
-						<h2 class="title text-h4 text-center font-weight-bold">Welcome back</h2>
-						<h4 class="title text-subtitle-1 text-center mb-1 font-weight-light">
+						<h2 class="title text-h4 text-center font-weight-bold">
+							Welcome back
+						</h2>
+						<h4
+							class="title text-subtitle-1 text-center mb-1 font-weight-light"
+						>
 							Sign in to continue
 						</h4>
 					</v-card-text>
@@ -65,7 +69,7 @@ export default {
 			console.log("test");
 			try {
 				await this.$store.dispatch("signIn", this.user);
-				this.$router.push("/profile");
+				this.$router.push("/");
 			} catch (error) {
 				console.log(error);
 			}
