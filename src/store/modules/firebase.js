@@ -10,7 +10,7 @@ export default {
     firebase: null,
     auth: null,
     db: null,
-    user: null,
+
   },
   getters: {
     firebase(state) {
@@ -25,33 +25,20 @@ export default {
     storage(state) {
       return state.firebase.storage();
     },
-    user(state) {
-      return state.user;
-    },
+
   },
   mutations: {
     firebase(state, firebase) {
       state.firebase = firebase;
     },
-    user(state, val) {
-      state.user = val;
-    },
+
+
   },
   actions: {
     async initializeApp({ commit }) {
       commit("firebase", await firebase.initializeApp(firebaseConfig));
       return true;
     },
-    userWatcher({ getters, commit }) {
-      getters.auth.onAuthStateChanged((user) => {
-        if (user) {
-          console.log("User signed in", user);
-          commit("user", user ? user : null);
-        } else {
-          console.log("Not signed in");
-          commit("user", null);
-        }
-      });
-    },
+
   },
 };
