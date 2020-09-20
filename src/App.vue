@@ -36,9 +36,6 @@ export default {
 		isHome() {
 			return this.$route.path === "/";
 		},
-	},
-	components: { Sidebar },
-	computed: {
 		routerName() {
 			return this.$route.name;
 		},
@@ -46,6 +43,7 @@ export default {
 			return this.$store.getters.user;
 		},
 	},
+	components: { Sidebar },
 	methods: {
 		...mapActions([
 			"initializeApp",
