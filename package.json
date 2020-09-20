@@ -47,7 +47,12 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "indent": [
+        2,
+        2
+      ]
+    }
   },
   "browserslist": [
     "> 1%",
