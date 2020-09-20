@@ -1,3 +1,5 @@
+import * as firebase from "firebase";
+
 export default {
     state: {
         chat: null,
@@ -19,10 +21,12 @@ export default {
             });
         },
         sentMessage({ getters }, message) {
+            const uid = getters.auth.currentUser.uid
+
             getters.db.doc("chat/main").set({
-                name: "Los Angeles",
-                state: "CA",
-                country: "USA"
+                text: message,
+                uid: uid,
+                sentAt: firebase.database.ServerValue.TIMESTAMP
             })
         }
     },
