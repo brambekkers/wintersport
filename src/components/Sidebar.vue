@@ -2,9 +2,9 @@
 	<v-navigation-drawer app v-model="drawer" light>
 		<v-list dense>
 			<template v-for="(header, i) of headers">
-				<v-subheader>{{ header.name }}</v-subheader>
-				<v-list-item-group color="primary">
-					<v-list-item v-for="(item, i) in header.items" :key="i">
+				<v-subheader :key="i">{{ header.name }}</v-subheader>
+				<v-list-item-group color="primary" :key="i">
+					<v-list-item v-for="(item, j) in header.items" :key="j">
 						<v-list-item-icon>
 							<v-icon>{{ item.icon }}</v-icon>
 						</v-list-item-icon>
