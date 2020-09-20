@@ -37,7 +37,7 @@ export default {
 		return {
 			headers: [
 				{
-					name: "profile",
+					name: "Profile",
 					items: [
 						{
 							title: "Login",
@@ -60,28 +60,39 @@ export default {
 					name: "Actions",
 					items: [
 						{
-							action: "restaurant",
-							title: "Dining",
+							title: "Weather",
+							icon: "person_add",
+							action: "weather",
 						},
 						{
-							action: "school",
-							title: "Education",
+							title: "Map",
+							icon: "map",
+							action: "map",
 						},
 						{
-							action: "directions_run",
-							title: "Family",
+							title: "Location",
+							icon: "map",
+							action: "map",
 						},
 						{
-							action: "healing",
-							title: "Health",
+							title: "Routes",
+							icon: "person_add",
+							action: "routes",
 						},
 						{
-							action: "content_cut",
-							title: "Office",
+							title: "Webcams",
+							icon: "person_add",
+							action: "routes",
 						},
 						{
-							action: "local_offer",
-							title: "Promotions",
+							title: "Photos",
+							icon: "person_add",
+							action: "routes",
+						},
+						{
+							title: "Chat",
+							icon: "person_add",
+							action: "routes",
 						},
 					],
 				},

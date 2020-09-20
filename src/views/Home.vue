@@ -38,7 +38,6 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import "refreshable/dist/assets/refreshable.css";
 
 export default {
 	name: "Home",
