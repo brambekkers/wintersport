@@ -23,11 +23,13 @@ export default {
         sentMessage({ getters }, message) {
             const uid = getters.auth.currentUser.uid
 
-            getters.db.doc("chat/main").set({
-                text: message,
-                uid: uid,
-                sentAt: Date.now();
-            })
+            getters.db.doc("chat/main").update({
+                messages: firebase.firestore.FieldValue.arrayUnion({
+                    text: message,
+                    uid: uid,
+                    sentAt: Date.now()
+                })
+            });
         }
     },
 };
