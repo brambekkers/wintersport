@@ -2,7 +2,7 @@
 	<v-app>
 		<Sidebar :drawer="drawer" />
 
-		<v-app-bar app color="success">
+		<v-app-bar app light>
 			<v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 			<v-toolbar-title> Wintersport 2021 </v-toolbar-title>
 		</v-app-bar>

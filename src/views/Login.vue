@@ -3,25 +3,17 @@
 		<v-row align="center" justify="center">
 			<v-col cols="12" sm="8" md="4">
 				<v-card class="elevation-12">
-					<v-toolbar color="primary" dark flat>
-						<v-toolbar-title>Login form</v-toolbar-title>
-						<v-spacer></v-spacer>
-						<v-tooltip bottom>
-							<template v-slot:activator="{ on }">
-								<v-btn :href="source" icon large target="_blank" v-on="on">
-									<v-icon>mdi-code-tags</v-icon>
-								</v-btn>
-							</template>
-							<span>Source</span>
-						</v-tooltip>
-					</v-toolbar>
-					<v-card-text>
-						<v-form>
+					<v-form @submit.prevent="signIn">
+						<v-toolbar color="primary" dark flat>
+							<v-toolbar-title>Login</v-toolbar-title>
+						</v-toolbar>
+						<v-card-text>
 							<v-text-field
 								label="Login"
 								name="login"
 								prepend-icon="mdi-account"
 								type="text"
+								v-model="user.email"
 							></v-text-field>
 
 							<v-text-field
@@ -30,13 +22,14 @@
 								name="password"
 								prepend-icon="mdi-lock"
 								type="password"
+								v-model="user.password"
 							></v-text-field>
-						</v-form>
-					</v-card-text>
-					<v-card-actions>
-						<v-spacer></v-spacer>
-						<v-btn color="primary">Login</v-btn>
-					</v-card-actions>
+						</v-card-text>
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn type="submit" color="primary">Login</v-btn>
+						</v-card-actions>
+					</v-form>
 				</v-card>
 			</v-col>
 		</v-row>
@@ -44,7 +37,27 @@
 </template>
 
 <script>
-export default {};
+export default {
+	data() {
+		return {
+			user: {
+				email: "",
+				password: "",
+			},
+		};
+	},
+	methods: {
+		async signIn() {
+			console.log("test");
+			try {
+				await this.$store.dispatch("signIn", this.user);
+				this.$router.push("/profile");
+			} catch (error) {
+				console.log(error);
+			}
+		},
+	},
+};
 </script>
 
 <style>

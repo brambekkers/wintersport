@@ -2,17 +2,19 @@
 	<v-navigation-drawer app v-model="drawer" light>
 		<v-list dense>
 			<template v-for="(header, i) of headers">
-				<v-subheader :key="`header${i}`">{{ header.name }}</v-subheader>
-				<v-list-item-group color="primary" :key="`group${i}`">
-					<v-list-item v-for="(item, j) in header.items" :key="j">
-						<v-list-item-icon>
-							<v-icon>{{ item.icon }}</v-icon>
-						</v-list-item-icon>
-						<v-list-item-content>
-							<v-list-item-title v-text="item.title"></v-list-item-title>
-						</v-list-item-content>
-					</v-list-item>
-				</v-list-item-group>
+				<div :key="i">
+					<v-subheader>{{ header.name }}</v-subheader>
+					<v-list-item-group color="primary">
+						<v-list-item v-for="(item, j) in header.items" :key="j" :to="item.action">
+							<v-list-item-icon>
+								<v-icon>{{ item.icon }}</v-icon>
+							</v-list-item-icon>
+							<v-list-item-content>
+								<v-list-item-title v-text="item.title"></v-list-item-title>
+							</v-list-item-content>
+						</v-list-item>
+					</v-list-item-group>
+				</div>
 			</template>
 		</v-list>
 	</v-navigation-drawer>
