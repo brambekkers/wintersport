@@ -1,11 +1,16 @@
 <template>
 	<v-navigation-drawer app v-model="sidebar" light>
-		<v-list dense>
+		<v-list dense class="h-100">
 			<template v-for="(header, i) of headers">
-				<div :key="i">
+				<div :key="i" :class="header.class">
 					<v-subheader>{{ header.name }}</v-subheader>
 					<v-list-item-group color="primary">
-						<v-list-item v-for="(item, j) in header.items" :key="j" :to="item.action">
+						<v-list-item
+							v-for="(item, j) in header.items"
+							:key="j"
+							:to="item.route ? item.route : '#'"
+							@click="item.action ? item.action() : null"
+						>
 							<v-list-item-icon>
 								<v-icon>{{ item.icon }}</v-icon>
 							</v-list-item-icon>
@@ -32,72 +37,66 @@ export default {
 				this.$store.commit("sidebar", newValue);
 			},
 		},
-	},
-	data() {
-		return {
-			headers: [
-				{
-					name: "Profile",
-					items: [
-						{
-							title: "Login",
-							icon: "login",
-							action: "login",
-						},
-						{
-							title: "Logout",
-							icon: "power_settings_new",
-							action: "register",
-						},
-						{
-							title: "Register",
-							icon: "person_add",
-							action: "register",
-						},
-					],
-				},
+
+		headers() {
+			return [
 				{
 					name: "Actions",
 					items: [
 						{
 							title: "Weather",
 							icon: "person_add",
-							action: "weather",
+							route: "weather",
 						},
 						{
 							title: "Map",
 							icon: "map",
-							action: "map",
+							route: "map",
 						},
 						{
 							title: "Location",
-							icon: "map",
-							action: "map",
+							icon: "location_on",
+							route: "map",
 						},
 						{
 							title: "Routes",
-							icon: "person_add",
-							action: "routes",
+							icon: "directions",
+							route: "routes",
 						},
 						{
 							title: "Webcams",
 							icon: "person_add",
-							action: "routes",
+							route: "routes",
 						},
 						{
 							title: "Photos",
 							icon: "person_add",
-							action: "routes",
+							route: "routes",
 						},
 						{
 							title: "Chat",
 							icon: "person_add",
-							action: "routes",
+							route: "routes",
 						},
 					],
 				},
-			],
-		};
+				{
+					name: "Account",
+					class: "mt-auto",
+					items: [
+						{
+							title: "Logout",
+							icon: "power_settings_new",
+							route: "",
+							action: async () => {
+								await this.$store.dispatch("singOut");
+								this.$router.push("/login");
+							},
+						},
+					],
+				},
+			];
+		},
 	},
 };
 </script>

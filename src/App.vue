@@ -2,11 +2,11 @@
 	<v-app>
 		<Sidebar />
 
-		<v-app-bar app light>
+		<v-app-bar app light v-if="user">
 			<v-app-bar-nav-icon
 				@click="$store.commit('sidebar', !$store.getters.sidebar)"
 			></v-app-bar-nav-icon>
-			<v-toolbar-title> Wintersport 2021 </v-toolbar-title>
+			<v-toolbar-title> {{ routerName }} </v-toolbar-title>
 		</v-app-bar>
 
 		<v-main>
@@ -30,6 +30,14 @@ export default {
 		//
 	}),
 	components: { Sidebar },
+	computed: {
+		routerName() {
+			return this.$route.name;
+		},
+		user() {
+			return this.$store.getters.user;
+		},
+	},
 	methods: {
 		...mapActions([
 			"initializeApp",

@@ -30,6 +30,13 @@ export default {
             });
             return true
 
+        },
+        async singOut({ getters }) {
+            await getters.auth.signOut().then(() => {
+                return true
+            }).catch(function (error) {
+                throw error
+            });
         }
     },
 };
