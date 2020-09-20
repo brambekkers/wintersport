@@ -22,6 +22,11 @@ export default class WeatherUnlocked {
 	async getSnowReport(resortId) {
 		return (await this.agent.get(`/snowreport/${resortId}`)).data;
 	}
+
+	async getResortForecast(resortId, params) {
+		return (await this.agent.get(`resortforecast/${resortId}`, { params }))
+			.data;
+	}
 }
 
 export const resorts = {
