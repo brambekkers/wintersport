@@ -53,7 +53,7 @@ export default {
 			"refreshSnowReport",
 		]),
 	},
-	async mounted() {
+	async created() {
 		try {
 			await this.initializeApp();
 			this.userWatcher();

@@ -10,6 +10,7 @@ import Location from "../views/Location";
 import Routes from "../views/Routes";
 import Webcams from "../views/Webcams";
 import Photos from "../views/Photos";
+import Chat from "../views/Chat";
 
 Vue.use(VueRouter);
 
@@ -58,6 +59,11 @@ const routes = [
 		path: "/photos",
 		name: "Photos",
 		component: Photos,
+	},
+	{
+		path: "/chat",
+		name: "Chat",
+		component: Chat,
 	},
 ];
 

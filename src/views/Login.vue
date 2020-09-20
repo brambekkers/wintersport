@@ -1,7 +1,7 @@
 <template>
 	<v-container class="fill-height" fluid>
 		<v-row align="center" justify="center">
-			<v-col cols="12" sm="8" md="4">
+			<v-col cols="10" sm="8" md="4">
 				<v-form @submit.prevent="signIn">
 					<v-img
 						src="@/assets/profile.png"
@@ -42,12 +42,6 @@
 						<v-btn type="submit" block color="primary">Login</v-btn>
 					</v-card-actions>
 				</v-form>
-				<p class="text-center">
-					Don't have account?
-					<router-link to="/register" class="primary--text text-decoration-none"
-						>Create a new Account</router-link
-					>
-				</p>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -80,6 +74,7 @@ export default {
 
 <style lang="scss" scoped>
 .profileImage {
-	max-width: 30vw;
+	width: 30vw;
+	max-width: 250px;
 }
 </style>
