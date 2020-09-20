@@ -2,8 +2,8 @@
 	<v-navigation-drawer app v-model="drawer" light>
 		<v-list dense>
 			<template v-for="(header, i) of headers">
-				<v-subheader :key="i">{{ header.name }}</v-subheader>
-				<v-list-item-group color="primary" :key="i">
+				<v-subheader :key="`header${i}`">{{ header.name }}</v-subheader>
+				<v-list-item-group color="primary" :key="`group${i}`">
 					<v-list-item v-for="(item, j) in header.items" :key="j">
 						<v-list-item-icon>
 							<v-icon>{{ item.icon }}</v-icon>
@@ -28,9 +28,19 @@
 						name: "profile",
 						items: [
 							{
-								action: "local_activity",
 								title: "Login",
 								icon: "login",
+								action: "login",
+							},
+							{
+								title: "Logout",
+								icon: "power_settings_new",
+								action: "register",
+							},
+							{
+								title: "Register",
+								icon: "person_add",
+								action: "register",
 							},
 						],
 					},
