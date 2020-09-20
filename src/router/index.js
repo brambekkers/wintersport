@@ -8,30 +8,31 @@ import Weather from "../views/Weather";
 Vue.use(VueRouter);
 
 const routes = [
-	{
-		path: "/",
-		name: "Home",
-		component: Home,
-	},
-	{
-		path: "/settings",
-		name: "Settings",
-		component: Settings,
-	},
-	{
-		path: "/login",
-		name: "Login",
-		component: Login,
-	},
-	{
-		path: "/weather",
-		name: "Weather",
-		component: Weather,
-	},
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/weather",
+    name: "Weather",
+    component: Weather,
+  },
 ];
 
 const router = new VueRouter({
-	routes,
+  mode: 'history',
+  routes,
 });
 
 export default router;
