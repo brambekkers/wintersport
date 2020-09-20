@@ -3,28 +3,29 @@ import axios from "axios";
 const BASE_URL = "https://api.weatherunlocked.com/api";
 
 export default class WeatherUnlocked {
-	constructor({ appId, apiKey }) {
+	constructor({ appId, appKey }) {
 		this.appId = appId;
-		this.apiKey = apiKey;
+		this.appKey = appKey;
 
 		this.agent = axios.create({
 			baseURL: BASE_URL,
 			headers: {
 				accept: "application/json",
 			},
-		});
-
-		this.agent.interceptors.request.use((config) => ({
-			...config,
 			params: {
-				...config.params,
 				app_id: appId,
-				api_key: apiKey,
+				app_key: appKey,
 			},
-		}));
+		});
 	}
 
 	async getSnowReport(resortId) {
-		return await this.agent.get(`/snowreport/${resortId}`);
+		return (await this.agent.get(`/snowreport/${resortId}`)).data;
 	}
 }
+
+export const resorts = {
+	austria: {
+		saalbachHinterglem: 222018,
+	},
+};
