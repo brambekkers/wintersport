@@ -2,7 +2,7 @@
 	<div>
 		<v-parallax
 			dark
-			src="https://www.hubertushof-hinterglemm.at/andsrv/content/files/hinterglemm.83.jpg"
+			src="https://preview.telegraph.co.uk/multimedia/archive/01529/snowboarding_1529047c.jpg"
 		/>
 		<v-col>
 			<v-expansion-panels>
