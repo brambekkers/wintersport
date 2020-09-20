@@ -26,7 +26,7 @@ export default {
             getters.db.doc("chat/main").set({
                 text: message,
                 uid: uid,
-                sentAt: firebase.database.ServerValue.TIMESTAMP
+                sentAt: Date.now();
             })
         }
     },
