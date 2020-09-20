@@ -65,7 +65,7 @@ export default {
 						},
 						{
 							title: "Webcams",
-							icon: "person_add",
+							icon: "videocam",
 							route: "routes",
 						},
 						{
@@ -75,7 +75,7 @@ export default {
 						},
 						{
 							title: "Chat",
-							icon: "person_add",
+							icon: "chat",
 							route: "routes",
 						},
 					],
