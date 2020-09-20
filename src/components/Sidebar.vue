@@ -5,7 +5,11 @@
 				<div :key="i">
 					<v-subheader>{{ header.name }}</v-subheader>
 					<v-list-item-group color="primary">
-						<v-list-item v-for="(item, j) in header.items" :key="j" :to="item.action">
+						<v-list-item
+							v-for="(item, j) in header.items"
+							:key="j"
+							:to="item.action"
+						>
 							<v-list-item-icon>
 								<v-icon>{{ item.icon }}</v-icon>
 							</v-list-item-icon>
