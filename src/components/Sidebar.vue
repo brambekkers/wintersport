@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer app v-model="drawer" light>
+	<v-navigation-drawer app v-model="sidebar" light>
 		<v-list dense>
 			<template v-for="(header, i) of headers">
 				<div :key="i">
@@ -23,6 +23,16 @@
 <script>
 export default {
 	props: ["drawer"],
+	computed: {
+		sidebar: {
+			get: function() {
+				return this.$store.getters.sidebar;
+			},
+			set: function(newValue) {
+				this.$store.commit("sidebar", newValue);
+			},
+		},
+	},
 	data() {
 		return {
 			headers: [

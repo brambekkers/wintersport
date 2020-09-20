@@ -1,9 +1,11 @@
 <template>
 	<v-app>
-		<Sidebar :drawer="drawer" />
+		<Sidebar />
 
 		<v-app-bar app light>
-			<v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+			<v-app-bar-nav-icon
+				@click="$store.commit('sidebar', !$store.getters.sidebar)"
+			></v-app-bar-nav-icon>
 			<v-toolbar-title> Wintersport 2021 </v-toolbar-title>
 		</v-app-bar>
 

@@ -5,25 +5,26 @@ import { Home, Settings, Login } from "../views";
 Vue.use(VueRouter);
 
 const routes = [
-	{
-		path: "/",
-		name: "Home",
-		component: Home,
-	},
-	{
-		path: "/settings",
-		name: "Settings",
-		component: Settings,
-	},
-	{
-		path: "/login",
-		name: "Login",
-		component: Login,
-	},
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  }
+
 ];
 
 const router = new VueRouter({
-	routes,
+  routes,
 });
 
 export default router;
