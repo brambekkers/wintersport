@@ -2,10 +2,14 @@
 	<v-app>
 		<Sidebar />
 
-		<v-app-bar app light>
+		<v-app-bar app dark color="primary">
 			<v-app-bar-nav-icon
+				v-if="isHome"
 				@click="$store.commit('sidebar', !$store.getters.sidebar)"
 			></v-app-bar-nav-icon>
+			<v-btn v-else icon @click="$router.go(-1)">
+				<v-icon>arrow_back</v-icon>
+			</v-btn>
 			<v-toolbar-title> Wintersport 2021 </v-toolbar-title>
 		</v-app-bar>
 
@@ -29,6 +33,11 @@ export default {
 		drawer: false,
 		//
 	}),
+	computed: {
+		isHome() {
+			return this.$route.path === "/";
+		},
+	},
 	components: { Sidebar },
 	methods: {
 		...mapActions([

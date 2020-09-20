@@ -65,7 +65,7 @@ export default {
 					items: [
 						{
 							title: "Weather",
-							icon: "person_add",
+							icon: "ac_unit",
 							action: "weather",
 						},
 						{
