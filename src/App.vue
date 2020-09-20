@@ -1,6 +1,7 @@
 <template>
 	<v-app>
 		<Sidebar />
+
 		<v-app-bar app light v-if="user">
 			<v-app-bar-nav-icon
 				v-if="isHome"

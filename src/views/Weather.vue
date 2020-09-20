@@ -2,14 +2,14 @@
 	<v-container>
 		<v-row>
 			<v-col>
-				<v-card v-if="snowReport" class="mb-4">
+				<v-card class="mb-4">
 					<v-app-bar flat color="rgba(0, 0, 0, 0)">
 						<v-toolbar-title class="title pl-0">
 							Snow Report
 						</v-toolbar-title>
 					</v-app-bar>
 					<v-card-text>
-						<v-simple-table>
+						<v-simple-table v-if="snowReport">
 							<template v-slot:default>
 								<tbody>
 									<tr>
@@ -33,7 +33,7 @@
 						</v-simple-table>
 					</v-card-text>
 				</v-card>
-				<v-card v-if="weatherForecast" class="mb-4">
+				<v-card class="mb-4">
 					<v-app-bar flat color="rgba(0, 0, 0, 0)">
 						<v-toolbar-title class="title pl-0">
 							Weather Forecast
@@ -52,6 +52,7 @@
 					<v-card-text>
 						<template>
 							<v-carousel
+								v-if="weatherForecast"
 								v-model="day"
 								light
 								:continuous="false"
