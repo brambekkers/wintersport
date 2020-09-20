@@ -2,7 +2,7 @@
 	<div>
 		<v-parallax
 			dark
-			src="https://preview.telegraph.co.uk/multimedia/archive/01529/snowboarding_1529047c.jpg"
+			src="https://upload.wikimedia.org/wikipedia/commons/4/47/Snowboarder_in_flight_%28Tannheim%2C_Austria%29.jpg"
 		/>
 		<v-col>
 			<v-expansion-panels>
