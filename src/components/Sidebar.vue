@@ -1,8 +1,18 @@
 <template>
-	<v-navigation-drawer app v-model="sidebar" light>
-		<v-list dense class="sidebarList d-flex flex-column justify-space-between">
+	<v-navigation-drawer
+		app
+		v-model="sidebar"
+		light
+	>
+		<v-list
+			dense
+			class="sidebarList d-flex flex-column justify-space-between"
+		>
 			<template v-for="(header, i) of headers">
-				<div :key="i" :class="header.class">
+				<div
+					:key="i"
+					:class="header.class"
+				>
 					<v-subheader>{{ header.name }}</v-subheader>
 					<v-list-item-group color="primary">
 						<v-list-item
@@ -30,10 +40,10 @@ export default {
 	props: ["drawer"],
 	computed: {
 		sidebar: {
-			get: function() {
+			get: function () {
 				return this.$store.getters.sidebar;
 			},
-			set: function(newValue) {
+			set: function (newValue) {
 				this.$store.commit("sidebar", newValue);
 			},
 		},
@@ -66,12 +76,12 @@ export default {
 						{
 							title: "Webcams",
 							icon: "videocam",
-							route: "routes",
+							route: "webcams",
 						},
 						{
 							title: "Photos",
 							icon: "person_add",
-							route: "routes",
+							route: "photos",
 						},
 						{
 							title: "Chat",
@@ -102,8 +112,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebarList {
-	height: 100vh;
-	max-height: 100vh;
-}
+	.sidebarList {
+		height: 100vh;
+		max-height: 100vh;
+	}
 </style>
