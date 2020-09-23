@@ -3,6 +3,8 @@
 		<video
 			width="100%"
 			:poster="webcam.poster"
+			@click="fullscreen"
+			:ref="webcam.name"
 		>
 			<source
 				:src="webcam.videoUrl"
@@ -28,6 +30,24 @@
 <script>
 export default {
 	props: ["webcam"],
+	methods: {
+		fullscreen() {
+			console.log("test");
+			const elem = this.$refs[this.webcam.name];
+			if (elem.requestFullscreen) {
+				elem.requestFullscreen();
+			} else if (elem.mozRequestFullScreen) {
+				/* Firefox */
+				elem.mozRequestFullScreen();
+			} else if (elem.webkitRequestFullscreen) {
+				/* Chrome, Safari and Opera */
+				elem.webkitRequestFullscreen();
+			} else if (elem.msRequestFullscreen) {
+				/* IE/Edge */
+				elem.msRequestFullscreen();
+			}
+		},
+	},
 };
 </script>
 
