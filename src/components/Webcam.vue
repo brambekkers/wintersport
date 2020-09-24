@@ -6,24 +6,16 @@
 			@click="fullscreen"
 			:ref="webcam.name"
 		>
-			<source
-				:src="webcam.videoUrl"
-				type="video/mp4"
-			/>
+			<source :src="webcam.videoUrl" type="video/mp4" />
 		</video>
-		<v-chip
-			color="primary"
-			class="height ma-2"
-			overlap
-		>
+		<v-chip color="primary" class="height ma-2" overlap>
 			<v-icon class="mr-2">landscape</v-icon>
-			{{webcam.height}}
-
+			{{ webcam.height }}
 		</v-chip>
 		<div class="bottomBar">
-			<h2>{{webcam.name}}</h2>
+			<h2>{{ webcam.name }}</h2>
+			<p class="time text--primary">{{ webcam.time }}</p>
 		</div>
-
 	</div>
 </template>
 
@@ -32,7 +24,6 @@ export default {
 	props: ["webcam"],
 	methods: {
 		fullscreen() {
-			console.log("test");
 			const elem = this.$refs[this.webcam.name];
 			if (elem.requestFullscreen) {
 				elem.requestFullscreen();
@@ -46,36 +37,45 @@ export default {
 				/* IE/Edge */
 				elem.msRequestFullscreen();
 			}
+			elem.muted = true;
+			elem.play();
 		},
 	},
 };
 </script>
 
 <style scoped lang="scss">
-	#video {
-		position: relative;
+#video {
+	position: relative;
 
-		.height {
-			position: absolute;
-			right: 0.5rem;
-			top: 0.5rem;
+	.height {
+		position: absolute;
+		right: 0.5rem;
+		top: 0.5rem;
+	}
+
+	.bottomBar {
+		position: absolute;
+		z-index: 10;
+		color: white;
+		background: rgba(255, 255, 255, 0.2);
+		width: 100%;
+		height: 20%;
+		padding: 1rem;
+		bottom: 2%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		h2 {
+			font-weight: 200;
 		}
 
-		.bottomBar {
-			position: absolute;
-			z-index: 10;
-			color: white;
-			background: rgba(255, 255, 255, 0.2);
-			width: 100%;
-			height: 20%;
-			padding: 1rem;
-			bottom: 2%;
-			display: flex;
-			align-items: center;
-
-			h2 {
-				font-weight: 200;
-			}
+		.time {
+			font-size: 1rem;
+			margin: 0;
+			font-weight: 600;
 		}
 	}
+}
 </style>

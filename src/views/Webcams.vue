@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div id="webcams">
 		<v-tabs
 			show-arrows
 			v-model="tab"
@@ -97,3 +97,9 @@ export default {
 	},
 };
 </script>
+
+
+<style lang="scss" scoped>
+	#webcams {
+	}
+</style>
