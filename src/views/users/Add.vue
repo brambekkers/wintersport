@@ -2,7 +2,7 @@
 	<v-container class="fill-height" fluid>
 		<v-row align="center" justify="center">
 			<v-col cols="10" sm="8" md="4">
-				<v-form @submit.prevent="createUser">
+				<v-form @submit.prevent="addUser">
 					<v-card-text>
 						<h2 class="title text-h4 text-center font-weight-bold">
 							Add user
@@ -47,6 +47,14 @@
 							type="password"
 							v-model="newUser.controlPassword"
 						></v-text-field>
+
+						<v-select
+							label="Select role"
+							class="my-0 py-0"
+							prepend-icon="vpn_key"
+							v-model="newUser.role"
+							:items="['user', 'admin']"
+						></v-select>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
@@ -59,6 +67,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
 	data() {
 		return {
@@ -71,9 +80,16 @@ export default {
 			},
 		};
 	},
-
 	methods: {
-		async createUser() {},
+		...mapActions(["addUserAsAdmin"]),
+		async addUser() {
+			try {
+				await this.addUserAsAdmin(this.newUser);
+				this.$router.push("/users");
+			} catch (error) {
+				alert(error);
+			}
+		},
 	},
 };
 </script>

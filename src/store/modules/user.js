@@ -42,5 +42,14 @@ export default {
 					throw error;
 				});
 		},
+		async addUserAsAdmin({ getters }, userInput) {
+			try {
+				const addUserFunction = await getters.functions.httpsCallable("addUser");
+				const newUser = addUserFunction(userInput);
+				return newUser;
+			} catch (err) {
+				return err;
+			}
+		},
 	},
 };
