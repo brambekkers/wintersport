@@ -95,12 +95,12 @@ export default {
 			return this.user.photoURL;
 		},
 		name() {
-			if (!this.user) return undefined;
+			if (!this.user) return "Anonymous Penguin";
 			return this.user.displayName;
 		},
 		initials() {
 			if (!this.name) return undefined;
-			const names = this.user.displayName.match(/\b\w/g) || [];
+			const names = this.name.match(/\b\w/g) || [];
 			return `${names.shift() || ""}${names.pop() || ""}`.toUpperCase();
 		},
 	},
