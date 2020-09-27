@@ -1,9 +1,11 @@
 import firebaseConfig from "@/config/firebase-config";
 
 import * as firebase from "firebase";
-require("firebase/auth");
-require("firebase/firestore");
-require("firebase/storage");
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
+import 'firebase/functions';
+
 
 export default {
 	state: {
@@ -23,6 +25,9 @@ export default {
 		},
 		storage(state) {
 			return state.firebase.storage();
+		},
+		functions(state) {
+			return state.firebase.functions();
 		},
 	},
 	mutations: {

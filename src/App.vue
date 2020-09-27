@@ -1,5 +1,5 @@
 <template>
-	<v-app>
+	<v-app id="app">
 		<Sidebar />
 
 		<v-app-bar app light v-if="user">
@@ -16,10 +16,6 @@
 		<v-main>
 			<router-view />
 		</v-main>
-
-		<v-footer app>
-			<!-- -->
-		</v-footer>
 	</v-app>
 </template>
 
@@ -63,3 +59,10 @@ export default {
 	},
 };
 </script>
+
+<style lang="scss">
+body {
+	max-height: 100vh;
+	overflow-y: auto;
+}
+</style>

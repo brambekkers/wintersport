@@ -1,7 +1,17 @@
 <template>
-	<v-container class="fill-height" fluid>
-		<v-row align="center" justify="center">
-			<v-col cols="10" sm="8" md="4">
+	<v-container
+		class="fill-height"
+		fluid
+	>
+		<v-row
+			align="center"
+			justify="center"
+		>
+			<v-col
+				cols="10"
+				sm="8"
+				md="4"
+			>
 				<v-form @submit.prevent="signIn">
 					<v-img
 						src="@/assets/profile.png"
@@ -12,9 +22,7 @@
 						<h2 class="title text-h4 text-center font-weight-bold">
 							Welcome back
 						</h2>
-						<h4
-							class="title text-subtitle-1 text-center mb-1 font-weight-light"
-						>
+						<h4 class="title text-subtitle-1 text-center mb-1 font-weight-light">
 							Sign in to continue
 						</h4>
 					</v-card-text>
@@ -24,7 +32,7 @@
 							label="Login"
 							name="login"
 							prepend-icon="mdi-account"
-							type="text"
+							type="email"
 							v-model="user.email"
 						></v-text-field>
 
@@ -39,7 +47,11 @@
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn type="submit" block color="primary">Login</v-btn>
+						<v-btn
+							type="submit"
+							block
+							color="primary"
+						>Login</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-col>
@@ -60,7 +72,6 @@ export default {
 
 	methods: {
 		async signIn() {
-			console.log("test");
 			try {
 				await this.$store.dispatch("signIn", this.user);
 				this.$router.push("/");
@@ -73,8 +84,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.profileImage {
-	width: 30vw;
-	max-width: 250px;
-}
+	.profileImage {
+		width: 30vw;
+		max-width: 250px;
+	}
 </style>

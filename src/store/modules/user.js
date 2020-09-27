@@ -16,7 +16,7 @@ export default {
 		userWatcher({ getters, commit }) {
 			getters.auth.onAuthStateChanged((user) => {
 				if (user) {
-					console.log("User signed in", user);
+					console.log("User signed in");
 					commit("user", user ? user : null);
 				} else {
 					console.log("Not signed in");
@@ -38,9 +38,18 @@ export default {
 				.then(() => {
 					return true;
 				})
-				.catch(function(error) {
+				.catch(function (error) {
 					throw error;
 				});
+		},
+		async addUserAsAdmin({ getters }, userInput) {
+			try {
+				const addUserFunction = await getters.functions.httpsCallable("addUser");
+				const newUser = addUserFunction(userInput);
+				return newUser;
+			} catch (err) {
+				return err;
+			}
 		},
 	},
 };

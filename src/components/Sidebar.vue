@@ -1,5 +1,5 @@
 <template>
-	<v-navigation-drawer app v-model="sidebar" light>
+	<v-navigation-drawer app v-model="sidebar" light id="sidebar">
 		<v-list dense class="sidebarList d-flex flex-column justify-space-between">
 			<template v-for="(header, i) of headers">
 				<div :key="i" :class="header.class">
@@ -66,17 +66,33 @@ export default {
 						{
 							title: "Webcams",
 							icon: "videocam",
-							route: "routes",
+							route: "webcams",
 						},
 						{
 							title: "Photos",
 							icon: "person_add",
-							route: "routes",
+							route: "photos",
 						},
 						{
 							title: "Chat",
 							icon: "chat",
 							route: "chat",
+						},
+					],
+				},
+				{
+					name: "Admin",
+					class: "",
+					items: [
+						{
+							title: "Add User",
+							icon: "person_add",
+							route: "users/add",
+						},
+						{
+							title: "Users",
+							icon: "people",
+							route: "users",
 						},
 					],
 				},
@@ -107,8 +123,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.sidebarList {
+#sidebar {
 	height: 100vh;
 	max-height: 100vh;
+
+	.sidebarList {
+		height: 100%;
+	}
 }
 </style>
