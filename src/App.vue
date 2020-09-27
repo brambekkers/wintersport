@@ -2,7 +2,7 @@
 	<v-app id="app">
 		<Sidebar />
 
-		<v-app-bar app light v-if="user">
+		<v-app-bar app dark color="primary" v-if="user">
 			<v-app-bar-nav-icon
 				v-if="isHome"
 				@click="$store.commit('sidebar', !$store.getters.sidebar)"
