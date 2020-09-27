@@ -82,22 +82,18 @@
 import { mapGetters } from "vuex";
 
 export default {
-	data: () => ({
-		avatarSheet: false,
-		avatarInput: undefined,
-		nameSheet: false,
-		nameInput: undefined,
-	}),
+	data() {
+		return {
+			avatar: undefined,
+			avatarSheet: false,
+			avatarInput: undefined,
+			name: undefined,
+			nameSheet: false,
+			nameInput: undefined,
+		};
+	},
 	computed: {
 		...mapGetters(["db", "storage", "user"]),
-		avatar() {
-			if (!this.user) return undefined;
-			return this.user.photoURL;
-		},
-		name() {
-			if (!this.user) return "Anonymous Penguin";
-			return this.user.displayName;
-		},
 		initials() {
 			if (!this.name) return undefined;
 			const names = this.name.match(/\b\w/g) || [];
@@ -112,6 +108,7 @@ export default {
 			});
 		},
 		async saveAvatar() {
+			this.avatar = URL.createObjectURL(this.avatarInput);
 			this.avatarSheet = !this.avatarSheet;
 			const storageRef = await this.storage
 				.ref()
@@ -129,8 +126,27 @@ export default {
 			});
 		},
 		async saveName() {
+			this.name = this.nameInput;
 			this.nameSheet = !this.nameSheet;
 			await this.user.updateProfile({ displayName: this.nameInput });
+		},
+		setUserValues() {
+			if (this.user) {
+				this.avatar = this.user.photoURL;
+				this.name = this.user.displayName;
+			}
+		},
+	},
+	mounted() {
+		this.setUserValues();
+	},
+	watch: {
+		/**
+		 * @todo Won't be necessary anymore when we delay the render until the
+		 * authenticated user is retrieved.
+		 */
+		user() {
+			this.setUserValues();
 		},
 	},
 };
