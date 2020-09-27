@@ -4,7 +4,7 @@
 			<v-col align="center">
 				<v-btn icon width="33vw" height="33vw" @click="openAvatarSheet">
 					<v-avatar size="33vw" color="primary">
-						<img v-if="avatar" alt="Avatar" :src="avatar" />
+						<img v-if="avatar" :src="avatar" alt="Avatar" />
 						<span v-else class="white--text headline">{{ initials }}</span>
 					</v-avatar>
 				</v-btn>
@@ -35,8 +35,8 @@
 							<div class="px-4">
 								<v-file-input
 									accept="image/*"
-									ref="avatar"
-									v-model="newAvatar"
+									ref="avatarInput"
+									v-model="avatarInput"
 									label="Avatar"
 									hint="Choose your avatar."
 									prepend-icon="mdi-camera"
@@ -59,8 +59,8 @@
 						<v-col>
 							<div class="px-4">
 								<v-text-field
-									ref="name"
-									v-model="newName"
+									ref="nameInput"
+									v-model="nameInput"
 									label="Name"
 									hint="Choose your display name."
 								/>
@@ -79,42 +79,58 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
 	data: () => ({
-		avatar: undefined,
 		avatarSheet: false,
-		newAvatar: undefined,
-		name: "Anonymous Penguin",
+		avatarInput: undefined,
 		nameSheet: false,
-		newName: undefined,
+		nameInput: undefined,
 	}),
 	computed: {
+		...mapGetters(["db", "storage", "user"]),
+		avatar() {
+			if (!this.user) return undefined;
+			return this.user.photoURL;
+		},
+		name() {
+			if (!this.user) return undefined;
+			return this.user.displayName;
+		},
 		initials() {
-			const names = this.name.match(/\b\w/g) || [];
-			return `${names.shift()}${names.pop()}`.toUpperCase();
+			if (!this.name) return undefined;
+			const names = this.user.displayName.match(/\b\w/g) || [];
+			return `${names.shift() || ""}${names.pop() || ""}`.toUpperCase();
 		},
 	},
 	methods: {
 		openAvatarSheet() {
 			this.avatarSheet = !this.avatarSheet;
 			this.$nextTick(() => {
-				this.$refs.avatar.focus();
+				this.$refs.avatarInput.focus();
 			});
 		},
-		saveAvatar() {
-			this.avatar = URL.createObjectURL(this.newAvatar);
+		async saveAvatar() {
 			this.avatarSheet = !this.avatarSheet;
+			const storageRef = await this.storage
+				.ref()
+				.child(`avatars/${this.user.uid}.${this.avatarInput.type}`);
+			await storageRef.put(this.avatarInput);
+			await this.user.updateProfile({
+				photoURL: await storageRef.getDownloadURL(),
+			});
 		},
 		openNameSheet() {
-			this.newName = this.name;
+			this.nameInput = this.name;
 			this.nameSheet = !this.nameSheet;
 			this.$nextTick(() => {
-				this.$refs.name.focus();
+				this.$refs.nameInput.focus();
 			});
 		},
-		saveName() {
-			this.name = this.newName;
+		async saveName() {
 			this.nameSheet = !this.nameSheet;
+			await this.user.updateProfile({ displayName: this.nameInput });
 		},
 	},
 };

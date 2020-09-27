@@ -38,13 +38,15 @@ export default {
 				.then(() => {
 					return true;
 				})
-				.catch(function (error) {
+				.catch(function(error) {
 					throw error;
 				});
 		},
 		async addUserAsAdmin({ getters }, userInput) {
 			try {
-				const addUserFunction = await getters.functions.httpsCallable("addUser");
+				const addUserFunction = await getters.functions.httpsCallable(
+					"addUser"
+				);
 				const newUser = addUserFunction(userInput);
 				return newUser;
 			} catch (err) {

@@ -1,19 +1,23 @@
 <template>
 	<div id="chat">
-		<div
-			class="messages"
-			ref="messages"
-		>
+		<div class="messages" ref="messages">
 			<div
 				v-for="(message, i) of chat"
 				:key="i"
 				class="message"
-				:class="i % 2 == 1 ? 'right' : ''"
+				:class="message.user == user.uid ? 'right' : ''"
 			>
-				<v-avatar size="40">
-					<v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
+				<v-avatar size="40" color="primary">
+					<v-img v-if="message.avatar" :src="message.avatar"></v-img>
+					<v-icon v-else color="white">person</v-icon>
 				</v-avatar>
-				<p :class="i % 2 == 0 ? 'speech-bubble-left' : 'speech-bubble-right'">
+				<p
+					:class="
+						message.user == user.uid
+							? 'speech-bubble-right'
+							: 'speech-bubble-left'
+					"
+				>
 					{{ message.text }}
 				</p>
 			</div>
@@ -27,12 +31,7 @@
 				v-model="message"
 			/>
 
-			<v-btn
-				icon
-				color="primary"
-				class="ml-2 my-auto"
-				@click="sentMessage"
-			>
+			<v-btn icon color="primary" class="ml-2 my-auto" @click="sendMessage">
 				<v-icon>send</v-icon>
 			</v-btn>
 		</div>
@@ -55,13 +54,16 @@ export default {
 		firebase() {
 			return this.$store.getters.firebase;
 		},
+		user() {
+			return this.$store.getters.user;
+		},
 		chat() {
 			return this.$store.getters.chat;
 		},
 	},
 	methods: {
-		sentMessage() {
-			this.$store.dispatch("sentMessage", this.message);
+		sendMessage() {
+			this.$store.dispatch("sendMessage", this.message);
 			this.message = "";
 		},
 		scrollToBottom() {
@@ -87,83 +89,83 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	#chat {
-		display: flex;
-		flex-direction: column;
-		max-width: 100vw;
-		height: calc(100vh - 56px);
-		align-items: flex-start;
-		box-sizing: border-box;
+#chat {
+	display: flex;
+	flex-direction: column;
+	max-width: 100vw;
+	height: calc(100vh - 56px);
+	align-items: flex-start;
+	box-sizing: border-box;
 
-		.messages {
-			flex-grow: 1 !important;
-			overflow-y: scroll;
-			width: 100%;
-			padding: 0 12px;
+	.messages {
+		flex-grow: 1 !important;
+		overflow-y: scroll;
+		width: 100%;
+		padding: 0 12px;
 
-			.message {
-				display: flex;
-				margin: 1rem 0;
-				font-size: 0.8rem;
-				align-items: flex-end;
+		.message {
+			display: flex;
+			margin: 1rem 0;
+			font-size: 0.8rem;
+			align-items: flex-end;
 
-				.speech-bubble-left {
-					position: relative;
-					background: #2ba97a;
-					color: white;
-					border-radius: 0.4em;
-					border-bottom-left-radius: 0;
-					margin-left: 0.5rem;
-					padding: 0.8rem;
-				}
-
-				.speech-bubble-left:after {
-					content: "";
-					position: absolute;
-					bottom: 0;
-					left: 0%;
-					width: 0;
-					height: 0;
-					border: 0.5rem solid transparent;
-					border-top-color: #2ba97a;
-					border-bottom: 0;
-					border-left: 0;
-					margin-bottom: -0.5rem;
-				}
-
-				.speech-bubble-right {
-					position: relative;
-					background: #eff9f6;
-					border-radius: 0.4em;
-					border-bottom-right-radius: 0;
-					margin-right: 0.5rem;
-					padding: 0.8rem;
-				}
-
-				.speech-bubble-right:after {
-					content: "";
-					position: absolute;
-					bottom: 0;
-					right: 0%;
-					width: 0;
-					height: 0;
-					border: 0.5rem solid transparent;
-					border-top-color: #eff9f6;
-					border-bottom: 0;
-					border-right: 0;
-					margin-bottom: -0.5rem;
-				}
+			.speech-bubble-left {
+				position: relative;
+				background: #eff9f6;
+				border-radius: 0.4em;
+				border-bottom-left-radius: 0;
+				margin-left: 0.5rem;
+				padding: 0.8rem;
 			}
 
-			.right {
-				flex-direction: row-reverse;
+			.speech-bubble-left:after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 0%;
+				width: 0;
+				height: 0;
+				border: 0.5rem solid transparent;
+				border-top-color: #eff9f6;
+				border-bottom: 0;
+				border-left: 0;
+				margin-bottom: -0.5rem;
+			}
+
+			.speech-bubble-right {
+				position: relative;
+				background: #2ba97a;
+				color: white;
+				border-radius: 0.4em;
+				border-bottom-right-radius: 0;
+				margin-right: 0.5rem;
+				padding: 0.8rem;
+			}
+
+			.speech-bubble-right:after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				right: 0%;
+				width: 0;
+				height: 0;
+				border: 0.5rem solid transparent;
+				border-top-color: #2ba97a;
+				border-bottom: 0;
+				border-right: 0;
+				margin-bottom: -0.5rem;
 			}
 		}
 
-		.input {
-			display: flex;
-			width: 100%;
-			border-top: 1px solid rgba(0, 0, 0, 0.42);
+		.right {
+			flex-direction: row-reverse;
 		}
 	}
+
+	.input {
+		display: flex;
+		width: 100%;
+		border-top: 1px solid rgba(0, 0, 0, 0.42);
+	}
+}
 </style>
