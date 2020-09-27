@@ -85,6 +85,11 @@ export default {
 					class: "mt-auto",
 					items: [
 						{
+							title: "Settings",
+							icon: "settings",
+							route: "settings",
+						},
+						{
 							title: "Logout",
 							icon: "power_settings_new",
 							route: "",
