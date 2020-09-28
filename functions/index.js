@@ -16,13 +16,13 @@ const db = admin.firestore();
 exports.addUser = functions.https.onCall((data, context) => {
     return new Promise((resolve, reject) => {
         // TODO: Make Admin check
-        if (true) {
+        if (context.auth.token.role === 'admin') {
             auth.createUser({
                 email: data.email,
                 password: data.password
             })
                 .then((user) => {
-                    db.doc(`users/${user.uid}`)
+                    return db.doc(`users/${user.uid}`)
                         .set({
                             name: data.name,
                             email: data.email,
@@ -30,7 +30,7 @@ exports.addUser = functions.https.onCall((data, context) => {
                             role: data.role,
                             photoUrl: ""
                         })
-                        .then(() => resolve())
+                        .then((user) => resolve(user))
                         .catch((error) => {
                             reject(error);
                         });
@@ -48,18 +48,15 @@ exports.addUser = functions.https.onCall((data, context) => {
 exports.changeRole = functions.https.onCall(({ id, role }, context) => {
     return new Promise((resolve, reject) => {
         // TODO make Admin check
-        if (true) {
+        if (context.auth.token.role === 'admin') {
             // Set custom claim
-            auth.setCustomUserClaims(id, {
-                role
+            auth.setCustomUserClaims(id, { role }).then(() => {
+                db.doc(`users/${id}`)
+                    .update({ role })
+                    .then(() => {
+                        resolve("Request fulfilled!");
+                    });
             })
-                .then(() => {
-                    db.doc(`users/${id}`)
-                        .update({ role })
-                        .then(() => {
-                            resolve("Request fulfilled!");
-                        });
-                })
                 .catch((err) => {
                     reject(err);
                 });

@@ -13,14 +13,24 @@ export default {
 		},
 	},
 	actions: {
-		userWatcher({ getters, commit }) {
-			getters.auth.onAuthStateChanged((user) => {
+		userWatcher({ getters, commit, dispatch }) {
+			getters.auth.onAuthStateChanged(async (user) => {
 				if (user) {
-					console.log("User signed in");
+					// Set user data
 					commit("user", user ? user : null);
+
+					// Check if user is admin from server
+					const idTokenResult = await getters.auth.currentUser.getIdTokenResult(true);
+					// If admin
+					if (idTokenResult.claims.role === "admin") {
+						commit('isAdmin', true)
+						dispatch('usersWatcher')
+					}
 				} else {
 					console.log("Not signed in");
 					commit("user", null);
+					commit('isAdmin', false);
+
 				}
 			});
 		},
@@ -38,7 +48,7 @@ export default {
 				.then(() => {
 					return true;
 				})
-				.catch(function(error) {
+				.catch(function (error) {
 					throw error;
 				});
 		},
@@ -47,7 +57,8 @@ export default {
 				const addUserFunction = await getters.functions.httpsCallable(
 					"addUser"
 				);
-				const newUser = addUserFunction(userInput);
+				const newUser = await addUserFunction(userInput);
+				console.log(newUser)
 				return newUser;
 			} catch (err) {
 				return err;

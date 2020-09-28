@@ -4,7 +4,12 @@
 			<v-col align="center">
 				<v-btn icon width="33vw" height="33vw" @click="openAvatarSheet">
 					<v-avatar size="33vw" color="primary">
-						<img v-if="avatar" :src="avatar" alt="Avatar" />
+						<!-- <img v-if="avatar" :src="avatar" alt="Avatar" /> -->
+						<div
+							v-if="avatar"
+							class="avatar"
+							:style="`background: url(${avatar})`"
+						></div>
 						<span v-else class="white--text headline">{{ initials }}</span>
 					</v-avatar>
 				</v-btn>
@@ -31,7 +36,7 @@
 			<v-sheet>
 				<v-container>
 					<v-row>
-						<v-col>
+						<v-col cols="12">
 							<div class="px-4">
 								<v-file-input
 									accept="image/*"
@@ -42,11 +47,24 @@
 									prepend-icon="mdi-camera"
 								/>
 							</div>
-							<div class="text-right">
-								<v-btn class="mt-6" text color="primary" @click="saveAvatar">
-									Save
-								</v-btn>
-							</div>
+						</v-col>
+						<v-col cols="12">
+							<v-row>
+								<v-col cols="6">
+									<div class="text-left">
+										<v-btn text color="primary" @click="removeAvatar">
+											Remove avatar
+										</v-btn>
+									</div>
+								</v-col>
+								<v-col cols="6">
+									<div class="text-right">
+										<v-btn text color="primary" @click="saveAvatar">
+											Save
+										</v-btn>
+									</div>
+								</v-col>
+							</v-row>
 						</v-col>
 					</v-row>
 				</v-container>
@@ -112,11 +130,15 @@ export default {
 			this.avatarSheet = !this.avatarSheet;
 			const storageRef = await this.storage
 				.ref()
-				.child(`avatars/${this.user.uid}.${this.avatarInput.type}`);
+				.child(`avatars/${this.user.uid}`);
 			await storageRef.put(this.avatarInput);
 			await this.user.updateProfile({
 				photoURL: await storageRef.getDownloadURL(),
 			});
+		},
+		async removeAvatar() {
+			this.avatar = "";
+			await this.user.updateProfile({ photoURL: "" });
 		},
 		openNameSheet() {
 			this.nameInput = this.name;
@@ -137,17 +159,25 @@ export default {
 			}
 		},
 	},
-	mounted() {
-		this.setUserValues();
-	},
 	watch: {
 		/**
 		 * @todo Won't be necessary anymore when we delay the render until the
 		 * authenticated user is retrieved.
 		 */
-		user() {
-			this.setUserValues();
+
+		user: {
+			handler: "setUserValues",
+			immediate: true,
 		},
 	},
 };
 </script>
+
+<style lang="scss" scoped>
+.avatar {
+	height: 100%;
+	width: 100%;
+	background-position: center !important;
+	background-size: cover !important;
+}
+</style>

@@ -1,11 +1,10 @@
 import firebaseConfig from "@/config/firebase-config";
 
-import * as firebase from "firebase";
+import firebase from "firebase";
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import 'firebase/functions';
-
 
 export default {
 	state: {

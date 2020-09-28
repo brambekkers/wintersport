@@ -1,47 +1,98 @@
 <template>
-	<v-navigation-drawer app v-model="sidebar" light id="sidebar">
-		<v-list dense class="sidebarList d-flex flex-column justify-space-between">
+	<v-navigation-drawer
+		app
+		v-model="sidebar"
+		id="sidebar"
+	>
+		<v-list
+			dense
+			class="sidebarList d-flex flex-column justify-space-between"
+		>
 			<template v-for="(header, i) of headers">
-				<div :key="i" :class="header.class">
-					<v-subheader>{{ header.name }}</v-subheader>
-					<v-list-item-group color="primary">
-						<v-list-item
-							v-for="(item, j) in header.items"
-							:key="j"
-							:to="item.route ? item.route : '#'"
-							@click="item.action ? item.action() : null"
-						>
-							<v-list-item-icon>
-								<v-icon>{{ item.icon }}</v-icon>
-							</v-list-item-icon>
-							<v-list-item-content>
-								<v-list-item-title v-text="item.title"></v-list-item-title>
-							</v-list-item-content>
-						</v-list-item>
+				<div
+					:key="i"
+					:class="header.class"
+				>
+					<v-subheader v-if="header.show">{{ header.name }}</v-subheader>
+					<v-list-item-group
+						v-if="header.show"
+						color="primary"
+					>
+						<!-- No sub menu -->
+						<template v-if="!header.subItems">
+							<MenuItem
+								v-for="(item, j) in header.items"
+								:key="j"
+								:title="item.title"
+								:icon="item.icon"
+								:action="item.action"
+								:route="item.route"
+							/>
+						</template>
+
+						<!-- SubMenu -->
+						<template v-if="header.subItems">
+							<v-list-group
+								:value="true"
+								v-for="(subItem, j) in header.subItems"
+								:key="j"
+								:prepend-icon="subItem.icon"
+							>
+								<template v-slot:activator>
+									<v-list-item-title>{{subItem.name}}</v-list-item-title>
+								</template>
+								<MenuItem
+									v-for="(item, j) in subItem.items"
+									:key="j"
+									:title="item.title"
+									:icon="item.icon"
+									:action="item.action"
+									:route="item.route"
+								/>
+							</v-list-group>
+						</template>
 					</v-list-item-group>
+					<v-divider
+						class="mt-2"
+						v-if="header.name === 'Actions'"
+					/>
 				</div>
 			</template>
+
 		</v-list>
 	</v-navigation-drawer>
 </template>
 
 <script>
+import MenuItem from "@/components/MenuItem.vue";
 export default {
 	props: ["drawer"],
+	components: { MenuItem },
+	data() {
+		return {
+			admins: [
+				["Management", "mdi-account-multiple-outline"],
+				["Settings", "mdi-cog-outline"],
+			],
+		};
+	},
 	computed: {
+		isAdmin() {
+			return this.$store.getters.isAdmin;
+		},
 		sidebar: {
-			get: function() {
+			get: function () {
 				return this.$store.getters.sidebar;
 			},
-			set: function(newValue) {
+			set: function (newValue) {
 				this.$store.commit("sidebar", newValue);
 			},
 		},
-
 		headers() {
 			return [
 				{
 					name: "Actions",
+					show: true,
 					items: [
 						{
 							title: "Weather",
@@ -82,22 +133,31 @@ export default {
 				},
 				{
 					name: "Admin",
+					show: this.$store.getters.isAdmin,
 					class: "",
-					items: [
+					subItems: [
 						{
-							title: "Add User",
-							icon: "person_add",
-							route: "users/add",
-						},
-						{
-							title: "Users",
-							icon: "people",
-							route: "users",
+							name: "Users",
+							class: "",
+							icon: "admin_panel_settings",
+							items: [
+								{
+									title: "All users",
+									icon: "people",
+									route: "users",
+								},
+								{
+									title: "Add User",
+									icon: "person_add",
+									route: "users/add",
+								},
+							],
 						},
 					],
 				},
 				{
 					name: "Account",
+					show: true,
 					class: "mt-auto",
 					items: [
 						{
@@ -123,12 +183,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#sidebar {
-	height: 100vh;
-	max-height: 100vh;
+	#sidebar {
+		height: 100vh;
+		max-height: 100vh;
 
-	.sidebarList {
-		height: 100%;
+		.sidebarList {
+			height: 100%;
+		}
 	}
-}
 </style>
