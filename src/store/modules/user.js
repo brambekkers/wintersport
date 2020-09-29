@@ -35,12 +35,12 @@ export default {
 			});
 		},
 		async signIn({ getters }, { email, password }) {
-			await getters.auth
-				.signInWithEmailAndPassword(email, password)
-				.catch((error) => {
-					throw error;
-				});
-			return true;
+			try {
+				await getters.auth.signInWithEmailAndPassword(email, password)
+				return true;
+			} catch (err) {
+				return err
+			}
 		},
 		async singOut({ getters }) {
 			await getters.auth
@@ -48,7 +48,7 @@ export default {
 				.then(() => {
 					return true;
 				})
-				.catch(function (error) {
+				.catch((error) => {
 					throw error;
 				});
 		},

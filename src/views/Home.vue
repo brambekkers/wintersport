@@ -1,7 +1,8 @@
 <template>
-	<v-row>
-		<v-col> </v-col>
-	</v-row>
+	<v-parallax
+		height="200"
+		src="https://source.unsplash.com/random/600x200"
+	></v-parallax>
 </template>
 
 <script>
