@@ -39,7 +39,8 @@ export default {
 				await getters.auth.signInWithEmailAndPassword(email, password)
 				return true;
 			} catch (err) {
-				return err
+				console.log(err)
+				throw err
 			}
 		},
 		async singOut({ getters }) {

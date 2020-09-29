@@ -3,6 +3,28 @@
 		class="fill-height"
 		fluid
 	>
+		<!-- Alert -->
+		<v-snackbar
+			v-model="snackbar"
+			timeout="5000"
+			color="transparent"
+			elevation="0"
+			absolute
+			centered
+			top
+		>
+
+			<v-alert
+				border="right"
+				colored-border
+				type="error"
+				elevation="2"
+				light
+			>
+				{{error}}
+			</v-alert>
+		</v-snackbar>
+
 		<v-row
 			align="center"
 			justify="center"
@@ -63,6 +85,8 @@
 export default {
 	data() {
 		return {
+			snackbar: false,
+			error: "",
 			user: {
 				email: "",
 				password: "",
@@ -76,7 +100,8 @@ export default {
 				await this.$store.dispatch("signIn", this.user);
 				this.$router.push("/");
 			} catch (error) {
-				console.log(error);
+				this.snackbar = true;
+				this.error = error.message;
 			}
 		},
 	},
