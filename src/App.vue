@@ -39,5 +39,10 @@ export default {
 	body {
 		max-height: 100vh;
 		overflow-y: auto;
+		overflow-x: hidden;
+	}
+
+	#app {
+		overflow: hidden;
 	}
 </style>
