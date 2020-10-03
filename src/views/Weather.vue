@@ -56,7 +56,6 @@
 								v-model="day"
 								light
 								:continuous="false"
-								:cycle="cycle"
 								:show-arrows="false"
 								hide-delimiter-background
 								height="auto"
