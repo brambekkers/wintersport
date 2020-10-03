@@ -2,10 +2,17 @@
 	<v-container>
 		<v-row>
 			<v-col align="center">
-				<Avatar size="33vw" :profile="profile" />
-				<v-btn icon @click="openAvatarSheet">
-					<v-icon>edit</v-icon>
-				</v-btn>
+				<div class="avatar__wrapper">
+					<Avatar :profile="profile" />
+					<v-btn
+						icon
+						elevation="2"
+						@click="openAvatarSheet"
+						class="avatar__edit-button"
+					>
+						<v-icon>edit</v-icon>
+					</v-btn>
+				</div>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -121,10 +128,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatar {
-	height: 100%;
-	width: 100%;
-	background-position: center !important;
-	background-size: cover !important;
+.avatar__wrapper {
+	position: relative;
+	width: 33vw;
+	height: 33vw;
+}
+.avatar__edit-button {
+	position: absolute;
+	background: white;
+	right: 0;
+	bottom: 0;
 }
 </style>
