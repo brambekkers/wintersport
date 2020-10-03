@@ -7,7 +7,7 @@ import Home from "../views/Home";
 import Login from "../views/Login";
 import Settings from "../views/Settings";
 import Weather from "../views/Weather";
-import Map from "../views/Map";
+import Maps from "../views/Map";
 import Location from "../views/Location";
 import Routes from "../views/Routes";
 import Webcams from "../views/Webcams";
@@ -26,13 +26,21 @@ const routes = [
         name: "Home",
         component: Home,
         beforeEnter: (to, from, next) => {
-            setTimeout(() => {
+            if (!firebase.apps.length) {
+                setTimeout(() => {
+                    if (firebase.auth().currentUser) {
+                        next();
+                    } else {
+                        next("/login");
+                    }
+                }, 1000);
+            } else {
                 if (firebase.auth().currentUser) {
                     next();
                 } else {
                     next("/login");
                 }
-            }, 1000);
+            }
         }
     },
     {
@@ -53,7 +61,7 @@ const routes = [
     {
         path: "/map",
         name: "Map",
-        component: Map
+        component: Maps
     },
     {
         path: "/location",
