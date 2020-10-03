@@ -76,7 +76,7 @@ export default {
             height: 20%;
             width: 6%;
             border-radius: 25%;
-            z-index: 10;
+            z-index: 2;
             background: #202028 !important;
         }
 
