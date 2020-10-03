@@ -20,17 +20,17 @@
 				</div>
 			</div>
 		</div>
-		<!-- INPUT -->
-		<div class="input d-flex px-2 py-1">
-			<v-textarea
-				dense
-				rows="1"
-				placeholder="Send your message..."
+		<div class="input d-flex pa-4 align-center">
+			<v-text-field
+				solo
+				placeholder="Type a message"
 				v-model="message"
 				v-on:keyup.enter="sendMessage"
+				class="flex-grow-1 mr-4"
+				hide-details="auto"
 			/>
 
-			<v-btn icon color="primary" class="ml-2 my-auto" @click="sendMessage">
+			<v-btn fab color="primary" @click="sendMessage">
 				<v-icon>send</v-icon>
 			</v-btn>
 		</div>
@@ -64,6 +64,9 @@ export default {
 	methods: {
 		...mapActions(["chatWatcher", "createMessage"]),
 		sendMessage() {
+			if (!this.message) {
+				return;
+			}
 			this.createMessage(this.message);
 			this.message = "";
 		},
@@ -97,6 +100,7 @@ export default {
 	height: calc(100vh - 56px);
 	align-items: flex-start;
 	box-sizing: border-box;
+	background: #fafafa;
 
 	.messages {
 		flex-grow: 1 !important;
@@ -160,12 +164,12 @@ export default {
 				.message__bubble {
 					border-bottom-left-radius: 0;
 					margin-left: 0.5rem;
-					background: #eff9f6;
+					background: #e0eee7;
 				}
 
 				.message__bubble:after {
 					left: 0;
-					border-top-color: #eff9f6;
+					border-top-color: #e0eee7;
 					border-left: 0;
 				}
 			}
@@ -173,9 +177,7 @@ export default {
 	}
 
 	.input {
-		display: flex;
 		width: 100%;
-		border-top: 1px solid rgba(0, 0, 0, 0.42);
 	}
 }
 </style>
