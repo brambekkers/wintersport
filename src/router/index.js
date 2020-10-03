@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "../store/index";
+// import store from "../store/index";
+import firebase from "firebase";
 
 import Home from "../views/Home";
 import Login from "../views/Login";
@@ -24,8 +25,14 @@ const routes = [
         path: "/",
         name: "Home",
         component: Home,
-        meta: {
-            requiresAuth: true
+        beforeEnter: (to, from, next) => {
+            setTimeout(() => {
+                if (firebase.auth().currentUser) {
+                    next();
+                } else {
+                    next("/login");
+                }
+            }, 1000);
         }
     },
     {
@@ -89,21 +96,6 @@ const routes = [
 const router = new VueRouter({
     mode: "history",
     routes
-});
-
-router.beforeEach(async (to, from, next) => {
-    if (to.matched.some(async (record) => record.meta.requiresAuth)) {
-        // this route requires auth, check if logged in
-        // if not, redirect to login page.
-
-        if (!(await store.getters.firebase.auth().currentUser.uid)) {
-            next({ name: "Login" });
-        } else {
-            next(); // go to wherever I'm going
-        }
-    } else {
-        next(); // does not require auth, make sure to always call next()!
-    }
 });
 
 export default router;
