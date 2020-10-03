@@ -1,12 +1,15 @@
 <template>
-	<v-parallax
-		height="200"
-		src="https://source.unsplash.com/random/600x200"
-	></v-parallax>
+    <v-container>
+        <v-row>
+            <Countdown />
+        </v-row>
+    </v-container>
 </template>
 
 <script>
+import Countdown from "@/components/Countdown.vue";
 export default {
-	name: "Home",
+    name: "Home",
+    components: { Countdown }
 };
 </script>
