@@ -14,7 +14,10 @@ jobs:
         uses: actions/checkout@master
 
       - name: Install
-        run: npm ci
+        run: |
+          npm ci
+          cd functions
+          npm ci
 
       - name: Build
         run: npm run build
