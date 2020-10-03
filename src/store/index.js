@@ -12,18 +12,20 @@ import Webcam from "./modules/webcam";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    sidebar: false,
-    settings: {
-      theme: 'light'
-    }
-  },
-  mutations: {
-    sidebar: (state, newState) => { state.sidebar = newState }
-  },
-  getters: {
-    sidebar: (state) => state.sidebar,
-    theme: (state) => state.setting.theme
-  },
-  modules: { Firebase, WeatherUnlocked, User, Chat, Webcam, Admin },
+    state: {
+        sidebar: false,
+        settings: {
+            theme: "light"
+        }
+    },
+    mutations: {
+        sidebar: (state, newState) => {
+            state.sidebar = newState;
+        }
+    },
+    getters: {
+        sidebar: (state) => state.sidebar,
+        theme: (state) => state.setting.theme
+    },
+    modules: { Firebase, WeatherUnlocked, User, Chat, Webcam, Admin }
 });

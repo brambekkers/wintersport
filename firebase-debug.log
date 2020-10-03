@@ -1,0 +1,13 @@
+[debug] [2020-10-03T12:13:17.371Z] ----------------------------------------------------------------------
+[debug] [2020-10-03T12:13:17.372Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\bramb\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-10-03T12:13:17.373Z] CLI Version:   8.11.2
+[debug] [2020-10-03T12:13:17.373Z] Platform:      win32
+[debug] [2020-10-03T12:13:17.373Z] Node Version:  v12.16.1
+[debug] [2020-10-03T12:13:17.374Z] Time:          Sat Oct 03 2020 14:13:17 GMT+0200 (GMT+02:00)
+[debug] [2020-10-03T12:13:17.374Z] ----------------------------------------------------------------------
+[debug] [2020-10-03T12:13:17.374Z] 
+[debug] [2020-10-03T12:13:17.380Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-10-03T12:13:17.380Z] > authorizing via signed-in user
+[debug] [2020-10-03T12:13:17.380Z] [iam] checking project wintersport-79a69 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-10-03T12:13:17.382Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/wintersport-79a69:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
