@@ -4,13 +4,29 @@
 			<v-col align="center">
 				<div class="avatar__wrapper">
 					<Avatar :profile="profile" />
-					<v-btn
-						icon
-						elevation="2"
-						@click="openAvatarSheet"
-						class="avatar__edit-button"
-					>
-						<v-icon>edit</v-icon>
+					<v-menu v-if="profile && profile.avatar">
+						<template v-slot:activator="{ on, attrs }">
+							<v-btn
+								icon
+								elevation="2"
+								class="avatar__button"
+								v-bind="attrs"
+								v-on="on"
+							>
+								<v-icon>more_vert</v-icon>
+							</v-btn>
+						</template>
+						<v-list>
+							<v-list-item @click="openAvatarSheet">
+								<v-list-item-title>Edit</v-list-item-title>
+							</v-list-item>
+							<v-list-item @click="deleteAvatar">
+								<v-list-item-title>Remove</v-list-item-title>
+							</v-list-item>
+						</v-list>
+					</v-menu>
+					<v-btn v-else icon elevation="2" class="avatar__button">
+						<v-icon @click="openAvatarSheet">edit</v-icon>
 					</v-btn>
 				</div>
 			</v-col>
@@ -97,7 +113,7 @@ export default {
 		...mapGetters(["profile"]),
 	},
 	methods: {
-		...mapActions(["updateAvatar", "updateProfile"]),
+		...mapActions(["updateAvatar", "removeAvatar", "updateProfile"]),
 		openAvatarSheet() {
 			this.avatarInput = null;
 			this.avatarSheet = !this.avatarSheet;
@@ -109,8 +125,8 @@ export default {
 			this.updateAvatar(this.avatarInput);
 			this.avatarSheet = !this.avatarSheet;
 		},
-		async removeAvatar() {
-			//
+		async deleteAvatar() {
+			this.removeAvatar();
 		},
 		openNameSheet() {
 			this.nameInput = null;
@@ -133,7 +149,7 @@ export default {
 	width: 33vw;
 	height: 33vw;
 }
-.avatar__edit-button {
+.avatar__button {
 	position: absolute;
 	background: white;
 	right: 0;
