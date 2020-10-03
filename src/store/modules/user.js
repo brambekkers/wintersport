@@ -47,16 +47,6 @@ export default {
 			});
 		},
 
-		usersWatcher({ getters, commit }) {
-			getters.db.collection("users").onSnapshot((usersCollection) => {
-				const users = [];
-				usersCollection.forEach((user) => {
-					users.push(user.data());
-				});
-				commit("users", users);
-			});
-		},
-
 		async signIn({ getters }, { email, password }) {
 			try {
 				await getters.auth.signInWithEmailAndPassword(email, password);
@@ -89,8 +79,9 @@ export default {
 		},
 
 		async updateProfile({ getters: { user, db }, commit }, input) {
-			const profile = await db.doc(`users/${user.uid}`).update(input);
+			await db.doc(`users/${user.uid}`).update(input);
 
+			const profile = (await db.doc(`users/${user.uid}`).get()).data();
 			commit("profile", profile);
 		},
 	},

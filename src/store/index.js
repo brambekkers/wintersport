@@ -5,6 +5,7 @@ import Vuex from "vuex";
 import Firebase from "./modules/firebase";
 import Weather from "./modules/weather";
 import User from "./modules/user";
+import Users from "./modules/users";
 import Chat from "./modules/chat";
 import Admin from "./modules/admin";
 import Webcam from "./modules/webcam";
@@ -27,5 +28,5 @@ export default new Vuex.Store({
 		sidebar: (state) => state.sidebar,
 		theme: (state) => state.setting.theme,
 	},
-	modules: { Firebase, Weather, User, Chat, Webcam, Admin },
+	modules: { Firebase, Weather, User, Users, Chat, Webcam, Admin },
 });

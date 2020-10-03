@@ -18,7 +18,7 @@ export default {
 	actions: {
 		usersWatcher({ getters, commit }) {
 			getters.db.collection("users").onSnapshot((usersCollection) => {
-				const users = usersCollection.map((user) => user.data());
+				const users = usersCollection.docs.map((user) => user.data());
 				commit("users", users);
 			});
 		},

@@ -1,22 +1,15 @@
 export default {
 	state: {
 		isAdmin: false,
-		users: null,
 	},
 
 	getters: {
-		users(state) {
-			return state.users;
-		},
 		isAdmin(state) {
 			return state.isAdmin;
 		},
 	},
 
 	mutations: {
-		users(state, val) {
-			state.users = val;
-		},
 		isAdmin(state, val) {
 			state.isAdmin = val;
 		},
