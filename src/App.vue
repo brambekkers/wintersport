@@ -20,6 +20,7 @@ export default {
 		...mapActions([
 			"initializeApp",
 			"userWatcher",
+			"usersWatcher",
 			"initializeWeather",
 			"refreshSnowReport",
 		]),
@@ -28,6 +29,7 @@ export default {
 		try {
 			await this.initializeApp();
 			this.userWatcher();
+			this.usersWatcher();
 		} catch (error) {
 			console.error(error);
 		}
@@ -36,13 +38,13 @@ export default {
 </script>
 
 <style lang="scss">
-	body {
-		max-height: 100vh;
-		overflow-y: auto;
-		overflow-x: hidden;
-	}
+body {
+	max-height: 100vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
 
-	#app {
-		overflow: hidden;
-	}
+#app {
+	overflow: hidden;
+}
 </style>

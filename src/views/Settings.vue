@@ -4,12 +4,16 @@
 			<v-col align="center">
 				<v-btn icon width="33vw" height="33vw" @click="openAvatarSheet">
 					<v-avatar size="33vw" color="primary">
-						<!-- <img v-if="avatar" :src="avatar" alt="Avatar" /> -->
-						<div
-							v-if="avatar"
-							class="avatar"
-							:style="`background: url(${avatar})`"
-						></div>
+						<img
+							v-if="profile && profile.avatar"
+							:src="profile.avatar"
+							alt="Avatar"
+						/>
+						<!-- <div
+              v-if="profile.avatar"
+              class="avatar"
+              :style="`background: url(${avatar})`"
+            ></div> -->
 						<span v-else class="white--text headline">{{ initials }}</span>
 					</v-avatar>
 				</v-btn>
@@ -21,7 +25,9 @@
 					<v-list-item>
 						<v-list-item-content>
 							<v-list-item-subtitle>Name</v-list-item-subtitle>
-							<v-list-item-title>{{ name }}</v-list-item-title>
+							<v-list-item-title v-if="profile">{{
+								profile.name
+							}}</v-list-item-title>
 						</v-list-item-content>
 						<v-list-item-icon>
 							<v-btn icon @click="openNameSheet">
@@ -97,77 +103,51 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
 	data() {
 		return {
-			avatar: undefined,
 			avatarSheet: false,
 			avatarInput: undefined,
-			name: undefined,
 			nameSheet: false,
 			nameInput: undefined,
 		};
 	},
 	computed: {
-		...mapGetters(["db", "storage", "user"]),
+		...mapGetters(["profile"]),
 		initials() {
-			if (!this.name) return undefined;
-			const names = this.name.match(/\b\w/g) || [];
+			if (!this.profile || !this.profile.name) return undefined;
+			const names = this.profile.name.match(/\b\w/g) || [];
 			return `${names.shift() || ""}${names.pop() || ""}`.toUpperCase();
 		},
 	},
 	methods: {
+		...mapActions(["updateAvatar"]),
 		openAvatarSheet() {
+			this.avatarInput = null;
 			this.avatarSheet = !this.avatarSheet;
 			this.$nextTick(() => {
 				this.$refs.avatarInput.focus();
 			});
 		},
 		async saveAvatar() {
-			this.avatar = URL.createObjectURL(this.avatarInput);
+			this.updateAvatar(this.avatarInput);
 			this.avatarSheet = !this.avatarSheet;
-			const storageRef = await this.storage
-				.ref()
-				.child(`avatars/${this.user.uid}`);
-			await storageRef.put(this.avatarInput);
-			await this.user.updateProfile({
-				photoURL: await storageRef.getDownloadURL(),
-			});
 		},
 		async removeAvatar() {
-			this.avatar = "";
-			await this.user.updateProfile({ photoURL: "" });
+			//
 		},
 		openNameSheet() {
-			this.nameInput = this.name;
+			this.nameInput = null;
 			this.nameSheet = !this.nameSheet;
 			this.$nextTick(() => {
 				this.$refs.nameInput.focus();
 			});
 		},
 		async saveName() {
-			this.name = this.nameInput;
+			this.updateProfile({ name: this.nameInput });
 			this.nameSheet = !this.nameSheet;
-			await this.user.updateProfile({ displayName: this.nameInput });
-		},
-		setUserValues() {
-			if (this.user) {
-				this.avatar = this.user.photoURL;
-				this.name = this.user.displayName;
-			}
-		},
-	},
-	watch: {
-		/**
-		 * @todo Won't be necessary anymore when we delay the render until the
-		 * authenticated user is retrieved.
-		 */
-
-		user: {
-			handler: "setUserValues",
-			immediate: true,
 		},
 	},
 };
