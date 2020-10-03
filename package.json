@@ -12,9 +12,9 @@
         "core-js": "^3.6.5",
         "firebase": "^7.21.0",
         "material-design-icons-iconfont": "^6.1.0",
-        "pinch-zoom-js": "^2.3.4",
         "register-service-worker": "^1.7.1",
         "vue": "^2.6.11",
+        "vue-pinch-zoom": "^1.0.1",
         "vue-router": "^3.2.0",
         "vuetify": "^2.2.11",
         "vuex": "^3.4.0"
