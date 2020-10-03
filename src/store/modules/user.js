@@ -78,6 +78,16 @@ export default {
 			});
 		},
 
+		async removeAvatar({ getters: { storage, user }, dispatch }) {
+			const storageRef = await storage.ref().child(`avatars/${user.uid}`);
+
+			await storageRef.delete();
+
+			await dispatch("updateProfile", {
+				avatar: null,
+			});
+		},
+
 		async updateProfile({ getters: { user, db }, commit }, input) {
 			await db.doc(`users/${user.uid}`).update(input);
 
