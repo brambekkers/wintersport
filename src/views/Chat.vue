@@ -64,9 +64,9 @@ export default {
 		},
 	},
 	methods: {
-		...mapActions(["chatWatcher", "sendMessage"]),
+		...mapActions(["chatWatcher", "createMessage"]),
 		sendMessage() {
-			this.sendMessage(this.message);
+			this.createMessage(this.message);
 			this.message = "";
 		},
 		scrollToBottom() {

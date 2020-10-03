@@ -24,7 +24,7 @@ export default {
 			});
 		},
 
-		sendMessage({ getters }, message) {
+		createMessage({ getters }, message) {
 			const user = getters.auth.currentUser;
 
 			getters.db.doc("chat/main").update({
