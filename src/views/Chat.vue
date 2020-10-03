@@ -7,14 +7,7 @@
 				class="message"
 				:class="message.user == user.uid ? 'right' : ''"
 			>
-				<v-avatar size="40" color="primary">
-					<v-img
-						class="avatar-image"
-						v-if="avatars[message.user]"
-						:src="avatars[message.user]"
-					></v-img>
-					<v-icon v-else color="white">person</v-icon>
-				</v-avatar>
+				<Avatar size="40" :profile="profiles[message.user]" />
 				<p
 					:class="
 						message.user == user.uid
@@ -33,6 +26,7 @@
 				rows="1"
 				placeholder="Send your message..."
 				v-model="message"
+				v-on:keyup.enter="sendMessage"
 			/>
 
 			<v-btn icon color="primary" class="ml-2 my-auto" @click="sendMessage">
@@ -44,8 +38,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Avatar from "@/components/Avatar.vue";
 
 export default {
+	components: { Avatar },
 	data() {
 		return {
 			message: "",
@@ -58,9 +54,9 @@ export default {
 	},
 	computed: {
 		...mapGetters(["firebase", "user", "users", "chat"]),
-		avatars() {
+		profiles() {
 			return Object.fromEntries(
-				this.users.map((user) => [user.id, user.avatar])
+				this.users.map((profile) => [profile.id, profile])
 			);
 		},
 	},
