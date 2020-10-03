@@ -1,9 +1,11 @@
 <template>
     <v-col cols="8">
-        <v-card>
+        <v-card elevation="4">
             <v-card-text id="countdown" class="pa-0">
-                <div class="number primary--text primary--background">
-                    <div class="topBar"></div>
+                <div class="number primary--text ">
+                    <span class="hanger hanger-left"></span>
+                    <span class="hanger hanger-right"></span>
+                    <span class="topBar"></span>
                     <p>{{ daysToGo }}</p>
                 </div>
                 <div class="daysToGo ">
@@ -36,12 +38,10 @@ export default {
 #countdown {
     display: flex;
     text-align: center;
-    overflow: hidden;
 
     div {
         font-size: 2rem;
         font-weight: 600;
-        padding: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -54,19 +54,47 @@ export default {
     .number {
         position: relative;
         flex: 3;
+        color: #202028 !important;
+        flex-direction: column;
+        min-height: 90px;
+        justify-content: flex-start;
+
+        p {
+            padding: 1rem;
+            min-height: 50% !important;
+        }
 
         .topBar {
-            position: absolute;
-            height: 20%;
+            min-height: 30% !important;
             width: 100%;
             background: #ed1b24;
+        }
+
+        .hanger {
+            position: absolute;
+            top: -8%;
+            height: 20%;
+            width: 6%;
+            border-radius: 25%;
+            z-index: 2;
+            background: #202028 !important;
+        }
+
+        .hanger-left {
+            left: 20%;
+        }
+        .hanger-right {
+            right: 20%;
         }
     }
 
     .daysToGo {
+        padding: 1rem;
         flex: 4;
         background: #202028 !important;
         color: white;
+        line-height: 1.5rem;
+        border-radius: 0 4px 4px 0;
     }
 }
 </style>

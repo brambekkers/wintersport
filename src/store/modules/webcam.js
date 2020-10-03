@@ -1,6 +1,6 @@
 export default {
     state: {
-        webcams: null,
+        webcams: null
     },
     getters: {
         webcams(state) {
@@ -21,7 +21,7 @@ export default {
     mutations: {
         webcams(state, val) {
             state.webcams = val;
-        },
+        }
     },
     actions: {
         webcamWatcher({ getters, commit }) {
@@ -30,9 +30,9 @@ export default {
             });
         },
         async updateCam({ dispatch }, { webcam }) {
-            console.log('Update webcam: ', name)
-            await dispatch('scrapeData', webcam)
-            return true
+            console.log("Update webcam: ", name);
+            await dispatch("scrapeData", webcam);
+            return true;
         },
         async scrapeData({ getters }, webcam) {
             const response = await fetch(webcam.url);
@@ -43,30 +43,33 @@ export default {
                     // Get dom
                     var html = await response.text();
                     var parser = new DOMParser();
-                    console.log(webcam.url)
                     // Get items
                     var doc = await parser.parseFromString(html, "text/html");
-                    var video = doc.querySelector("video");
-                    const time = doc
-                        .querySelector("#video_clock_div")
-                        .querySelector("nobr").textContent;
-                    const videoUrl = video
-                        .querySelector("source")
-                        .src.match(/(.*?(?:mp4))|.*/)[0];
+                    if (doc) {
+                        var video = doc.querySelector("video");
+                        const videoDiv = doc.querySelector("#video_clock_div");
+                        if (video && videoDiv) {
+                            const time = videoDiv.querySelector("nobr").textContent;
+                            const videoUrl = video.querySelector("source").src.match(/(.*?(?:mp4))|.*/)[0];
 
-                    // Set Data to Vue
-                    webcam.scrapeDate = Date.now();
-                    webcam.poster = video.poster;
-                    webcam.time = time
-                    webcam.videoUrl = videoUrl
+                            // Set Data to Vue
+                            webcam.scrapeDate = Date.now();
+                            webcam.poster = video.poster;
+                            webcam.time = time;
+                            webcam.videoUrl = videoUrl;
+                            webcam.online = true;
+                        } else {
+                            webcam.online = false;
+                            console.log("set offline");
+                        }
+                    }
                 }
             }
 
-            return webcam
+            return webcam;
         },
         updateAllCams({ getters }, webcams) {
-            getters.db.doc(`webcams/areas`).set(webcams)
-
+            getters.db.doc(`webcams/areas`).set(webcams);
         }
-    },
+    }
 };

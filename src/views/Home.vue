@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <v-row>
+        <v-row class="justify-center">
             <Countdown />
         </v-row>
     </v-container>
