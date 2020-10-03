@@ -3,19 +3,7 @@
 		<v-row>
 			<v-col align="center">
 				<v-btn icon width="33vw" height="33vw" @click="openAvatarSheet">
-					<v-avatar size="33vw" color="primary">
-						<img
-							v-if="profile && profile.avatar"
-							:src="profile.avatar"
-							alt="Avatar"
-						/>
-						<!-- <div
-              v-if="profile.avatar"
-              class="avatar"
-              :style="`background: url(${avatar})`"
-            ></div> -->
-						<span v-else class="white--text headline">{{ initials }}</span>
-					</v-avatar>
+					<Avatar :profile="profile" />
 				</v-btn>
 			</v-col>
 		</v-row>
@@ -104,8 +92,10 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import Avatar from "@/components/Avatar.vue";
 
 export default {
+	components: { Avatar },
 	data() {
 		return {
 			avatarSheet: false,
@@ -116,11 +106,6 @@ export default {
 	},
 	computed: {
 		...mapGetters(["profile"]),
-		initials() {
-			if (!this.profile || !this.profile.name) return undefined;
-			const names = this.profile.name.match(/\b\w/g) || [];
-			return `${names.shift() || ""}${names.pop() || ""}`.toUpperCase();
-		},
 	},
 	methods: {
 		...mapActions(["updateAvatar"]),
