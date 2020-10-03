@@ -8,7 +8,10 @@
 				:class="message.user == user.uid ? 'right' : ''"
 			>
 				<v-avatar size="40" color="primary">
-					<v-img v-if="message.avatar" :src="message.avatar"></v-img>
+					<v-img
+						v-if="avatars[message.user]"
+						:src="avatars[message.user]"
+					></v-img>
 					<v-icon v-else color="white">person</v-icon>
 				</v-avatar>
 				<p
@@ -39,6 +42,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
 	data() {
 		return {
@@ -51,19 +56,17 @@ export default {
 		},
 	},
 	computed: {
-		firebase() {
-			return this.$store.getters.firebase;
-		},
-		user() {
-			return this.$store.getters.user;
-		},
-		chat() {
-			return this.$store.getters.chat;
+		...mapGetters(["firebase", "user", "users", "chat"]),
+		avatars() {
+			return Object.fromEntries(
+				this.users.map((user) => [user.id, user.avatar])
+			);
 		},
 	},
 	methods: {
+		...mapActions(["chatWatcher", "sendMessage"]),
 		sendMessage() {
-			this.$store.dispatch("sendMessage", this.message);
+			this.sendMessage(this.message);
 			this.message = "";
 		},
 		scrollToBottom() {
@@ -75,11 +78,11 @@ export default {
 	mounted() {
 		if (!this.chat) {
 			if (this.firebase) {
-				this.$store.dispatch("chatWatcher");
+				this.chatWatcher();
 				this.scrollToBottom();
 			} else {
 				setTimeout(() => {
-					this.$store.dispatch("chatWatcher");
+					this.chatWatcher();
 					this.scrollToBottom();
 				}, 1000);
 			}

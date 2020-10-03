@@ -7,11 +7,13 @@ export default {
 		snowReport: null,
 		weatherForecast: null,
 	},
+
 	getters: {
 		client: (state) => state.client,
 		snowReport: (state) => state.snowReport,
 		weatherForecast: (state) => state.weatherForecast,
 	},
+
 	mutations: {
 		snowReport(state, snowReport) {
 			state.snowReport = snowReport;
@@ -20,6 +22,7 @@ export default {
 			state.weatherForecast = weatherForecast;
 		},
 	},
+
 	actions: {
 		async refreshSnowReport({ getters, commit }) {
 			const snowReport = await getters.client.getSnowReport(
@@ -28,6 +31,7 @@ export default {
 
 			commit("snowReport", snowReport);
 		},
+
 		async refreshWeatherForecast({ getters, commit }) {
 			const weatherForecast = await getters.client.getResortForecast(
 				resorts.austria.saalbachHinterglem,
