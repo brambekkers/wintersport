@@ -4,19 +4,20 @@
 			<div
 				v-for="(message, i) of chat"
 				:key="i"
-				class="message"
-				:class="message.user == user.uid ? 'right' : ''"
+				:class="[
+					'message',
+					message.user === user.uid ? 'message--right' : 'message--left',
+				]"
 			>
 				<Avatar size="40" :profile="profiles[message.user]" />
-				<p
-					:class="
-						message.user == user.uid
-							? 'speech-bubble-right'
-							: 'speech-bubble-left'
-					"
-				>
-					{{ message.text }}
-				</p>
+				<div class="message__bubble">
+					<div v-if="message.user !== user.uid" class="message__name">
+						{{ profiles[message.user].name }}
+					</div>
+					<div class="message__text">
+						{{ message.text }}
+					</div>
+				</div>
 			</div>
 		</div>
 		<!-- INPUT -->
@@ -101,68 +102,73 @@ export default {
 		flex-grow: 1 !important;
 		overflow-y: scroll;
 		width: 100%;
-		padding: 0 12px;
+		padding: 1rem;
 
 		.message {
 			display: flex;
-			margin: 1rem 0;
 			font-size: 0.8rem;
 			align-items: flex-end;
 
-			.avatar-image {
-				object-fit: cover;
+			& + .message {
+				margin-top: 1rem;
 			}
 
-			.speech-bubble-left {
+			.message__name {
+				opacity: 0.5;
+				font-size: smaller;
+			}
+
+			.message__bubble {
 				position: relative;
-				background: #eff9f6;
 				border-radius: 0.4em;
-				border-bottom-left-radius: 0;
-				margin-left: 0.5rem;
-				padding: 0.8rem;
+				padding: 0.75rem 1rem;
 			}
 
-			.speech-bubble-left:after {
+			.message__bubble:after {
 				content: "";
 				position: absolute;
 				bottom: 0;
-				left: 0%;
 				width: 0;
 				height: 0;
 				border: 0.5rem solid transparent;
-				border-top-color: #eff9f6;
 				border-bottom: 0;
-				border-left: 0;
 				margin-bottom: -0.5rem;
 			}
 
-			.speech-bubble-right {
-				position: relative;
-				background: #2ba97a;
-				color: white;
-				border-radius: 0.4em;
-				border-bottom-right-radius: 0;
-				margin-right: 0.5rem;
-				padding: 0.8rem;
+			&.message--right {
+				flex-direction: row-reverse;
+
+				.message__bubble {
+					border-bottom-right-radius: 0;
+					margin-right: 0.5rem;
+					background: #2ba97a;
+					color: white;
+				}
+
+				.message__bubble:after {
+					right: 0;
+					border-top-color: #2ba97a;
+					border-right: 0;
+				}
 			}
 
-			.speech-bubble-right:after {
-				content: "";
-				position: absolute;
-				bottom: 0;
-				right: 0%;
-				width: 0;
-				height: 0;
-				border: 0.5rem solid transparent;
-				border-top-color: #2ba97a;
-				border-bottom: 0;
-				border-right: 0;
-				margin-bottom: -0.5rem;
-			}
-		}
+			&.message--left {
+				.message__content {
+					text-align: right;
+				}
 
-		.right {
-			flex-direction: row-reverse;
+				.message__bubble {
+					border-bottom-left-radius: 0;
+					margin-left: 0.5rem;
+					background: #eff9f6;
+				}
+
+				.message__bubble:after {
+					left: 0;
+					border-top-color: #eff9f6;
+					border-left: 0;
+				}
+			}
 		}
 	}
 
