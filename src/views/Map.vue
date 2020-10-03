@@ -1,11 +1,19 @@
 <template>
-    <div>
-        <v-img width="100vw" src="@/assets/skimap.jpg"></v-img>
-    </div>
+    <img id="map" ref="map" src="@/assets/skimap.jpg" />
 </template>
 
 <script>
-export default {};
+import PinchZoom from "pinch-zoom-js";
+export default {
+    mounted() {
+        new PinchZoom(this.$refs.map, {
+            maxZoom: 7
+        });
+    }
+};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+#map {
+}
+</style>
