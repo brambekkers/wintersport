@@ -9,6 +9,7 @@
 			>
 				<v-avatar size="40" color="primary">
 					<v-img
+						class="avatar-image"
 						v-if="avatars[message.user]"
 						:src="avatars[message.user]"
 					></v-img>
@@ -111,6 +112,10 @@ export default {
 			margin: 1rem 0;
 			font-size: 0.8rem;
 			align-items: flex-end;
+
+			.avatar-image {
+				object-fit: cover;
+			}
 
 			.speech-bubble-left {
 				position: relative;
