@@ -6,6 +6,10 @@ module.exports = {
         msTileColor: "#2ba97a",
         appleMobileWebAppCapable: "yes",
         appleMobileWebAppStatusBarStyle: "black",
+        workboxPluginMode: "InjectManifest",
+        workboxOptions: {
+            swSrc: "src/service-worker.js"
+        },
         manifestOptions: {
             icons: [
                 {
