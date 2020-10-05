@@ -1,5 +1,8 @@
 <template>
-	<v-container class="fill-height" fluid>
+	<v-container
+		class="fill-height"
+		fluid
+	>
 		<!-- Alert -->
 		<v-snackbar
 			v-model="snackbar"
@@ -21,8 +24,15 @@
 			</v-alert>
 		</v-snackbar>
 
-		<v-row align="center" justify="center">
-			<v-col cols="10" sm="8" md="4">
+		<v-row
+			align="center"
+			justify="center"
+		>
+			<v-col
+				cols="10"
+				sm="8"
+				md="4"
+			>
 				<v-form @submit.prevent="signIn">
 					<v-img
 						src="@/assets/happySkiFriends/profile.png"
@@ -32,20 +42,19 @@
 						<h2 class="title text-h4 text-center font-weight-bold">
 							Welcome back
 						</h2>
-						<h4
-							class="title text-subtitle-1 text-center mb-1 font-weight-light"
-						>
+						<h4 class="title text-subtitle-1 text-center mb-1 font-weight-light">
 							Sign in to continue
 						</h4>
 					</v-card-text>
 
 					<v-card-text>
 						<v-text-field
-							label="Login"
+							label="Email"
 							name="login"
 							prepend-icon="mdi-account"
 							type="email"
 							v-model="user.email"
+							solo
 						></v-text-field>
 
 						<v-text-field
@@ -55,11 +64,16 @@
 							prepend-icon="mdi-lock"
 							type="password"
 							v-model="user.password"
+							solo
 						></v-text-field>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn type="submit" block color="primary">Login</v-btn>
+						<v-btn
+							type="submit"
+							block
+							color="primary"
+						>Login</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-col>
@@ -68,30 +82,30 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				snackbar: false,
-				error: "",
-				user: {
-					email: "",
-					password: "",
-				},
-			};
-		},
-
-		methods: {
-			async signIn() {
-				try {
-					await this.$store.dispatch("signIn", this.user);
-					this.$router.push("/");
-				} catch (error) {
-					this.snackbar = true;
-					this.error = error.message;
-				}
+export default {
+	data() {
+		return {
+			snackbar: false,
+			error: "",
+			user: {
+				email: "",
+				password: "",
 			},
+		};
+	},
+
+	methods: {
+		async signIn() {
+			try {
+				await this.$store.dispatch("signIn", this.user);
+				this.$router.push("/");
+			} catch (error) {
+				this.snackbar = true;
+				this.error = error.message;
+			}
 		},
-	};
+	},
+};
 </script>
 
 <style lang="scss" scoped>

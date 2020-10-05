@@ -1,7 +1,17 @@
 <template>
-	<v-container class="fill-height" fluid>
-		<v-row align="center" justify="center">
-			<v-col cols="10" sm="8" md="4">
+	<v-container
+		class="fill-height"
+		fluid
+	>
+		<v-row
+			align="center"
+			justify="center"
+		>
+			<v-col
+				cols="10"
+				sm="8"
+				md="4"
+			>
 				<v-form @submit.prevent="addUser">
 					<v-card-text>
 						<h2 class="title text-h4 text-center font-weight-bold">
@@ -20,6 +30,7 @@
 							prepend-icon="mdi-account"
 							type="text"
 							v-model="newUser.name"
+							solo
 						></v-text-field>
 
 						<v-text-field
@@ -29,6 +40,7 @@
 							prepend-icon="email"
 							type="email"
 							v-model="newUser.email"
+							solo
 						></v-text-field>
 
 						<v-text-field
@@ -38,6 +50,7 @@
 							prepend-icon="mdi-lock"
 							type="password"
 							v-model="newUser.password"
+							solo
 						></v-text-field>
 						<v-text-field
 							label="Control password"
@@ -46,6 +59,7 @@
 							prepend-icon="mdi-lock"
 							type="password"
 							v-model="newUser.controlPassword"
+							solo
 						></v-text-field>
 
 						<v-select
@@ -54,11 +68,16 @@
 							prepend-icon="vpn_key"
 							v-model="newUser.role"
 							:items="['user', 'admin']"
+							solo
 						></v-select>
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn type="submit" block color="primary">Create new user</v-btn>
+						<v-btn
+							type="submit"
+							block
+							color="primary"
+						>Create new user</v-btn>
 					</v-card-actions>
 				</v-form>
 			</v-col>
@@ -95,8 +114,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.profileImage {
-	width: 30vw;
-	max-width: 250px;
-}
+	.profileImage {
+		width: 30vw;
+		max-width: 250px;
+	}
 </style>

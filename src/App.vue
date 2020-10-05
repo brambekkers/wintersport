@@ -2,7 +2,7 @@
 	<v-app id="app">
 		<Sidebar />
 		<Header />
-		<v-main>
+		<v-main id="main">
 			<router-view />
 		</v-main>
 	</v-app>
@@ -106,6 +106,10 @@ export default {
 		.text-h5,
 		.text-h6 {
 			font-family: "Exo", sans-serif !important;
+		}
+
+		#main {
+			height: calc(100vh);
 		}
 	}
 </style>

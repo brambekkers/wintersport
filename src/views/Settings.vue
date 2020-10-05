@@ -25,7 +25,12 @@
 							</v-list-item>
 						</v-list>
 					</v-menu>
-					<v-btn v-else icon elevation="2" class="avatar__button">
+					<v-btn
+						v-else
+						icon
+						elevation="2"
+						class="avatar__button"
+					>
 						<v-icon @click="openAvatarSheet">edit</v-icon>
 					</v-btn>
 				</div>
@@ -33,7 +38,7 @@
 		</v-row>
 		<v-row>
 			<v-col>
-				<v-list>
+				<v-list rounded>
 					<v-list-item>
 						<v-list-item-content>
 							<v-list-item-subtitle>Name</v-list-item-subtitle>
@@ -42,7 +47,10 @@
 							}}</v-list-item-title>
 						</v-list-item-content>
 						<v-list-item-icon>
-							<v-btn icon @click="openNameSheet">
+							<v-btn
+								icon
+								@click="openNameSheet"
+							>
 								<v-icon>edit</v-icon>
 							</v-btn>
 						</v-list-item-icon>
@@ -62,10 +70,17 @@
 						prepend-icon="mdi-camera"
 					/>
 					<div class="text-right">
-						<v-btn text color="primary" @click="avatarSheet = false">
+						<v-btn
+							text
+							color="primary"
+							@click="avatarSheet = false"
+						>
 							Cancel
 						</v-btn>
-						<v-btn color="primary" @click="saveAvatar">
+						<v-btn
+							color="primary"
+							@click="saveAvatar"
+						>
 							Save
 						</v-btn>
 					</div>
@@ -82,10 +97,17 @@
 						hint="Choose your display name."
 					/>
 					<div class="text-right">
-						<v-btn text color="primary" @click="nameSheet = false">
+						<v-btn
+							text
+							color="primary"
+							@click="nameSheet = false"
+						>
 							Cancel
 						</v-btn>
-						<v-btn color="primary" @click="saveName">
+						<v-btn
+							color="primary"
+							@click="saveName"
+						>
 							Save
 						</v-btn>
 					</div>
@@ -144,15 +166,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatar__wrapper {
-	position: relative;
-	width: 33vw;
-	height: 33vw;
-}
-.avatar__button {
-	position: absolute;
-	background: white;
-	right: 0;
-	bottom: 0;
-}
+	.avatar__wrapper {
+		position: relative;
+		width: 33vw;
+		height: 33vw;
+	}
+	.avatar__button {
+		position: absolute;
+		background: white;
+		right: 0;
+		bottom: 0;
+	}
 </style>
