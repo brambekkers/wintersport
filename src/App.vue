@@ -83,6 +83,9 @@
 </script>
 
 <style lang="scss">
+	@import url("https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap");
+	@import url("https://fonts.googleapis.com/css2?family=family=Acme&display=swap");
+
 	body {
 		max-height: 100vh;
 		overflow-y: auto;
@@ -91,5 +94,15 @@
 
 	#app {
 		overflow: hidden;
+		font-family: "Happy Monkey", cursive !important;
+
+		.text-h1,
+		.text-h2,
+		.text-h3,
+		.text-h4,
+		.text-h5,
+		.text-h6 {
+			font-family: "Acme", sans-serif !important;
+		}
 	}
 </style>
