@@ -1,5 +1,3 @@
-import * as firebase from "firebase";
-
 export default {
     state: {
         photos: []
@@ -19,21 +17,28 @@ export default {
 
     actions: {
         photosWatcher({ getters, commit }) {
-            getters.db.doc("chat/main").onSnapshot((doc) => {
-                commit("chat", doc.data().messages);
+            getters.db.collection("photos").onSnapshot((photoCollection) => {
+                const photos = photoCollection.docs.map((photo) => photo.data());
+                commit("photos", photos);
             });
         },
-
-        addPhoto({ getters }, message) {
+        async updatePhoto({ getters }, photo) {
             const user = getters.auth.currentUser;
+            const date = Date.now();
+            try {
+                const storageRef = await getters.storage.ref().child(`photos/${date}-${photo.name}`);
+                const uploadedPhoto = await storageRef.put(photo);
 
-            getters.db.doc("chat/main").update({
-                messages: firebase.firestore.FieldValue.arrayUnion({
+                await getters.db.doc(`photos/${uploadedPhoto.ref.name}`).set({
                     user: user.uid,
-                    text: message,
-                    sentAt: Date.now()
-                })
-            });
+                    path: uploadedPhoto.ref.fullPath,
+                    url: await storageRef.getDownloadURL(),
+                    uploadeDate: date
+                });
+                return true;
+            } catch (error) {
+                return error;
+            }
         }
     }
 };
