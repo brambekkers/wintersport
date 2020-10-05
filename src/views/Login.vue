@@ -25,7 +25,7 @@
 			<v-col cols="10" sm="8" md="4">
 				<v-form @submit.prevent="signIn">
 					<v-img
-						src="@/assets/profile_happyskifriends.png"
+						src="@/assets/happySkiFriends/profile.png"
 						class="profileImage mx-auto"
 					></v-img>
 					<v-card-text>

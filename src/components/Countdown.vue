@@ -1,15 +1,24 @@
 <template>
-	<v-col cols="7" sm="5" md="4" lg="3" xl="2">
+	<v-col
+		cols="7"
+		sm="5"
+		md="4"
+		lg="3"
+		xl="2"
+	>
 		<v-card elevation="4">
-			<v-card-text id="countdown" class="pa-0">
+			<v-card-text
+				id="countdown"
+				class="pa-0"
+			>
 				<div class="number primary--text">
 					<span class="hanger hanger-left"></span>
 					<span class="hanger hanger-right"></span>
 					<span class="topBar"></span>
 					<p>{{ daysToGo }}</p>
 				</div>
-				<div class="daysToGo">
-					<p>days to go</p>
+				<div class="daysToGo text-h4">
+					<p>Days to go</p>
 				</div>
 			</v-card-text>
 		</v-card>
@@ -17,25 +26,25 @@
 </template>
 
 <script>
-	export default {
-		computed: {
-			daysToGo() {
-				const countDownDay = [20, 2]; // 20th of February
-				const today = new Date();
-				const cday = new Date(
-					today.getFullYear(),
-					countDownDay[1] - 1,
-					countDownDay[0]
-				);
-				if (today.getTime() > cday.getTime()) {
-					cday.setFullYear(cday.getFullYear() + 1);
-				}
-				const diff = cday.getTime() - today.getTime();
+export default {
+	computed: {
+		daysToGo() {
+			const countDownDay = [20, 2]; // 20th of February
+			const today = new Date();
+			const cday = new Date(
+				today.getFullYear(),
+				countDownDay[1] - 1,
+				countDownDay[0]
+			);
+			if (today.getTime() > cday.getTime()) {
+				cday.setFullYear(cday.getFullYear() + 1);
+			}
+			const diff = cday.getTime() - today.getTime();
 
-				return Math.floor(diff / (1000 * 60 * 60 * 24));
-			},
+			return Math.floor(diff / (1000 * 60 * 60 * 24));
 		},
-	};
+	},
+};
 </script>
 
 <style lang="scss" scoped>
@@ -97,7 +106,7 @@
 			flex: 4;
 			background: #202028 !important;
 			color: white;
-			line-height: 1.5rem;
+			line-height: 1.8rem;
 			border-radius: 0 4px 4px 0;
 		}
 	}
