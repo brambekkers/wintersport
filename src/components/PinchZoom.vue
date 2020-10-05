@@ -1,16 +1,14 @@
 <template>
-	<PinchZoom :url="url" />
+	<pinch-zoom id="map">
+		<img ref="map" :src="url" />
+	</pinch-zoom>
 </template>
 
 <script>
-	import PinchZoom from "@/components/PinchZoom.vue";
+	import PinchZoom from "vue-pinch-zoom";
 	export default {
 		components: { PinchZoom },
-		computed: {
-			url() {
-				return require("@/assets/skimap.jpg");
-			},
-		},
+		props: ["url"],
 	};
 </script>
 

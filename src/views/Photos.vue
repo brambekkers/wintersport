@@ -1,11 +1,13 @@
 <template>
-	<v-container id="container">
-		<v-row dense>
-			<v-col cols="4" v-for="(photo, i) of photos" :key="i">
+	<v-container id="container" :style="`padding: ${detail ? '0' : ''}`">
+		<v-row dense v-if="!detail">
+			<v-col cols="4" md="3" xl="2" v-for="(photo, i) of photos" :key="i">
 				<v-card
 					><v-img
+						:aspect-ratio="16 / 9"
 						lazy-src="https://picsum.photos/id/11/10/6"
 						:src="photo.url"
+						@click="detail = photo.url"
 					></v-img
 				></v-card>
 			</v-col>
@@ -29,22 +31,39 @@
 				absolute
 				fab
 				@click="$refs.fileInput.click()"
+				v-if="!detail"
 			>
 				<v-icon>mdi-plus</v-icon>
+			</v-btn>
+			<v-btn
+				id="addButton"
+				color="secondary"
+				dark
+				absolute
+				fab
+				@click="detail = ''"
+				v-if="detail"
+			>
+				<v-icon>navigate_before</v-icon>
 			</v-btn>
 		</v-fab-transition>
 		<v-overlay :value="overlay">
 			<v-progress-circular indeterminate size="64"></v-progress-circular>
 		</v-overlay>
+		<PinchZoom :url="detail" v-if="detail" />
 	</v-container>
 </template>
 
 <script>
+	import PinchZoom from "@/components/PinchZoom.vue";
+
 	import { mapActions, mapGetters } from "vuex";
 	export default {
 		name: "Photos",
+		components: { PinchZoom },
 		data() {
 			return {
+				detail: "",
 				overlay: false,
 			};
 		},
@@ -87,6 +106,7 @@
 	#container {
 		height: calc(100vh - 56px);
 		overflow: auto;
+		position: relative;
 
 		#addButton {
 			right: 1rem;
