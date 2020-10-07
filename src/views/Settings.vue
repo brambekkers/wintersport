@@ -1,7 +1,7 @@
 <template>
 	<v-container>
-		<v-row>
-			<v-col align="center">
+		<v-row justify="center">
+			<v-col cols="12" xl="4" align="center">
 				<div class="avatar__wrapper">
 					<Avatar :profile="profile" />
 					<v-menu v-if="profile && profile.avatar">
@@ -25,19 +25,14 @@
 							</v-list-item>
 						</v-list>
 					</v-menu>
-					<v-btn
-						v-else
-						icon
-						elevation="2"
-						class="avatar__button"
-					>
+					<v-btn v-else icon elevation="2" class="avatar__button">
 						<v-icon @click="openAvatarSheet">edit</v-icon>
 					</v-btn>
 				</div>
 			</v-col>
 		</v-row>
-		<v-row>
-			<v-col>
+		<v-row justify="center">
+			<v-col cols="12" md="10" lg="8" xl="6">
 				<v-list rounded>
 					<v-list-item>
 						<v-list-item-content>
@@ -47,12 +42,19 @@
 							}}</v-list-item-title>
 						</v-list-item-content>
 						<v-list-item-icon>
-							<v-btn
-								icon
-								@click="openNameSheet"
-							>
+							<v-btn icon @click="openNameSheet">
 								<v-icon>edit</v-icon>
 							</v-btn>
+						</v-list-item-icon>
+					</v-list-item>
+					<v-list-item>
+						<v-list-item-content>
+							<v-list-item-title v-if="profile"
+								>Darkmode</v-list-item-title
+							>
+						</v-list-item-content>
+						<v-list-item-icon>
+							<v-switch v-model="profile.darkMode"></v-switch>
 						</v-list-item-icon>
 					</v-list-item>
 				</v-list>
@@ -77,10 +79,7 @@
 						>
 							Cancel
 						</v-btn>
-						<v-btn
-							color="primary"
-							@click="saveAvatar"
-						>
+						<v-btn color="primary" @click="saveAvatar">
 							Save
 						</v-btn>
 					</div>
@@ -97,19 +96,10 @@
 						hint="Choose your display name."
 					/>
 					<div class="text-right">
-						<v-btn
-							text
-							color="primary"
-							@click="nameSheet = false"
-						>
+						<v-btn text color="primary" @click="nameSheet = false">
 							Cancel
 						</v-btn>
-						<v-btn
-							color="primary"
-							@click="saveName"
-						>
-							Save
-						</v-btn>
+						<v-btn color="primary" @click="saveName"> Save </v-btn>
 					</div>
 				</v-container>
 			</v-sheet>
@@ -118,51 +108,51 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import Avatar from "@/components/Avatar.vue";
+	import { mapGetters, mapActions } from "vuex";
+	import Avatar from "@/components/Avatar.vue";
 
-export default {
-	components: { Avatar },
-	data() {
-		return {
-			avatarSheet: false,
-			avatarInput: undefined,
-			nameSheet: false,
-			nameInput: undefined,
-		};
-	},
-	computed: {
-		...mapGetters(["profile"]),
-	},
-	methods: {
-		...mapActions(["updateAvatar", "removeAvatar", "updateProfile"]),
-		openAvatarSheet() {
-			this.avatarInput = null;
-			this.avatarSheet = !this.avatarSheet;
-			this.$nextTick(() => {
-				this.$refs.avatarInput.focus();
-			});
+	export default {
+		components: { Avatar },
+		data() {
+			return {
+				avatarSheet: false,
+				avatarInput: undefined,
+				nameSheet: false,
+				nameInput: undefined,
+			};
 		},
-		async saveAvatar() {
-			this.updateAvatar(this.avatarInput);
-			this.avatarSheet = !this.avatarSheet;
+		computed: {
+			...mapGetters(["profile"]),
 		},
-		async deleteAvatar() {
-			this.removeAvatar();
+		methods: {
+			...mapActions(["updateAvatar", "removeAvatar", "updateProfile"]),
+			openAvatarSheet() {
+				this.avatarInput = null;
+				this.avatarSheet = !this.avatarSheet;
+				this.$nextTick(() => {
+					this.$refs.avatarInput.focus();
+				});
+			},
+			async saveAvatar() {
+				this.updateAvatar(this.avatarInput);
+				this.avatarSheet = !this.avatarSheet;
+			},
+			async deleteAvatar() {
+				this.removeAvatar();
+			},
+			openNameSheet() {
+				this.nameInput = null;
+				this.nameSheet = !this.nameSheet;
+				this.$nextTick(() => {
+					this.$refs.nameInput.focus();
+				});
+			},
+			async saveName() {
+				this.updateProfile({ name: this.nameInput });
+				this.nameSheet = !this.nameSheet;
+			},
 		},
-		openNameSheet() {
-			this.nameInput = null;
-			this.nameSheet = !this.nameSheet;
-			this.$nextTick(() => {
-				this.$refs.nameInput.focus();
-			});
-		},
-		async saveName() {
-			this.updateProfile({ name: this.nameInput });
-			this.nameSheet = !this.nameSheet;
-		},
-	},
-};
+	};
 </script>
 
 <style lang="scss" scoped>
