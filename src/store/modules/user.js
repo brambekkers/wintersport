@@ -1,98 +1,109 @@
 export default {
-	state: {
-		user: null,
-		profile: null,
-	},
+    state: {
+        user: null,
+        profile: null
+    },
 
-	getters: {
-		user(state) {
-			return state.user;
-		},
-		profile(state) {
-			return state.profile;
-		},
-	},
+    getters: {
+        user(state) {
+            return state.user;
+        },
+        profile(state) {
+            return state.profile;
+        }
+    },
 
-	mutations: {
-		user(state, val) {
-			state.user = val;
-		},
-		profile(state, val) {
-			state.profile = val;
-		},
-	},
+    mutations: {
+        user(state, val) {
+            state.user = val;
+        },
+        profile(state, val) {
+            state.profile = val;
+        }
+    },
 
-	actions: {
-		userWatcher({ getters: { auth, db }, commit }) {
-			auth.onAuthStateChanged(async (user) => {
-				if (user) {
-					// Set user
-					commit("user", user);
+    actions: {
+        userWatcher({ getters: { auth, db }, commit }) {
+            auth.onAuthStateChanged(async (user) => {
+                if (user) {
+                    // Set user
+                    commit("user", user);
 
-					// Set profile
-					const profile = (await db.doc(`users/${user.uid}`).get()).data();
-					commit("profile", profile);
+                    // Set profile
+                    const profile = (await db.doc(`users/${user.uid}`).get()).data();
+                    commit("profile", profile);
 
-					// Set isAdmin
-					const token = await auth.currentUser.getIdTokenResult(true);
-					if (token.claims.role === "admin") {
-						commit("isAdmin", true);
-					}
-				} else {
-					console.log("Not signed in");
-					commit("user", null);
-					commit("profile", null);
-					commit("isAdmin", false);
-				}
-			});
-		},
+                    // set darkMode
+                    this.$app.$vuetify.theme.dark = profile.darkMode;
 
-		async signIn({ getters }, { email, password }) {
-			try {
-				await getters.auth.signInWithEmailAndPassword(email, password);
-				return true;
-			} catch (err) {
-				console.log(err);
-				throw err;
-			}
-		},
+                    // Set isAdmin
+                    const token = await auth.currentUser.getIdTokenResult(true);
+                    if (token.claims.role === "admin") {
+                        commit("isAdmin", true);
+                    }
+                } else {
+                    console.log("Not signed in");
+                    commit("user", null);
+                    commit("profile", null);
+                    commit("isAdmin", false);
+                }
+            });
+        },
 
-		async singOut({ getters }) {
-			await getters.auth
-				.signOut()
-				.then(() => {
-					return true;
-				})
-				.catch((error) => {
-					throw error;
-				});
-		},
+        async signIn({ getters }, { email, password }) {
+            try {
+                await getters.auth.signInWithEmailAndPassword(email, password);
+                return true;
+            } catch (err) {
+                console.log(err);
+                throw err;
+            }
+        },
 
-		async updateAvatar({ getters: { storage, user }, dispatch }, avatar) {
-			const storageRef = await storage.ref().child(`avatars/${user.uid}`);
+        async singOut({ getters }) {
+            await getters.auth
+                .signOut()
+                .then(() => {
+                    return true;
+                })
+                .catch((error) => {
+                    throw error;
+                });
+        },
 
-			await storageRef.put(avatar);
+        async updateAvatar({ getters: { storage, user }, dispatch }, avatar) {
+            const storageRef = await storage.ref().child(`avatars/${user.uid}`);
 
-			await dispatch("updateProfile", {
-				avatar: await storageRef.getDownloadURL(),
-			});
-		},
+            await storageRef.put(avatar);
 
-		async removeAvatar({ getters: { storage, user }, dispatch }) {
-			const storageRef = await storage.ref().child(`avatars/${user.uid}`);
+            await dispatch("updateProfile", {
+                avatar: await storageRef.getDownloadURL()
+            });
+        },
 
-			await storageRef.delete();
+        async updateDarkMode({ dispatch }, bool) {
+            this.$app.$vuetify.theme.dark = bool;
 
-			await dispatch("updateProfile", {
-				avatar: null,
-			});
-		},
+            await dispatch("updateProfile", {
+                darkMode: bool
+            });
+        },
 
-		async updateProfile({ getters: { user, db }, commit }, input) {
-			await db.doc(`users/${user.uid}`).update(input);
+        async removeAvatar({ getters: { storage, user }, dispatch }) {
+            const storageRef = await storage.ref().child(`avatars/${user.uid}`);
 
-			const profile = (await db.doc(`users/${user.uid}`).get()).data();
-			commit("profile", profile);
-		},
-	},
+            await storageRef.delete();
+
+            await dispatch("updateProfile", {
+                avatar: null
+            });
+        },
+
+        async updateProfile({ getters: { user, db }, commit }, input) {
+            await db.doc(`users/${user.uid}`).update(input);
+
+            const profile = (await db.doc(`users/${user.uid}`).get()).data();
+            commit("profile", profile);
+        }
+    }
 };

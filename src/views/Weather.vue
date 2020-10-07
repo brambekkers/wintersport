@@ -22,11 +22,15 @@
 									</tr>
 									<tr>
 										<td>Mountain</td>
-										<td>{{ snowReport.uppersnow_cm }} cm</td>
+										<td>
+											{{ snowReport.uppersnow_cm }} cm
+										</td>
 									</tr>
 									<tr>
 										<td>Valley</td>
-										<td>{{ snowReport.lowersnow_cm }} cm</td>
+										<td>
+											{{ snowReport.lowersnow_cm }} cm
+										</td>
 									</tr>
 								</tbody>
 							</template>
@@ -40,13 +44,21 @@
 						</v-toolbar-title>
 						<v-spacer />
 						<v-btn icon @click="toggleDayPart">
-							<v-icon v-if="dayPart === 'day'">brightness_5</v-icon>
-							<v-icon v-if="dayPart === 'night'">brightness_4</v-icon>
+							<v-icon v-if="dayPart === 'day'"
+								>brightness_5</v-icon
+							>
+							<v-icon v-if="dayPart === 'night'"
+								>brightness_4</v-icon
+							>
 						</v-btn>
 						<v-btn icon @click="toggleMountainPart">
-							<v-icon v-if="mountainPart === 'base'">house</v-icon>
+							<v-icon v-if="mountainPart === 'base'"
+								>house</v-icon
+							>
 							<v-icon v-if="mountainPart === 'mid'">grass</v-icon>
-							<v-icon v-if="mountainPart === 'upper'">terrain</v-icon>
+							<v-icon v-if="mountainPart === 'upper'"
+								>terrain</v-icon
+							>
 						</v-btn>
 					</v-app-bar>
 					<v-card-text>
@@ -54,7 +66,7 @@
 							<v-carousel
 								v-if="weatherForecast"
 								v-model="day"
-								light
+								:light="!this.$vuetify.theme.dark"
 								:continuous="false"
 								:show-arrows="false"
 								hide-delimiter-background
@@ -62,7 +74,8 @@
 							>
 								<v-carousel-item
 									class="mb-16"
-									v-for="(forecast, i) in weatherForecast.days"
+									v-for="(forecast,
+									i) in weatherForecast.days"
 									:key="i"
 								>
 									<v-simple-table>
@@ -71,19 +84,30 @@
 												<tr>
 													<td>Date</td>
 													<td>
-														{{ forecast[dayPart].date }}
+														{{
+															forecast[dayPart]
+																.date
+														}}
 													</td>
 												</tr>
 												<tr>
 													<td>Conditions</td>
 													<td>
-														{{ forecast[dayPart][mountainPart].wx_desc }}
+														{{
+															forecast[dayPart][
+																mountainPart
+															].wx_desc
+														}}
 													</td>
 												</tr>
 												<tr>
 													<td>Temperature</td>
 													<td>
-														{{ forecast[dayPart][mountainPart].temp_avg_c }}
+														{{
+															forecast[dayPart][
+																mountainPart
+															].temp_avg_c
+														}}
 														°C
 													</td>
 												</tr>
@@ -91,7 +115,9 @@
 													<td>Wind Speed</td>
 													<td>
 														{{
-															forecast[dayPart][mountainPart].windspd_avg_kmh
+															forecast[dayPart][
+																mountainPart
+															].windspd_avg_kmh
 														}}
 														km/h
 													</td>
@@ -110,34 +136,37 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+	import { mapGetters, mapActions } from "vuex";
 
-export default {
-	name: "Home",
-	computed: { ...mapGetters(["snowReport", "weatherForecast"]) },
-	methods: {
-		...mapActions(["refreshSnowReport", "refreshWeatherForecast"]),
-		toggleDayPart() {
-			const dayParts = ["day", "night"];
-			this.dayPart =
-				dayParts[(dayParts.indexOf(this.dayPart) + 1) % dayParts.length];
+	export default {
+		name: "Home",
+		computed: { ...mapGetters(["snowReport", "weatherForecast"]) },
+		methods: {
+			...mapActions(["refreshSnowReport", "refreshWeatherForecast"]),
+			toggleDayPart() {
+				const dayParts = ["day", "night"];
+				this.dayPart =
+					dayParts[
+						(dayParts.indexOf(this.dayPart) + 1) % dayParts.length
+					];
+			},
+			toggleMountainPart() {
+				const mountainParts = ["base", "upper"];
+				this.mountainPart =
+					mountainParts[
+						(mountainParts.indexOf(this.mountainPart) + 1) %
+							mountainParts.length
+					];
+			},
 		},
-		toggleMountainPart() {
-			const mountainParts = ["base", "upper"];
-			this.mountainPart =
-				mountainParts[
-					(mountainParts.indexOf(this.mountainPart) + 1) % mountainParts.length
-				];
+		mounted() {
+			this.refreshSnowReport();
+			this.refreshWeatherForecast();
 		},
-	},
-	mounted() {
-		this.refreshSnowReport();
-		this.refreshWeatherForecast();
-	},
-	data: () => ({
-		day: 0,
-		dayPart: "day",
-		mountainPart: "upper",
-	}),
-};
+		data: () => ({
+			day: 0,
+			dayPart: "day",
+			mountainPart: "upper",
+		}),
+	};
 </script>

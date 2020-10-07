@@ -20,7 +20,7 @@
 							<v-list-item @click="openAvatarSheet">
 								<v-list-item-title>Edit</v-list-item-title>
 							</v-list-item>
-							<v-list-item @click="deleteAvatar">
+							<v-list-item @click="removeAvatar">
 								<v-list-item-title>Remove</v-list-item-title>
 							</v-list-item>
 						</v-list>
@@ -54,7 +54,10 @@
 							>
 						</v-list-item-content>
 						<v-list-item-icon>
-							<v-switch v-model="profile.darkMode"></v-switch>
+							<v-switch
+								:input-value="darkMode"
+								@change="updateDarkMode"
+							></v-switch>
 						</v-list-item-icon>
 					</v-list-item>
 				</v-list>
@@ -123,9 +126,19 @@
 		},
 		computed: {
 			...mapGetters(["profile"]),
+			darkMode() {
+				return this.profile && this.profile.darkMode
+					? this.profile.darkMode
+					: false;
+			},
 		},
 		methods: {
-			...mapActions(["updateAvatar", "removeAvatar", "updateProfile"]),
+			...mapActions([
+				"updateAvatar",
+				"removeAvatar",
+				"updateProfile",
+				"updateDarkMode",
+			]),
 			openAvatarSheet() {
 				this.avatarInput = null;
 				this.avatarSheet = !this.avatarSheet;
@@ -136,9 +149,6 @@
 			async saveAvatar() {
 				this.updateAvatar(this.avatarInput);
 				this.avatarSheet = !this.avatarSheet;
-			},
-			async deleteAvatar() {
-				this.removeAvatar();
 			},
 			openNameSheet() {
 				this.nameInput = null;
