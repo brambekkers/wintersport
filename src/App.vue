@@ -1,5 +1,6 @@
 <template>
 	<v-app id="app">
+		<Background />
 		<Sidebar />
 		<Header />
 		<v-main id="main">
@@ -12,10 +13,11 @@
 	import { mapActions } from "vuex";
 	import Sidebar from "@/components/Sidebar.vue";
 	import Header from "@/components/Header.vue";
+	import Background from "@/components/Background.vue";
 
 	export default {
 		name: "App",
-		components: { Sidebar, Header },
+		components: { Sidebar, Header, Background },
 		methods: {
 			...mapActions([
 				"initializeApp",
@@ -95,11 +97,7 @@
 	#app {
 		overflow: hidden;
 		font-family: "Happy Monkey", cursive !important;
-
-		background: url("./assets/happySkiFriends/background.png");
-		background-size: cover;
-		background-position: center center;
-		background-repeat: no-repeat;
+		z-index: 1;
 
 		.text-h1,
 		.text-h2,
@@ -112,6 +110,7 @@
 
 		#main {
 			height: calc(100vh);
+			z-index: 2;
 		}
 	}
 </style>
