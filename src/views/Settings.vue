@@ -9,7 +9,7 @@
 							<v-btn
 								icon
 								elevation="2"
-								class="avatar__button"
+								class="avatar__button secondary--text"
 								v-bind="attrs"
 								v-on="on"
 							>
@@ -37,9 +37,7 @@
 					<v-list-item>
 						<v-list-item-content>
 							<v-list-item-subtitle>Name</v-list-item-subtitle>
-							<v-list-item-title v-if="profile">{{
-								profile.name
-							}}</v-list-item-title>
+							<v-list-item-title v-if="profile">{{ profile.name }}</v-list-item-title>
 						</v-list-item-content>
 						<v-list-item-icon>
 							<v-btn icon @click="openNameSheet">
@@ -49,15 +47,10 @@
 					</v-list-item>
 					<v-list-item>
 						<v-list-item-content>
-							<v-list-item-title v-if="profile"
-								>Darkmode</v-list-item-title
-							>
+							<v-list-item-title v-if="profile">Darkmode</v-list-item-title>
 						</v-list-item-content>
 						<v-list-item-icon>
-							<v-switch
-								:input-value="darkMode"
-								@change="updateDarkMode"
-							></v-switch>
+							<v-switch :input-value="darkMode" @change="updateDarkMode"></v-switch>
 						</v-list-item-icon>
 					</v-list-item>
 				</v-list>
@@ -75,11 +68,7 @@
 						prepend-icon="mdi-camera"
 					/>
 					<div class="text-right">
-						<v-btn
-							text
-							color="primary"
-							@click="avatarSheet = false"
-						>
+						<v-btn text color="primary" @click="avatarSheet = false">
 							Cancel
 						</v-btn>
 						<v-btn color="primary" @click="saveAvatar">
@@ -111,70 +100,68 @@
 </template>
 
 <script>
-	import { mapGetters, mapActions } from "vuex";
-	import Avatar from "@/components/Avatar.vue";
+import { mapGetters, mapActions } from "vuex";
+import Avatar from "@/components/Avatar.vue";
 
-	export default {
-		components: { Avatar },
-		data() {
-			return {
-				avatarSheet: false,
-				avatarInput: undefined,
-				nameSheet: false,
-				nameInput: undefined,
-			};
+export default {
+	components: { Avatar },
+	data() {
+		return {
+			avatarSheet: false,
+			avatarInput: undefined,
+			nameSheet: false,
+			nameInput: undefined,
+		};
+	},
+	computed: {
+		...mapGetters(["profile"]),
+		darkMode() {
+			return this.profile && this.profile.darkMode ? this.profile.darkMode : false;
 		},
-		computed: {
-			...mapGetters(["profile"]),
-			darkMode() {
-				return this.profile && this.profile.darkMode
-					? this.profile.darkMode
-					: false;
-			},
+	},
+	methods: {
+		...mapActions([
+			"updateAvatar",
+			"removeAvatar",
+			"updateProfile",
+			"updateDarkMode",
+		]),
+		openAvatarSheet() {
+			this.avatarInput = null;
+			this.avatarSheet = !this.avatarSheet;
+			this.$nextTick(() => {
+				this.$refs.avatarInput.focus();
+			});
 		},
-		methods: {
-			...mapActions([
-				"updateAvatar",
-				"removeAvatar",
-				"updateProfile",
-				"updateDarkMode",
-			]),
-			openAvatarSheet() {
-				this.avatarInput = null;
-				this.avatarSheet = !this.avatarSheet;
-				this.$nextTick(() => {
-					this.$refs.avatarInput.focus();
-				});
-			},
-			async saveAvatar() {
-				this.updateAvatar(this.avatarInput);
-				this.avatarSheet = !this.avatarSheet;
-			},
-			openNameSheet() {
-				this.nameInput = null;
-				this.nameSheet = !this.nameSheet;
-				this.$nextTick(() => {
-					this.$refs.nameInput.focus();
-				});
-			},
-			async saveName() {
-				this.updateProfile({ name: this.nameInput });
-				this.nameSheet = !this.nameSheet;
-			},
+		async saveAvatar() {
+			this.updateAvatar(this.avatarInput);
+			this.avatarSheet = !this.avatarSheet;
 		},
-	};
+		openNameSheet() {
+			this.nameInput = null;
+			this.nameSheet = !this.nameSheet;
+			this.$nextTick(() => {
+				this.$refs.nameInput.focus();
+			});
+		},
+		async saveName() {
+			this.updateProfile({ name: this.nameInput });
+			this.nameSheet = !this.nameSheet;
+		},
+	},
+};
 </script>
 
 <style lang="scss" scoped>
-	.avatar__wrapper {
-		position: relative;
-		width: 33vw;
-		height: 33vw;
-	}
-	.avatar__button {
-		position: absolute;
-		background: white;
-		right: 0;
-		bottom: 0;
-	}
+.avatar__wrapper {
+	position: relative;
+	width: 33vw;
+	height: 33vw;
+}
+.avatar__button {
+	position: absolute;
+	background: white;
+	right: 0;
+	bottom: 0;
+}
 </style>

@@ -1,6 +1,9 @@
 <template>
 	<div id="chat">
-		<div class="messages" ref="messages">
+		<div
+			class="messages"
+			ref="messages"
+		>
 			<div
 				v-for="(message, i) of chat"
 				:key="i"
@@ -9,9 +12,15 @@
 					message.user === user.uid ? 'message--right' : 'message--left',
 				]"
 			>
-				<Avatar size="40" :profile="profiles[message.user]" />
+				<Avatar
+					size="40"
+					:profile="profiles[message.user]"
+				/>
 				<div class="message__bubble">
-					<div v-if="message.user !== user.uid" class="message__name">
+					<div
+						v-if="message.user !== user.uid"
+						class="message__name"
+					>
 						{{ profiles[message.user].name }}
 					</div>
 					<div class="message__text">
@@ -30,7 +39,11 @@
 				hide-details="auto"
 			/>
 
-			<v-btn fab color="primary" @click="sendMessage">
+			<v-btn
+				fab
+				color="primary"
+				@click="sendMessage"
+			>
 				<v-icon>send</v-icon>
 			</v-btn>
 		</div>
@@ -93,91 +106,92 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#chat {
-	display: flex;
-	flex-direction: column;
-	max-width: 100vw;
-	height: calc(100vh - 56px);
-	align-items: flex-start;
-	box-sizing: border-box;
-	background: #fafafa;
+	#chat {
+		display: flex;
+		flex-direction: column;
+		max-width: 100vw;
+		height: calc(100vh - 56px);
+		align-items: flex-start;
+		box-sizing: border-box;
+		background: #fafafa;
 
-	.messages {
-		flex-grow: 1 !important;
-		overflow-y: scroll;
-		width: 100%;
-		padding: 1rem;
+		.messages {
+			flex-grow: 1 !important;
+			overflow-y: scroll;
+			width: 100%;
+			padding: 1rem;
 
-		.message {
-			display: flex;
-			font-size: 0.8rem;
-			align-items: flex-end;
+			.message {
+				display: flex;
+				font-size: 0.8rem;
+				align-items: flex-end;
 
-			& + .message {
-				margin-top: 1rem;
-			}
-
-			.message__name {
-				opacity: 0.5;
-				font-size: smaller;
-			}
-
-			.message__bubble {
-				position: relative;
-				border-radius: 0.4em;
-				padding: 0.75rem 1rem;
-			}
-
-			.message__bubble:after {
-				content: "";
-				position: absolute;
-				bottom: 0;
-				width: 0;
-				height: 0;
-				border: 0.5rem solid transparent;
-				border-bottom: 0;
-				margin-bottom: -0.5rem;
-			}
-
-			&.message--right {
-				flex-direction: row-reverse;
-
-				.message__bubble {
-					border-bottom-right-radius: 0;
-					margin-right: 0.5rem;
-					background: #2ba97a;
-					color: white;
+				& + .message {
+					margin-top: 1rem;
 				}
 
-				.message__bubble:after {
-					right: 0;
-					border-top-color: #2ba97a;
-					border-right: 0;
-				}
-			}
-
-			&.message--left {
-				.message__content {
-					text-align: right;
+				.message__name {
+					opacity: 0.5;
+					font-size: smaller;
 				}
 
 				.message__bubble {
-					border-bottom-left-radius: 0;
-					margin-left: 0.5rem;
-					background: #e0eee7;
+					position: relative;
+					border-radius: 0.4em;
+					padding: 0.75rem 1rem;
 				}
 
 				.message__bubble:after {
-					left: 0;
-					border-top-color: #e0eee7;
-					border-left: 0;
+					content: "";
+					position: absolute;
+					bottom: 0;
+					width: 0;
+					height: 0;
+					border: 0.5rem solid transparent;
+					border-bottom: 0;
+					margin-bottom: -0.5rem;
+				}
+
+				&.message--right {
+					flex-direction: row-reverse;
+
+					.message__bubble {
+						border-bottom-right-radius: 0;
+						margin-right: 0.5rem;
+						background: #2ba97a;
+						color: white;
+					}
+
+					.message__bubble:after {
+						right: 0;
+						border-top-color: #2ba97a;
+						border-right: 0;
+					}
+				}
+
+				&.message--left {
+					.message__content {
+						text-align: right;
+					}
+
+					.message__bubble {
+						border-bottom-left-radius: 0;
+						margin-left: 0.5rem;
+						background: #e0eee7;
+						color: black;
+					}
+
+					.message__bubble:after {
+						left: 0;
+						border-top-color: #e0eee7;
+						border-left: 0;
+					}
 				}
 			}
 		}
-	}
 
-	.input {
-		width: 100%;
+		.input {
+			width: 100%;
+		}
 	}
-}
 </style>
