@@ -1,14 +1,19 @@
 <template>
 	<div id="background">
+		<!-- Sky -->
 		<transition name="fade">
 			<div id="sky_day" class="sky" v-if="!darkMode" key="day" />
 			<div id="sky_night" class="sky" v-if="darkMode" key="night" />
 		</transition>
+
+		<!-- Mountain -->
 		<img
 			id="mountain"
 			:class="darkMode ? 'darkness' : ''"
 			src="@/assets/happySkiFriends/mountain.svg"
 		/>
+
+		<!-- Clouds -->
 		<transition
 			name="bounce"
 			enter-active-class="bounceIn"
@@ -54,6 +59,7 @@ export default {
 		top: 0;
 		left: 0;
 		z-index: 1;
+		animation-duration: 2s;
 	}
 
 	#sky_day {
@@ -65,13 +71,12 @@ export default {
 
 	.clouds {
 		position: absolute;
-		bottom: 0;
-		right: 0;
 		top: 0;
-		left: 0;
+		bottom: 0;
+		right: -10vw;
+		left: -10vw;
 		z-index: 1;
 
-		width: 130vw;
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;
