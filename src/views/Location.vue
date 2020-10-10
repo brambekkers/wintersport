@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<v-btn class="floatingButton" @click="switchLayer">test</v-btn>
 		<div id="myMap"></div>
 		<Avatar ref="avatar" :size="30" :profile="profile" />
 		<div ref="webcam" class="webcam"></div>
@@ -11,7 +12,7 @@ import { mapGetters } from "vuex";
 import Avatar from "@/components/Avatar.vue";
 
 export default {
-	name: "Map",
+	name: "Location",
 	components: { Avatar },
 	data() {
 		return {
@@ -24,6 +25,10 @@ export default {
 		personPos: {
 			handler: "addPersonToMap",
 		},
+		allCams: {
+			handler: "addWebcamsToMap",
+			immediate: true,
+		},
 	},
 	computed: {
 		...mapGetters(["profile", "allCams"]),
@@ -34,37 +39,44 @@ export default {
 				"pk.eyJ1IjoiYnJhbWJvbWIiLCJhIjoiY2tmb2QybTBiMDM1bTJ0b2Fuc3IwcXk4cCJ9.3Y8h5jl_NZhbNwWLVkqAXQ";
 			this.myMap = new window.mapboxgl.Map({
 				container: "myMap",
-				style: {
-					version: 8,
-					sources: {
-						"mapbox-satellite": {
-							type: "raster",
-							url: "mapbox://mapbox.satellite",
-							tileSize: 256,
-						},
-						"piste-tiles": {
-							type: "raster",
-							tiles: ["https://tiles.opensnowmap.org/pistes/{z}/{x}/{y}.png"],
-							tileSize: 256,
-						},
-					},
-					layers: [
-						{
-							id: "mapbox-satellite",
-							type: "raster",
-							source: "mapbox-satellite",
-						},
-						{
-							id: "snow-tiles",
-							type: "raster",
-							source: "piste-tiles",
-							minzoom: 10,
-							maxzoom: 17,
-						},
-					],
-				},
+				style: "mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g", // the outdoors-v10 style but without Hillshade layers
 				center: [12.617214, 47.387759], // starting position [lng, lat]
 				zoom: 15, // starting zoom
+			});
+		},
+		addMapSource() {
+			this.myMap.on("load", () => {
+				// Terrain map
+				this.myMap.addSource("dem", {
+					type: "raster-dem",
+					url: "mapbox://mapbox.terrain-rgb",
+				});
+				this.myMap.addLayer(
+					{
+						id: "hillshading",
+						source: "dem",
+						type: "hillshade",
+						// insert below waterway-river-canal-shadow;
+						// where hillshading sits in the Mapbox Outdoors style
+					},
+					"waterway-river-canal-shadow"
+				);
+				// ski map
+				this.myMap.addSource("piste-tiles", {
+					type: "raster",
+					tiles: ["https://tiles.opensnowmap.org/pistes/{z}/{x}/{y}.png"],
+					tileSize: 256,
+				});
+				this.myMap.addLayer({
+					id: "snow-tiles",
+					type: "raster",
+					source: "piste-tiles",
+					minzoom: 10,
+					maxzoom: 17,
+					layout: {
+						visibility: "visible",
+					},
+				});
 			});
 		},
 		addNavigationControl() {
@@ -122,12 +134,16 @@ export default {
 				}
 			}
 		},
+		switchLayer() {
+			this.myMap.setStyle("mapbox://styles/mapbox/streets-v11");
+			this.addMapSource();
+		},
 	},
 	mounted() {
 		this.initMap();
+		this.addMapSource();
 		this.getLocation();
 		this.addHomeIcon();
-		this.addWebcamsToMap();
 
 		// this.addNavigationControl()
 	},
@@ -139,7 +155,12 @@ export default {
 	width: 100vw;
 	height: calc(100vh - 56px);
 }
-
+.floatingButton {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	z-index: 200;
+}
 .webcam_location_icon {
 	background-size: cover;
 	background-position: center center;
