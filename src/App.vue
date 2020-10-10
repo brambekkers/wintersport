@@ -23,6 +23,7 @@ export default {
 			"initializeApp",
 			"userWatcher",
 			"usersWatcher",
+			"webcamWatcher",
 			"initializeWeather",
 			"refreshSnowReport",
 		]),
@@ -73,6 +74,7 @@ export default {
 			await this.initializeApp();
 			this.userWatcher();
 			this.usersWatcher();
+			this.webcamWatcher();
 		} catch (error) {
 			console.error(error);
 		}
