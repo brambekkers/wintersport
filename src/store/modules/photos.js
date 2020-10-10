@@ -1,17 +1,24 @@
 export default {
     state: {
-        photos: []
+        photos: [],
+        photoDetail: ""
     },
 
     getters: {
         photos(state) {
             return state.photos;
+        },
+        photoDetail(state) {
+            return state.photoDetail;
         }
     },
 
     mutations: {
         photos(state, val) {
             state.photos = val;
+        },
+        photoDetail(state, val) {
+            state.photoDetail = val;
         }
     },
 
