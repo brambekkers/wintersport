@@ -27,7 +27,6 @@ export default {
 		},
 		allCams: {
 			handler: "addWebcamsToMap",
-			immediate: true,
 		},
 	},
 	computed: {
@@ -45,37 +44,40 @@ export default {
 			});
 		},
 		addMapSource() {
-			this.myMap.on("load", () => {
-				// Terrain map
-				this.myMap.addSource("dem", {
-					type: "raster-dem",
-					url: "mapbox://mapbox.terrain-rgb",
-				});
-				this.myMap.addLayer(
-					{
-						id: "hillshading",
-						source: "dem",
-						type: "hillshade",
-						// insert below waterway-river-canal-shadow;
-						// where hillshading sits in the Mapbox Outdoors style
-					},
-					"waterway-river-canal-shadow"
-				);
-				// ski map
-				this.myMap.addSource("piste-tiles", {
-					type: "raster",
-					tiles: ["https://tiles.opensnowmap.org/pistes/{z}/{x}/{y}.png"],
-					tileSize: 256,
-				});
-				this.myMap.addLayer({
-					id: "snow-tiles",
-					type: "raster",
-					source: "piste-tiles",
-					minzoom: 10,
-					maxzoom: 17,
-					layout: {
-						visibility: "visible",
-					},
+			return new Promise((resolve) => {
+				this.myMap.on("load", () => {
+					// Terrain map
+					this.myMap.addSource("dem", {
+						type: "raster-dem",
+						url: "mapbox://mapbox.terrain-rgb",
+					});
+					this.myMap.addLayer(
+						{
+							id: "hillshading",
+							source: "dem",
+							type: "hillshade",
+							// insert below waterway-river-canal-shadow;
+							// where hillshading sits in the Mapbox Outdoors style
+						},
+						"waterway-river-canal-shadow"
+					);
+					// ski map
+					this.myMap.addSource("piste-tiles", {
+						type: "raster",
+						tiles: ["https://tiles.opensnowmap.org/pistes/{z}/{x}/{y}.png"],
+						tileSize: 256,
+					});
+					this.myMap.addLayer({
+						id: "snow-tiles",
+						type: "raster",
+						source: "piste-tiles",
+						minzoom: 10,
+						maxzoom: 17,
+						layout: {
+							visibility: "visible",
+						},
+					});
+					resolve();
 				});
 			});
 		},
@@ -112,13 +114,15 @@ export default {
 			console.log(error);
 		},
 		addPersonToMap() {
-			var el = this.$refs.avatar.$el;
-			new window.mapboxgl.Marker(el)
-				.setLngLat([
-					this.personPos.coords.longitude,
-					this.personPos.coords.latitude,
-				])
-				.addTo(this.myMap);
+			if (this.personPos) {
+				var el = this.$refs.avatar.$el;
+				new window.mapboxgl.Marker(el)
+					.setLngLat([
+						this.personPos.coords.longitude,
+						this.personPos.coords.latitude,
+					])
+					.addTo(this.myMap);
+			}
 		},
 		addWebcamsToMap() {
 			for (const cam of this.allCams) {
@@ -139,13 +143,13 @@ export default {
 			this.addMapSource();
 		},
 	},
-	mounted() {
+	async mounted() {
 		this.initMap();
-		this.addMapSource();
+		await this.addMapSource();
 		this.getLocation();
 		this.addHomeIcon();
-
-		// this.addNavigationControl()
+		this.addWebcamsToMap();
+		this.addPersonToMap();
 	},
 };
 </script>
