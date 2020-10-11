@@ -35,6 +35,7 @@ export default {
 		webcams: {
 			handler: "checkCams",
 			immediate: true,
+			deep: true
 		},
 	},
 	computed: {
