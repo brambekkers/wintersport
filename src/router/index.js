@@ -23,7 +23,7 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
-        name: "Home",
+        name: "Happy Ski Friends",
         component: Home,
         beforeEnter: (to, from, next) => {
             if (!firebase.apps.length) {

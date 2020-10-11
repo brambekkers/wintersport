@@ -1,6 +1,24 @@
 <template>
 	<div>
-		<v-btn class="floatingButton" @click="switchLayer">test</v-btn>
+		<v-snackbar
+			v-model="snackbar"
+			timeout="5000"
+			color="transparent"
+			elevation="0"
+			absolute
+			centered
+			top
+		>
+			<v-alert
+				border="right"
+				colored-border
+				type="error"
+				elevation="2"
+				light
+			>
+				{{ error }}
+			</v-alert>
+		</v-snackbar>
 		<div id="myMap"></div>
 		<Avatar ref="avatar" :size="30" :profile="profile" />
 		<div ref="webcam" class="webcam"></div>
@@ -16,6 +34,8 @@ export default {
 	components: { Avatar },
 	data() {
 		return {
+			snackbar: false,
+			error: "",
 			myMap: null,
 			home: null,
 			personPos: null,
@@ -41,6 +61,7 @@ export default {
 				style: "mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g", // the outdoors-v10 style but without Hillshade layers
 				center: [12.617214, 47.387759], // starting position [lng, lat]
 				zoom: 15, // starting zoom
+				attributionControl: false
 			});
 		},
 		addMapSource() {
@@ -100,7 +121,7 @@ export default {
 			}
 		},
 		highAccuracyError(error) {
-			console.log(error);
+	
 			if (error.code == error.TIMEOUT) {
 				navigator.geolocation.watchPosition(
 					(pos) => (this.personPos = pos),
@@ -111,7 +132,9 @@ export default {
 			}
 		},
 		lowAccuracyError(error) {
-			console.log(error);
+			console.log(error)
+			this.snackbar = true;
+			this.error = error;
 		},
 		addPersonToMap() {
 			if (this.personPos) {
@@ -129,19 +152,21 @@ export default {
 				if (cam.location && cam.location.lng && cam.location.lat) {
 					const el = document.createElement("div");
 					el.className = "webcam_location_icon";
+
 					el.addEventListener("click", () => {
 						this.$router.push("/webcams");
 					});
+
+					var popup = new window.mapboxgl.Popup({ offset: 25 }).setText(cam.name);
+
 					new window.mapboxgl.Marker(el)
 						.setLngLat([cam.location.lng, cam.location.lat])
+						.setPopup(popup) // sets a popup on this marker
 						.addTo(this.myMap);
 				}
 			}
 		},
-		switchLayer() {
-			this.myMap.setStyle("mapbox://styles/mapbox/streets-v11");
-			this.addMapSource();
-		},
+
 	},
 	async mounted() {
 		this.initMap();
@@ -173,5 +198,9 @@ export default {
 
 	width: 40px;
 	height: 40px;
+}
+
+.mapboxgl-ctrl{
+    display: none !important;
 }
 </style>
