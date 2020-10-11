@@ -1,17 +1,11 @@
 <template>
-	<v-col cols="6" md="4" lg="3" xl="2">
-		<v-card
-			elevation="4"
-			color="#ECECEC"
-			class="pb-3"
-			height="100%"
-			v-if="weatherForecast"
-		>
+	<v-col cols="6" md="3" lg="2" xl="2">
+		<v-card elevation="4" class="pb-3" height="100%" v-if="weatherForecast">
 			<v-card-title class="headline pb-2">Weather</v-card-title>
 			<v-card-subtitle class="pb-0">{{
 				weatherForecast.forecast[0]["upper"].wx_desc
 			}}</v-card-subtitle>
-			<v-img :src="getImgUrl" contain height="150px" class="mx-4">
+			<v-img :src="getImgUrl" contain height="120px" class="mx-4">
 				<div class="d-flex justify-end pt-3">
 					<v-chip color="secondary" class="py-2 white--text" overlap>
 						<strong class="font-weight-bold">

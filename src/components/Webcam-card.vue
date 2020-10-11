@@ -1,6 +1,6 @@
 <template>
-	<v-col cols="12" md="6" lg="4" xl="3">
-		<v-card color="#ECECEC" elevation="4" height="100%">
+	<v-col cols="12" sm="6" md="4" lg="4" xl="3">
+		<v-card elevation="4" height="100%">
 			<v-row dense>
 				<v-col cols="6" class="pl-5">
 					<v-img src="@/assets/happySkiFriends/camera.png"></v-img>
