@@ -1,8 +1,8 @@
 <template>
 	<v-container>
 		<v-row align="stretch" justify="space-between" dense>
-			<Info />
 			<Countdown />
+			<Info />
 		</v-row>
 		<v-row align="stretch" dense>
 			<Weather />
