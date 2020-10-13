@@ -1,6 +1,12 @@
 <template>
 	<v-col cols="6" md="3" lg="2" xl="2">
-		<v-card elevation="4" class="pb-3" height="100%" v-if="weatherForecast">
+		<v-card
+			elevation="4"
+			id="weather"
+			class="pb-3"
+			height="100%"
+			v-if="weatherForecast"
+		>
 			<v-card-title class="headline pb-2">Weather</v-card-title>
 			<v-card-subtitle class="pb-0">{{
 				weatherForecast.forecast[0]["upper"].wx_desc
@@ -108,5 +114,8 @@
 	};
 </script>
 
-<style>
+<style lang="scss" scoped>
+	#weather {
+		background: linear-gradient(#bbecbf, #97f19e);
+	}
 </style>
