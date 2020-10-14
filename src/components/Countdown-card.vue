@@ -1,29 +1,39 @@
 <template>
-	<v-col cols="12" sm="4" md="3" lg="3" xl="2" alignSelf="center">
-		<v-card
-			elevation="4"
-			color="transparent"
-			height="50%"
-			width="200px"
-			class="mx-auto"
-		>
-			<div id="countdown" class="pa-0">
-				<v-card class="number" light>
-					<span class="hanger hanger-left"></span>
-					<span class="hanger hanger-right"></span>
-					<span class="topBar"></span>
-					<p>{{ daysToGo }}</p>
-				</v-card>
-				<v-card class="daysToGo text-h4">
-					<p>Days to go</p>
-				</v-card>
+	<CardTemplate cols="12" sm="6" lg="4" xl="3" height="200px">
+		<!-- Front of card -->
+		<template v-slot:front>
+			<div id="countdown-container">
+				<div id="countdown" class="pa-0">
+					<v-card class="number" light>
+						<span class="hanger hanger-left"></span>
+						<span class="hanger hanger-right"></span>
+						<span class="topBar"></span>
+						<p>{{ daysToGo }}</p>
+					</v-card>
+					<v-card class="daysToGo text-h4">
+						<p>Days to go</p>
+					</v-card>
+				</div>
+				<v-img
+					class="petunia"
+					src="@/assets/happySkiFriends/Petunia.png"
+					alt="Petunia"
+					contain
+				/>
 			</div>
-		</v-card>
-	</v-col>
+		</template>
+		<!-- Back of card -->
+		<template v-slot:back>
+			<p>countDown</p>
+		</template>
+	</CardTemplate>
 </template>
 
 <script>
+	import CardTemplate from "@/components/Home-card-template.vue";
+
 	export default {
+		components: { CardTemplate },
 		computed: {
 			daysToGo() {
 				const countDownDay = [20, 2]; // 20th of February
@@ -45,68 +55,87 @@
 </script>
 
 <style lang="scss" scoped>
-	#countdown {
-		display: flex;
-		text-align: center;
+	#countdown-container {
 		height: 100%;
+		position: relative;
+		padding: 1rem;
 
-		div {
-			font-size: 2rem;
-			font-weight: 600;
+		#countdown {
+			top: 50%;
+			transform: translateY(-50%);
+			width: 50%;
+			position: absolute;
 			display: flex;
-			justify-content: center;
-			align-items: center;
+			text-align: center;
+			z-index: 1;
 
-			p {
-				margin: 0;
-			}
-		}
-
-		.number {
-			position: relative;
-			flex: 3;
-			flex-direction: column;
-			min-height: 90px;
-			justify-content: flex-start;
-
-			p {
-				padding: 1rem;
-				min-height: 50% !important;
+			div {
+				font-size: 2rem;
+				font-weight: 600;
 				display: flex;
+				justify-content: center;
 				align-items: center;
+
+				p {
+					margin: 0;
+				}
 			}
 
-			.topBar {
-				min-height: 30% !important;
-				width: 100%;
-				background: #ed1b24;
+			.number {
+				position: relative;
+				flex: 3;
+				flex-direction: column;
+				min-height: 90px;
+				justify-content: flex-start;
+
+				p {
+					padding: 1rem;
+					min-height: 50% !important;
+					display: flex;
+					align-items: center;
+				}
+
+				.topBar {
+					min-height: 30% !important;
+					width: 100%;
+					background: #ed1b24;
+				}
+
+				.hanger {
+					position: absolute;
+					top: -8%;
+					height: 20%;
+					width: 6%;
+					border-radius: 25%;
+					z-index: 2;
+					background: #202028 !important;
+				}
+
+				.hanger-left {
+					left: 20%;
+				}
+				.hanger-right {
+					right: 20%;
+				}
 			}
 
-			.hanger {
-				position: absolute;
-				top: -8%;
-				height: 20%;
-				width: 6%;
-				border-radius: 25%;
-				z-index: 2;
+			.daysToGo {
+				padding: 1rem;
+				flex: 4;
 				background: #202028 !important;
-			}
-
-			.hanger-left {
-				left: 20%;
-			}
-			.hanger-right {
-				right: 20%;
+				color: white;
+				line-height: 1.8rem;
+				border-radius: 0 4px 4px 0;
 			}
 		}
 
-		.daysToGo {
-			padding: 1rem;
-			flex: 4;
-			background: #202028 !important;
-			color: white;
-			line-height: 1.8rem;
-			border-radius: 0 4px 4px 0;
+		.petunia {
+			position: absolute;
+			height: 100%;
+			right: 1rem;
+			top: 0;
+			width: 50%;
+			z-index: 2;
 		}
 	}
 </style>

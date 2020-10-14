@@ -1,5 +1,5 @@
 <template>
-	<v-col cols="12" sm="8" md="6" lg="4" xl="3">
+	<v-col cols="12" sm="8" lg="6" xl="4">
 		<v-card elevation="4" height="100%">
 			<v-row dense>
 				<v-col cols="4" class="pa-0 pl-2">

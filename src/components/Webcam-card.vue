@@ -1,11 +1,12 @@
 <template>
-	<CardTemplate cols="6" height="200px">
+	<CardTemplate cols="6" sm="3" lg="3" xl="2" height="200px">
 		<!-- Front of card -->
 		<template v-slot:front>
-			<v-card-title class="text-h6 pb-0"> Webcams </v-card-title>
 			<v-img
 				class="mx-4"
+				height="100%"
 				src="@/assets/happySkiFriends/camera.png"
+				contain
 			></v-img>
 		</template>
 		<!-- Back of card -->
@@ -25,7 +26,6 @@
 
 	export default {
 		components: { CardTemplate },
-
 		computed: {
 			...mapGetters(["allCams"]),
 			onlineAmount() {

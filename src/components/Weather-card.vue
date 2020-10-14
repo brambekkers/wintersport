@@ -1,35 +1,42 @@
 <template>
-	<v-col cols="6" md="3" lg="2" xl="2">
-		<v-card
-			elevation="4"
-			id="weather"
-			class="pb-3"
-			height="100%"
-			v-if="weatherForecast"
-		>
+	<CardTemplate cols="6" sm="3" xl="2" height="200px">
+		<!-- Front of card -->
+		<template v-slot:front>
+			<div class="h-100 py-3">
+				<v-img :src="getImgUrl" contain height="100%" class="mx-4 py-2">
+					<div class="d-flex justify-end pt-3">
+						<v-chip
+							color="secondary"
+							class="py-2 white--text"
+							overlap
+						>
+							<strong class="font-weight-bold">
+								{{
+									weatherForecast.forecast[0]["upper"]
+										.temp_avg_c
+								}} </strong
+							><span>°C</span>
+						</v-chip>
+					</div>
+				</v-img>
+			</div>
+		</template>
+		<!-- Back of card -->
+		<template v-slot:back>
 			<v-card-title class="headline pb-2">Weather</v-card-title>
 			<v-card-subtitle class="pb-0">{{
 				weatherForecast.forecast[0]["upper"].wx_desc
 			}}</v-card-subtitle>
-			<v-img :src="getImgUrl" contain height="120px" class="mx-4">
-				<div class="d-flex justify-end pt-3">
-					<v-chip color="secondary" class="py-2 white--text" overlap>
-						<strong class="font-weight-bold">
-							{{
-								weatherForecast.forecast[0]["upper"].temp_avg_c
-							}} </strong
-						><span>°C</span>
-					</v-chip>
-				</div>
-			</v-img>
-		</v-card>
-	</v-col>
+		</template>
+	</CardTemplate>
 </template>
 
 <script>
+	import CardTemplate from "@/components/Home-card-template.vue";
 	import { mapGetters, mapActions } from "vuex";
 
 	export default {
+		components: { CardTemplate },
 		computed: {
 			...mapGetters(["weatherForecast"]),
 			getImgUrl() {
@@ -115,7 +122,4 @@
 </script>
 
 <style lang="scss" scoped>
-	#weather {
-		background: linear-gradient(#bbecbf, #97f19e);
-	}
 </style>

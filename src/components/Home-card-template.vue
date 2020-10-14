@@ -7,7 +7,12 @@
 		:xl="xl"
 		class="card-container"
 	>
-		<v-card class="card" :style="`height: ${height}`" elevation="4">
+		<v-card
+			class="card"
+			:style="`height: ${height}`"
+			elevation="4"
+			:color="color"
+		>
 			<div class="front">
 				<slot name="front"></slot>
 			</div>
@@ -20,7 +25,7 @@
 
 <script>
 	export default {
-		props: ["cols", "sm", "md", "lg", "xl", "height"],
+		props: ["cols", "sm", "md", "lg", "xl", "height", "color"],
 	};
 </script>
 
