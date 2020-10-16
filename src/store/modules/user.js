@@ -3,7 +3,6 @@ export default {
         user: null,
         profile: null,
     },
-
     getters: {
         user(state) {
             return state.user;
@@ -12,7 +11,6 @@ export default {
             return state.profile;
         }
     },
-
     mutations: {
         user(state, val) {
             state.user = val;
@@ -21,7 +19,6 @@ export default {
             state.profile = val;
         }
     },
-
     actions: {
         userWatcher({ getters: { auth, db }, commit }) {
             auth.onAuthStateChanged(async (user) => {
@@ -41,6 +38,8 @@ export default {
                     if (token.claims.role === "admin") {
                         commit("isAdmin", true);
                     }
+
+                    
                 } else {
                     console.log("Not signed in");
                     commit("user", null);
@@ -49,7 +48,6 @@ export default {
                 }
             });
         },
-
         async signIn({ getters }, { email, password }) {
             try {
                 await getters.auth.signInWithEmailAndPassword(email, password);

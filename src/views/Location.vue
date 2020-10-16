@@ -27,7 +27,7 @@
 </template>
 
 <script>
-	import { mapGetters } from "vuex";
+	import { mapGetters, mapActions } from "vuex";
 	import Avatar from "@/components/Avatar.vue";
 
 	export default {
@@ -39,21 +39,22 @@
 				error: "",
 				myMap: null,
 				home: null,
-				personPos: null,
 			};
 		},
 		watch: {
-			personPos: {
-				handler: "addPersonToMap",
+			location: {
+				handler: "addPersonIconToMap",
+				immediate: true,
 			},
 			allCams: {
 				handler: "addWebcamsToMap",
 			},
 		},
 		computed: {
-			...mapGetters(["profile", "allCams"]),
+			...mapGetters(["profile", "allCams", "location"]),
 		},
 		methods: {
+			...mapActions(["getLocation"]),
 			initMap() {
 				window.mapboxgl.accessToken =
 					"pk.eyJ1IjoiYnJhbWJvbWIiLCJhIjoiY2tmb2QybTBiMDM1bTJ0b2Fuc3IwcXk4cCJ9.3Y8h5jl_NZhbNwWLVkqAXQ";
@@ -114,37 +115,13 @@
 					.setLngLat([12.617214, 47.387759])
 					.addTo(this.myMap);
 			},
-			getLocation() {
-				if (navigator.geolocation) {
-					navigator.geolocation.watchPosition(
-						(pos) => (this.personPos = pos),
-						this.highAccuracyError,
-						{ maximumAge: 0, timeout: 5000, enableHighAccuracy: true }
-					);
-				}
-			},
-			highAccuracyError(error) {
-				if (error.code == error.TIMEOUT) {
-					navigator.geolocation.watchPosition(
-						(pos) => (this.personPos = pos),
-						this.errorCallback_lowAccuracy,
-						{ maximumAge: 0, timeout: 10000, enableHighAccuracy: false }
-					);
-					return;
-				}
-			},
-			lowAccuracyError(error) {
-				console.log(error);
-				this.snackbar = true;
-				this.error = error;
-			},
-			addPersonToMap() {
-				if (this.personPos) {
+			addPersonIconToMap() {
+				if (this.location) {
 					var el = this.$refs.avatar.$el;
 					new window.mapboxgl.Marker(el)
 						.setLngLat([
-							this.personPos.coords.longitude,
-							this.personPos.coords.latitude,
+							this.location.coords.longitude,
+							this.location.coords.latitude,
 						])
 						.addTo(this.myMap);
 				}
@@ -177,17 +154,6 @@
 			this.getLocation();
 			this.addHomeIcon();
 			this.addWebcamsToMap();
-			this.addPersonToMap();
-
-			const result = await window.navigator.permissions.query({
-				name: "geolocation",
-			});
-			this.getLocation();
-
-			this.snackbar = true;
-			this.error = result.state;
-
-			// Don't do anything if the permission was denied.
 		},
 	};
 </script>
