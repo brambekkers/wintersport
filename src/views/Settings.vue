@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-container v-if="profile">
 		<v-row justify="center">
 			<v-col cols="12" xl="4" align="center">
 				<div class="avatar__wrapper">
@@ -33,11 +33,13 @@
 		</v-row>
 		<v-row justify="center">
 			<v-col cols="12" md="10" lg="8" xl="6">
-				<v-list rounded>
+				<v-list rounded dense>
 					<v-list-item>
 						<v-list-item-content>
 							<v-list-item-subtitle>Name</v-list-item-subtitle>
-							<v-list-item-title v-if="profile">{{ profile.name }}</v-list-item-title>
+							<v-list-item-title>
+								{{ profile.name }}
+							</v-list-item-title>
 						</v-list-item-content>
 						<v-list-item-icon>
 							<v-btn icon @click="openNameSheet">
@@ -47,10 +49,27 @@
 					</v-list-item>
 					<v-list-item>
 						<v-list-item-content>
-							<v-list-item-title v-if="profile">Darkmode</v-list-item-title>
+							<v-list-item-subtitle>
+								Password
+							</v-list-item-subtitle>
+							<v-list-item-title>*********</v-list-item-title>
 						</v-list-item-content>
 						<v-list-item-icon>
-							<v-switch :input-value="darkMode" @change="updateDarkMode"></v-switch>
+							<v-btn icon to="/changepassword">
+								<v-icon>edit</v-icon>
+							</v-btn>
+						</v-list-item-icon>
+					</v-list-item>
+					<v-divider />
+					<v-list-item>
+						<v-list-item-content class="my-5">
+							<v-list-item-title>Darkmode</v-list-item-title>
+						</v-list-item-content>
+						<v-list-item-icon>
+							<v-switch
+								:input-value="darkMode"
+								@change="updateDarkMode"
+							></v-switch>
 						</v-list-item-icon>
 					</v-list-item>
 				</v-list>
@@ -68,7 +87,11 @@
 						prepend-icon="mdi-camera"
 					/>
 					<div class="text-right">
-						<v-btn text color="primary" @click="avatarSheet = false">
+						<v-btn
+							text
+							color="primary"
+							@click="avatarSheet = false"
+						>
 							Cancel
 						</v-btn>
 						<v-btn color="primary" @click="saveAvatar">
@@ -100,68 +123,70 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import Avatar from "@/components/Avatar.vue";
+	import { mapGetters, mapActions } from "vuex";
+	import Avatar from "@/components/Avatar.vue";
 
-export default {
-	components: { Avatar },
-	data() {
-		return {
-			avatarSheet: false,
-			avatarInput: undefined,
-			nameSheet: false,
-			nameInput: undefined,
-		};
-	},
-	computed: {
-		...mapGetters(["profile"]),
-		darkMode() {
-			return this.profile && this.profile.darkMode ? this.profile.darkMode : false;
+	export default {
+		components: { Avatar },
+		data() {
+			return {
+				avatarSheet: false,
+				avatarInput: undefined,
+				nameSheet: false,
+				nameInput: undefined,
+			};
 		},
-	},
-	methods: {
-		...mapActions([
-			"updateAvatar",
-			"removeAvatar",
-			"updateProfile",
-			"updateDarkMode",
-		]),
-		openAvatarSheet() {
-			this.avatarInput = null;
-			this.avatarSheet = !this.avatarSheet;
-			this.$nextTick(() => {
-				this.$refs.avatarInput.focus();
-			});
+		computed: {
+			...mapGetters(["profile"]),
+			darkMode() {
+				return this.profile && this.profile.darkMode
+					? this.profile.darkMode
+					: false;
+			},
 		},
-		async saveAvatar() {
-			this.updateAvatar(this.avatarInput);
-			this.avatarSheet = !this.avatarSheet;
+		methods: {
+			...mapActions([
+				"updateAvatar",
+				"removeAvatar",
+				"updateProfile",
+				"updateDarkMode",
+			]),
+			openAvatarSheet() {
+				this.avatarInput = null;
+				this.avatarSheet = !this.avatarSheet;
+				this.$nextTick(() => {
+					this.$refs.avatarInput.focus();
+				});
+			},
+			async saveAvatar() {
+				this.updateAvatar(this.avatarInput);
+				this.avatarSheet = !this.avatarSheet;
+			},
+			openNameSheet() {
+				this.nameInput = null;
+				this.nameSheet = !this.nameSheet;
+				this.$nextTick(() => {
+					this.$refs.nameInput.focus();
+				});
+			},
+			async saveName() {
+				this.updateProfile({ name: this.nameInput });
+				this.nameSheet = !this.nameSheet;
+			},
 		},
-		openNameSheet() {
-			this.nameInput = null;
-			this.nameSheet = !this.nameSheet;
-			this.$nextTick(() => {
-				this.$refs.nameInput.focus();
-			});
-		},
-		async saveName() {
-			this.updateProfile({ name: this.nameInput });
-			this.nameSheet = !this.nameSheet;
-		},
-	},
-};
+	};
 </script>
 
 <style lang="scss" scoped>
-.avatar__wrapper {
-	position: relative;
-	width: 33vw;
-	height: 33vw;
-}
-.avatar__button {
-	position: absolute;
-	background: white;
-	right: 0;
-	bottom: 0;
-}
+	.avatar__wrapper {
+		position: relative;
+		width: 33vw;
+		height: 33vw;
+	}
+	.avatar__button {
+		position: absolute;
+		background: white;
+		right: 0;
+		bottom: 0;
+	}
 </style>

@@ -29,6 +29,16 @@
 			}}</v-card-subtitle>
 		</template>
 	</CardTemplate>
+	<!-- Skeleton -->
+	<v-col v-else>
+		<v-skeleton-loader
+			cols="6"
+			sm="3"
+			xl="2"
+			class="mx-auto"
+			type="card"
+		></v-skeleton-loader>
+	</v-col>
 </template>
 
 <script>

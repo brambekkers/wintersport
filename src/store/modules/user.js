@@ -1,3 +1,5 @@
+import firebase from "firebase";
+
 export default {
     state: {
         user: null,
@@ -68,7 +70,25 @@ export default {
                     throw error;
                 });
         },
+        async changePassword({getters}, {oldPassword, newPassword}) {
+            try {
+                // ReAuthenticate
+                const credential = firebase.auth.EmailAuthProvider.credential(
+                    getters.user.email,
+                    oldPassword
+                );
+                await getters.auth.currentUser.reauthenticateWithCredential(
+                    credential
+                );
+                // Set new password
+                getters.auth.currentUser.updatePassword(newPassword)
+                return true
 
+            } catch (error) {
+                console.log(error)
+                throw error
+            }
+        },
         async updateAvatar({ getters: { storage, user }, dispatch }, avatar) {
             const storageRef = await storage.ref().child(`avatars/${user.uid}`);
 

@@ -1,8 +1,8 @@
 module.exports = {
     transpileDependencies: ["vuetify"],
-    devServer: {
-        https: true,
-      },
+    // devServer: {
+    //     https: true,
+    //   },
     pwa: {
         name: "Happy Ski Friends",
         themeColor: "#2ba97a",

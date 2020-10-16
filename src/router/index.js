@@ -14,6 +14,8 @@ import Webcams from "../views/Webcams";
 import Photos from "../views/Photos";
 import Chat from "../views/Chat";
 
+import ChangePassword from "../views/ChangePassword";
+
 // Users
 import Users from "../views/Users";
 import AddUser from "../views/users/Add";
@@ -87,6 +89,12 @@ const routes = [
         path: "/chat",
         name: "Chat",
         component: Chat
+    },
+
+    {
+        path: "/changepassword",
+        name: "Change Password",
+        component: ChangePassword   
     },
     // Users
     {
