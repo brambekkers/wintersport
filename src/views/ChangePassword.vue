@@ -1,26 +1,5 @@
 <template>
 	<v-container class="fill-height" fluid>
-		<!-- Alert -->
-		<v-snackbar
-			v-model="snackbar"
-			timeout="5000"
-			color="transparent"
-			elevation="0"
-			absolute
-			centered
-			top
-		>
-			<v-alert
-				border="right"
-				colored-border
-				:type="errorType"
-				elevation="2"
-				light
-			>
-				{{ error }}
-			</v-alert>
-		</v-snackbar>
-
 		<v-row align="center" justify="center">
 			<v-col cols="10" sm="8" md="4">
 				<v-form @submit.prevent="changePassword" ref="form">
@@ -87,9 +66,6 @@
 	export default {
 		data() {
 			return {
-				snackbar: false,
-				error: "",
-				errorType: "error",
 				passwords: {
 					oldPassword: "",
 					newPassword: "",
@@ -117,14 +93,19 @@
 							"changePassword",
 							this.passwords
 						);
-						this.snackbar = true;
-						this.errorType = "success";
-						this.error = "password changed";
-						setTimeout(() => this.$router.push("/settings"), 500);
+
+						this.$store.dispatch("snackbar", {
+							msg:
+								"You have successfully changed your password. Well done!",
+							type: "success",
+						});
+
+						this.$router.push("/settings");
 					} catch (error) {
-						this.snackbar = true;
-						this.errorType = "error";
-						this.error = error.message;
+						this.$store.dispatch("snackbar", {
+							msg: error.message,
+							type: "error",
+						});
 					}
 				}
 			},

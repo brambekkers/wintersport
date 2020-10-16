@@ -4,6 +4,7 @@
 		<Sidebar />
 		<Header />
 		<v-main id="main">
+			<Snackbar />
 			<router-view />
 		</v-main>
 	</v-app>
@@ -14,10 +15,11 @@
 	import Sidebar from "@/components/Sidebar.vue";
 	import Header from "@/components/Header.vue";
 	import Background from "@/components/Background.vue";
+	import Snackbar from "@/components/Snackbar.vue";
 
 	export default {
 		name: "App",
-		components: { Sidebar, Header, Background },
+		components: { Sidebar, Header, Background, Snackbar },
 		methods: {
 			...mapActions([
 				"initializeApp",
@@ -109,6 +111,11 @@
 		.text-h5,
 		.text-h6 {
 			font-family: "Exo", sans-serif !important;
+		}
+
+		.text-subtitle-1,
+		.text-subtitle-2 {
+			font-family: "Happy Monkey", cursive !important;
 		}
 
 		#main {

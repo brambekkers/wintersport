@@ -1,25 +1,5 @@
 <template>
 	<div>
-		<v-snackbar
-			class="snackbar"
-			v-model="snackbar"
-			timeout="5000"
-			color="transparent"
-			elevation="0"
-			absolute
-			centered
-			top
-		>
-			<v-alert
-				border="right"
-				colored-border
-				type="error"
-				elevation="2"
-				light
-			>
-				{{ error }}
-			</v-alert>
-		</v-snackbar>
 		<div id="myMap"></div>
 		<Avatar ref="avatar" :size="30" :profile="profile" />
 		<div ref="webcam" class="webcam" />
@@ -35,8 +15,6 @@
 		components: { Avatar },
 		data() {
 			return {
-				snackbar: false,
-				error: "",
 				myMap: null,
 				home: null,
 			};

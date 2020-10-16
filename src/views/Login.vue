@@ -1,26 +1,5 @@
 <template>
 	<v-container class="fill-height" fluid>
-		<!-- Alert -->
-		<v-snackbar
-			v-model="snackbar"
-			timeout="5000"
-			color="transparent"
-			elevation="0"
-			absolute
-			centered
-			top
-		>
-			<v-alert
-				border="right"
-				colored-border
-				type="error"
-				elevation="2"
-				light
-			>
-				{{ error }}
-			</v-alert>
-		</v-snackbar>
-
 		<v-row align="center" justify="center">
 			<v-col cols="10" sm="8" md="4">
 				<v-form @submit.prevent="signIn">
@@ -28,17 +7,14 @@
 						src="@/assets/happySkiFriends/profile.png"
 						class="profileImage mx-auto"
 					></v-img>
-					<v-card-text>
-						<h2 class="title text-h4 text-center font-weight-bold">
-							Welcome back
-						</h2>
-						<h4
-							class="title text-subtitle-1 text-center mb-1 font-weight-light"
-						>
-							Sign in to continue
-						</h4>
-					</v-card-text>
-
+					<h4 class="title text-h4 mb-0 text-center font-weight-bold">
+						Welcome back
+					</h4>
+					<v-card-subtitle
+						class="text-subtitle-1 text-center mb-1 pt-0 font-weight-light"
+					>
+						Sign in to continue
+					</v-card-subtitle>
 					<v-card-text>
 						<v-text-field
 							label="Email"
@@ -46,22 +22,29 @@
 							prepend-icon="mdi-account"
 							type="email"
 							v-model="user.email"
+							hide-details="true"
 							solo
 						></v-text-field>
 
 						<v-text-field
 							label="Password"
-							class="mt-0"
+							class="mt-2"
 							name="password"
 							prepend-icon="mdi-lock"
 							type="password"
 							v-model="user.password"
+							hide-details="true"
 							solo
 						></v-text-field>
 					</v-card-text>
-					<v-card-actions>
-						<v-spacer></v-spacer>
+					<v-card-actions class="d-flex flex-column text-center">
 						<v-btn type="submit" block color="primary">Login</v-btn>
+						<router-link
+							class="text-subtitle-2 mt-2"
+							to="/forgotPassword"
+							color="transparent"
+							>Forgot password?
+						</router-link>
 					</v-card-actions>
 				</v-form>
 			</v-col>
@@ -73,8 +56,6 @@
 	export default {
 		data() {
 			return {
-				snackbar: false,
-				error: "",
 				user: {
 					email: "",
 					password: "",
@@ -97,9 +78,16 @@
 			async signIn() {
 				try {
 					await this.$store.dispatch("signIn", this.user);
+					this.$store.dispatch("snackbar", {
+						msg:
+							"Welcome to the mountain! Put your ski boots on and have fun!",
+						type: "success",
+					});
 				} catch (error) {
-					this.snackbar = true;
-					this.error = error.message;
+					this.$store.dispatch("snackbar", {
+						msg: error.message,
+						type: "error",
+					});
 				}
 			},
 		},

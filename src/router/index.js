@@ -15,6 +15,7 @@ import Photos from "../views/Photos";
 import Chat from "../views/Chat";
 
 import ChangePassword from "../views/ChangePassword";
+import ForgotPassword from "../views/ForgotPassword";
 
 // Users
 import Users from "../views/Users";
@@ -95,6 +96,11 @@ const routes = [
         path: "/changepassword",
         name: "Change Password",
         component: ChangePassword   
+    },
+    {
+        path: "/forgotpassword",
+        name: "Forgot Password",
+        component: ForgotPassword   
     },
     // Users
     {
