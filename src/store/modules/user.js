@@ -1,7 +1,7 @@
 export default {
     state: {
         user: null,
-        profile: null
+        profile: null,
     },
 
     getters: {

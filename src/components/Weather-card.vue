@@ -1,5 +1,5 @@
 <template>
-	<CardTemplate cols="6" sm="3" xl="2" height="200px">
+	<CardTemplate cols="6" sm="3" xl="2" height="200px" v-if="weatherForecast">
 		<!-- Front of card -->
 		<template v-slot:front>
 			<div class="h-100 py-3">
