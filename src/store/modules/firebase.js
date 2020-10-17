@@ -34,5 +34,13 @@ export default {
 			commit("firebase", await firebase.initializeApp(firebaseConfig));
 			return true;
 		},
+		getCurrentUser(){
+			return new Promise((resolve, reject) => {
+				const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+					unsubscribe();
+					resolve(user);
+				}, reject);
+			})
+		}
 	},
 };

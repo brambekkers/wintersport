@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import store from "../store/index";
-import firebase from "firebase";
+import store from "../store/index";
 
 import Home from "../views/Home";
 import Login from "../views/Login";
@@ -28,90 +27,132 @@ const routes = [
         path: "/",
         name: "Happy Ski Friends",
         component: Home,
-        beforeEnter: (to, from, next) => {
-            if (!firebase.apps.length) {
-                setTimeout(() => {
-                    if (firebase.auth().currentUser) {
-                        next();
-                    } else {
-                        next("/login");
-                    }
-                }, 1000);
-            } else {
-                if (firebase.auth().currentUser) {
-                    next();
-                } else {
-                    next("/login");
-                }
-            }
-        }
+        meta: {
+            requiresAuth: true
+          }
+        // beforeEnter: (to, from, next) => {
+        //     if (!firebase.apps.length) {
+        //         setTimeout(() => {
+        //             if (firebase.auth().currentUser) {
+        //                 next();
+        //             } else {
+        //                 next("/login");
+        //             }
+        //         }, 1000);
+        //     } else {
+        //         if (firebase.auth().currentUser) {
+        //             next();
+        //         } else {
+        //             next("/login");
+        //         }
+        //     }
+        // }
     },
     {
         path: "/settings",
         name: "Settings",
-        component: Settings
+        component: Settings,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/login",
         name: "Login",
-        component: Login
+        component: Login,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/weather",
         name: "Weather",
-        component: Weather
+        component: Weather,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/map",
         name: "Map",
-        component: Maps
+        component: Maps,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/location",
         name: "Location",
-        component: Location
+        component: Location,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/routes",
         name: "Routes",
-        component: Routes
+        component: Routes,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/webcams",
         name: "Webcams",
-        component: Webcams
+        component: Webcams,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/photos",
         name: "Photos",
-        component: Photos
+        component: Photos,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/chat",
         name: "Chat",
-        component: Chat
+        component: Chat,
+        meta: {
+            requiresAuth: true
+          }
     },
 
     {
         path: "/changepassword",
         name: "Change Password",
-        component: ChangePassword   
+        component: ChangePassword,
+        meta: {
+            requiresAuth: true
+          }   
     },
     {
         path: "/forgotpassword",
         name: "Forgot Password",
-        component: ForgotPassword   
+        component: ForgotPassword,
+        meta: {
+            requiresAuth: true
+          }   
     },
     // Users
     {
         path: "/users",
         name: "Users",
-        component: Users
+        component: Users,
+        meta: {
+            requiresAuth: true
+          }
     },
     {
         path: "/users/add",
         name: "Add user",
-        component: AddUser
+        component: AddUser,
+        meta: {
+            requiresAuth: true
+          }
     }
 ];
 
@@ -119,5 +160,16 @@ const router = new VueRouter({
     mode: "history",
     routes
 });
+
+router.beforeEach(async (to, from, next) => {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+
+    // Check if your logged in
+    if (requiresAuth && !await store.dispatch('getCurrentUser')){
+      next('login');
+    }else{
+      next();
+    }
+  });
 
 export default router;
