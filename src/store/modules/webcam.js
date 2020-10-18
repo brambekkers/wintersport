@@ -1,10 +1,14 @@
 export default {
     state: {
-        webcams: null
+        webcams: null,
+        videoVisible: null,
     },
     getters: {
         webcams(state) {
             return state.webcams;
+        },
+        videoVisible(state) {
+            return state.videoVisible;
         },
         allCams(state) {
             const allCams = [];
@@ -21,6 +25,9 @@ export default {
     mutations: {
         webcams(state, val) {
             state.webcams = val;
+        },
+        videoVisible(state, val) {
+            state.videoVisible = val;
         }
     },
     actions: {
@@ -30,7 +37,6 @@ export default {
             });
         },
         async updateCam({ dispatch }, { webcam }) {
-            console.log("Update webcam: ", name);
             await dispatch("scrapeData", webcam);
             return true;
         },

@@ -1,70 +1,117 @@
 <template>
-	<v-col cols="12" md="6" lg="3" class="py-0">
+	<v-col
+		cols="6"
+		lg="3"
+		v-show="!videoVisible || videoVisible === webcam.name"
+	>
 		<v-hover>
 			<template v-slot:default="{ hover }">
-				<div id="video">
-					<video
-						width="100%"
-						:poster="webcam.poster"
-						@click="fullscreen"
-						:ref="webcam.name"
+				<v-card
+					id="webcam"
+					@click="fullscreen"
+					elevation="4"
+				>
+					<v-img
+						:src="webcam.poster"
+						:aspect-ratio="1 / 1"
+					/>
+					<v-chip
+						color="primary"
+						class="height ma-2"
+						small
+						overlap
 					>
-						<source :src="webcam.videoUrl" type="video/mp4" />
-					</video>
-					<v-chip color="primary" class="height ma-2" overlap>
 						<v-icon class="mr-2">landscape</v-icon>
 						{{ webcam.height }}
 					</v-chip>
+					<v-card-title class="title pt-1 pb-0 px-2">
+						{{ webcam.name }}
+					</v-card-title>
+
+					<v-card-subtitle class="time pb-1 pt-0 px-2">
+						<v-icon
+							small
+							class="mr-2"
+						>schedule</v-icon>
+						{{ webcam.time }}
+					</v-card-subtitle>
+
+					<!-- 
 					<div class="bottomBar">
 						<h2>{{ webcam.name }}</h2>
 
 						<p class="time white--text">
 							{{ webcam.time }}
 						</p>
-					</div>
+					</div> -->
 					<v-fade-transition>
-						<v-overlay v-if="hover" absolute color="#036358">
+						<v-overlay
+							v-if="hover"
+							absolute
+							color="#036358"
+						>
 							<v-btn @click="fullscreen">Watch webcam</v-btn>
 						</v-overlay>
 					</v-fade-transition>
-				</div>
+				</v-card>
 			</template>
 		</v-hover>
+
+		<div
+			id="player"
+			v-show="videoVisible"
+		>
+			<video
+				width="100%"
+				:poster="webcam.poster"
+				:ref="webcam.name"
+				loop
+				controls="false"
+			>
+				<source
+					:src="webcam.videoUrl"
+					type="video/mp4"
+				/>
+			</video>
+		</div>
 	</v-col>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				hover: false,
-			};
-		},
-		props: ["webcam"],
-		methods: {
-			fullscreen() {
+import { mapGetters } from "vuex";
+
+export default {
+	data() {
+		return {
+			hover: false,
+		};
+	},
+	watch: {
+		videoVisible(newValue) {
+			if (newValue != this.webcam.name) {
 				const elem = this.$refs[this.webcam.name];
-				if (elem.requestFullscreen) {
-					elem.requestFullscreen();
-				} else if (elem.mozRequestFullScreen) {
-					/* Firefox */
-					elem.mozRequestFullScreen();
-				} else if (elem.webkitRequestFullscreen) {
-					/* Chrome, Safari and Opera */
-					elem.webkitRequestFullscreen();
-				} else if (elem.msRequestFullscreen) {
-					/* IE/Edge */
-					elem.msRequestFullscreen();
-				}
-				elem.muted = true;
-				elem.play();
-			},
+				elem.pause();
+			}
 		},
-	};
+	},
+	computed: {
+		...mapGetters(["videoVisible"]),
+	},
+	props: ["webcam"],
+	methods: {
+		fullscreen() {
+			const elem = this.$refs[this.webcam.name];
+			this.$store.commit("videoVisible", this.webcam.name);
+
+			elem.muted = true;
+			elem.play();
+		},
+	},
+};
 </script>
 
 <style scoped lang="scss">
-	#video {
+	#webcam {
 		position: relative;
 
 		.height {
@@ -73,28 +120,33 @@
 			top: 0.5rem;
 		}
 
-		.bottomBar {
-			position: absolute;
-			z-index: 10;
-			color: white;
-			background: rgba(255, 255, 255, 0.2);
-			width: 100%;
-			height: 20%;
-			padding: 1rem;
-			bottom: 2%;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
+		.title {
+			font-size: 1rem !important;
+			// font-weight: 200;
+		}
 
-			h2 {
-				font-weight: 200;
-			}
+		.time {
+			font-size: 0.8rem !important;
+			margin: 0;
+			font-weight: 400;
+		}
+	}
 
-			.time {
-				font-size: 1rem;
-				margin: 0;
-				font-weight: 400;
-			}
+	#player {
+		position: absolute;
+		top: calc(-48px);
+		left: 0;
+		width: 100%;
+		height: calc(100vh - 56px);
+		background: #000;
+		z-index: 9999;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		video::-webkit-media-controls {
+			display: none;
 		}
 	}
 </style>

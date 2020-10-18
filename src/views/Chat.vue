@@ -113,7 +113,6 @@ export default {
 		height: calc(100vh - 56px);
 		align-items: flex-start;
 		box-sizing: border-box;
-		background: #fafafa;
 
 		.messages {
 			flex-grow: 1 !important;
@@ -136,9 +135,12 @@ export default {
 				}
 
 				.message__bubble {
+					transform: translateY(-40%);
 					position: relative;
 					border-radius: 0.4em;
 					padding: 0.75rem 1rem;
+					box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
+
 				}
 
 				.message__bubble:after {
@@ -150,6 +152,7 @@ export default {
 					border: 0.5rem solid transparent;
 					border-bottom: 0;
 					margin-bottom: -0.5rem;
+					text-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.1), 0px 4px 5px 0px rgba(0, 0, 0, 0.41), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 				}
 
 				&.message--right {

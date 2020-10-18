@@ -1,5 +1,10 @@
 <template>
-	<v-app-bar app dark color="primary" v-if="user">
+	<v-app-bar
+		app
+		dark
+		color="primary"
+		v-if="user"
+	>
 		<!-- Open regular sidebar -->
 		<v-app-bar-nav-icon
 			v-if="isHome"
@@ -11,10 +16,23 @@
 			icon
 			@click="$store.commit('photoDetail', '')"
 		>
+
+			<v-icon>arrow_back</v-icon>
+		</v-btn>
+		<!-- Close Webcam fullscreen -->
+		<v-btn
+			v-else-if="videoVisible"
+			icon
+			@click="$store.commit('videoVisible', '')"
+		>
 			<v-icon>arrow_back</v-icon>
 		</v-btn>
 		<!-- Backbutton to home -->
-		<v-btn v-else icon @click="$router.push('/')">
+		<v-btn
+			v-else
+			icon
+			@click="$router.push('/')"
+		>
 			<v-icon>arrow_back</v-icon>
 		</v-btn>
 		<v-toolbar-title> {{ routerName }} </v-toolbar-title>
@@ -22,22 +40,22 @@
 </template>
 
 <script>
-	import { mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
-	export default {
-		data: () => ({
-			drawer: false,
-		}),
-		computed: {
-			...mapGetters(["user", "photoDetail"]),
-			isHome() {
-				return this.$route.path === "/";
-			},
-			routerName() {
-				return this.$route.name;
-			},
+export default {
+	data: () => ({
+		drawer: false,
+	}),
+	computed: {
+		...mapGetters(["user", "photoDetail", "videoVisible"]),
+		isHome() {
+			return this.$route.path === "/";
 		},
-	};
+		routerName() {
+			return this.$route.name;
+		},
+	},
+};
 </script>
 
 <style>

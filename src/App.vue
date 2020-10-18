@@ -104,6 +104,7 @@
 		font-family: "Happy Monkey", cursive !important;
 		z-index: 1;
 
+		.title,
 		.text-h1,
 		.text-h2,
 		.text-h3,

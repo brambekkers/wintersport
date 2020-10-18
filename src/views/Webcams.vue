@@ -1,18 +1,39 @@
 <template>
 	<div id="webcams">
-		<v-tabs show-arrows v-model="tab">
+		<v-tabs
+			show-arrows
+			v-model="tab"
+		>
 			<v-tab>All</v-tab>
-			<v-tab v-for="(area, key) in webcams" :key="key">{{ key }}</v-tab>
+			<v-tab
+				v-for="(area, key) in webcams"
+				:key="key"
+			>{{ key }}</v-tab>
 		</v-tabs>
-		<v-tabs-items v-model="tab" class="items transparent">
-			<v-tab-item>
+		<v-tabs-items
+			v-model="tab"
+			class="items transparent"
+		>
+			<v-tab-item class="px-2 py-1">
 				<v-row dense>
-					<Webcam v-for="(webcam, i) of allCams" :key="i" :webcam="webcam" />
+					<Webcam
+						v-for="(webcam, i) of allCams"
+						:key="i"
+						:webcam="webcam"
+					/>
 				</v-row>
 			</v-tab-item>
-			<v-tab-item v-for="(area, key) in webcams" :key="key">
+			<v-tab-item
+				v-for="(area, key) in webcams"
+				:key="key"
+				class="px-2"
+			>
 				<v-row dense>
-					<Webcam v-for="(webcam, i) of area" :key="i" :webcam="webcam" />
+					<Webcam
+						v-for="(webcam, i) of area"
+						:key="i"
+						:webcam="webcam"
+					/>
 				</v-row>
 			</v-tab-item>
 		</v-tabs-items>
@@ -21,7 +42,7 @@
 
 <script>
 import Webcam from "@/components/Webcam.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
 	name: "Webcams",
@@ -35,16 +56,11 @@ export default {
 		webcams: {
 			handler: "checkCams",
 			immediate: true,
-			deep: true
+			deep: true,
 		},
 	},
 	computed: {
-		allCams() {
-			return this.$store.getters.allCams;
-		},
-		webcams() {
-			return this.$store.getters.webcams;
-		},
+		...mapGetters(["allCams", "webcams"]),
 	},
 	methods: {
 		...mapActions(["updateCam"]),
@@ -75,12 +91,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#webcams {
-	height: 100%;
-	.items {
+	#webcams {
+		height: 100%;
+
+		.transparent {
+			background: transparent !important;
+		}
 	}
-	.transparent {
-		background: transparent !important;
-	}
-}
 </style>
