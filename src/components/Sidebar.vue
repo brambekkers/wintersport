@@ -90,7 +90,7 @@
 								route: "weather",
 							},
 							{
-								title: "Map",
+								title: "Ski Map",
 								icon: "map",
 								route: "map",
 							},
@@ -103,6 +103,11 @@
 								title: "Routes",
 								icon: "directions",
 								route: "routes",
+							},
+							{
+								title: "Ski Bus",
+								icon: "directions_bus",
+								route: "bus",
 							},
 							{
 								title: "Webcams",

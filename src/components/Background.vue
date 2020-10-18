@@ -1,6 +1,14 @@
 <template>
 	<div id="background">
-		<!-- Sky -->
+		<div class="light container" v-if="background === 'light'" key="light">
+
+			<v-img class="light" src="@/assets/happySkiFriends/background.jpg" height="100%" width="100%" />
+
+		</div>
+
+		<div class="cartoon container" v-if="background ==='cartoon'" key="cartoon">
+
+			<!-- Sky -->
 		<transition name="fade">
 			<div id="sky_day" class="sky" v-if="!darkMode" key="day" />
 			<div id="sky_night" class="sky" v-if="darkMode" key="night" />
@@ -23,6 +31,9 @@
 			<div id="clouds_day" class="clouds" v-if="!darkMode" key="day" />
 			<div id="clouds_night" class="clouds" v-if="darkMode" key="night" />
 		</transition>
+		</div>
+
+		
 	</div>
 </template>
 
@@ -35,6 +46,10 @@ export default {
 		darkMode() {
 			return this.profile && this.profile.darkMode ? true : false;
 		},
+		background() {
+			return this.$route.meta.background;
+
+		}
 	},
 };
 </script>
@@ -51,6 +66,19 @@ export default {
 	background-size: cover;
 	background-position: center center;
 	background-repeat: no-repeat;
+
+.container{
+	height: 100%;
+	width: 100% !important;
+	max-width: 100% !important;
+	position: relative;
+	padding: 0 !important;
+	margin: 0 !important;
+
+	.light{
+		height: 100%;
+		width: 100%;
+	}
 
 	.sky {
 		position: absolute;
@@ -102,5 +130,6 @@ export default {
 	.darkness {
 		filter: brightness(50%);
 	}
+}
 }
 </style>

@@ -1,52 +1,34 @@
 <template>
-	<CardTemplate cols="6" sm="3" xl="2" height="200px" v-if="weatherForecast">
-		<!-- Front of card -->
-		<template v-slot:front>
-			<div class="h-100 py-3">
-				<v-img :src="getImgUrl" contain height="100%" class="mx-4 py-2">
-					<div class="d-flex justify-end pt-3">
-						<v-chip
-							color="secondary"
-							class="py-2 white--text"
-							overlap
-						>
-							<strong class="font-weight-bold">
-								{{
-									weatherForecast.forecast[0]["upper"]
-										.temp_avg_c
-								}} </strong
-							><span>°C</span>
-						</v-chip>
-					</div>
-				</v-img>
-			</div>
-		</template>
-		<!-- Back of card -->
-		<template v-slot:back>
-			<v-card-title class="headline pb-2">Weather</v-card-title>
-			<v-card-subtitle class="pb-0">{{
-				weatherForecast.forecast[0]["upper"].wx_desc
-			}}</v-card-subtitle>
-		</template>
-	</CardTemplate>
-	<!-- Skeleton -->
-	<v-col v-else>
-		<v-skeleton-loader
-			cols="6"
-			sm="3"
-			xl="2"
-			class="mx-auto"
-			type="card"
-		></v-skeleton-loader>
-	</v-col>
+<v-col cols="6" sm="3" lg="3" xl="2" v-if="weatherForecast">
+	<v-card class="h-100">
+		<v-card-title class="text-h6">Weather</v-card-title>
+		<v-card-subtitle class="pb-2">
+			{{weatherForecast.forecast[0]["upper"].wx_desc}}
+		</v-card-subtitle>
+		<v-card-text class="d-flex justify-center">
+		<v-avatar class="avatar" size="80px">
+			<v-img :src="getImgUrl" contain height="100px" class="mx-4 py-2" />
+		</v-avatar>
+			<v-chip
+				color="secondary"
+				class="py-2 white--text"
+				overlap
+				borderd
+			>
+				<strong class="font-weight-bold">
+					{{weatherForecast.forecast[0]["upper"].temp_avg_c}} 
+					</strong
+				><span>°C</span>
+			</v-chip>
+		</v-card-text>
+	</v-card>
+</v-col>
 </template>
 
 <script>
-	import CardTemplate from "@/components/Home-card-template.vue";
 	import { mapGetters, mapActions } from "vuex";
 
 	export default {
-		components: { CardTemplate },
 		computed: {
 			...mapGetters(["weatherForecast"]),
 			getImgUrl() {
@@ -132,4 +114,7 @@
 </script>
 
 <style lang="scss" scoped>
+.avatar{
+	border: solid 3px #747374 ;
+}
 </style>

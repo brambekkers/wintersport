@@ -6,6 +6,8 @@ import "firebase/firestore";
 import "firebase/storage";
 import "firebase/functions";
 
+firebase.initializeApp(firebaseConfig)
+
 export default {
 	state: {
 		firebase: null,
@@ -31,16 +33,22 @@ export default {
 
 	actions: {
 		async initializeApp({ commit }) {
-			commit("firebase", await firebase.initializeApp(firebaseConfig));
+			if (firebase.apps.length === 0) {
+				commit("firebase", await firebase.initializeApp(firebaseConfig));
+			} else {
+				commit("firebase", firebase.apps[0]);
+			}
 			return true;
 		},
-		getCurrentUser(){
-			return new Promise((resolve, reject) => {
-				const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-					unsubscribe();
-					resolve(user);
-				}, reject);
-			})
-		}
+
 	},
 };
+
+firebase.getCurrentUser = () => {
+	return new Promise((resolve, reject) => {
+		const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+			unsubscribe();
+			resolve(user);
+		}, reject);
+	})
+}

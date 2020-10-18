@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "../store/index";
+
+import firebase from "firebase";
 
 import Home from "../views/Home";
 import Login from "../views/Login";
@@ -28,32 +29,17 @@ const routes = [
     name: "Happy Ski Friends",
     component: Home,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
-    // beforeEnter: (to, from, next) => {
-    //     if (!firebase.apps.length) {
-    //         setTimeout(() => {
-    //             if (firebase.auth().currentUser) {
-    //                 next();
-    //             } else {
-    //                 next("/login");
-    //             }
-    //         }, 1000);
-    //     } else {
-    //         if (firebase.auth().currentUser) {
-    //             next();
-    //         } else {
-    //             next("/login");
-    //         }
-    //     }
-    // }
   },
   {
     path: "/settings",
     name: "Settings",
     component: Settings,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'cartoon'
     }
   },
   {
@@ -61,7 +47,8 @@ const routes = [
     name: "Login",
     component: Login,
     meta: {
-      requiresAuth: false
+      requiresAuth: false,
+      background: 'cartoon'
     }
   },
   {
@@ -69,7 +56,8 @@ const routes = [
     name: "Weather",
     component: Weather,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
   {
@@ -77,7 +65,8 @@ const routes = [
     name: "Map",
     component: Maps,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
   {
@@ -85,7 +74,8 @@ const routes = [
     name: "Location",
     component: Location,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
   {
@@ -93,7 +83,8 @@ const routes = [
     name: "Routes",
     component: Routes,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
   {
@@ -101,7 +92,8 @@ const routes = [
     name: "Webcams",
     component: Webcams,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
   {
@@ -109,7 +101,8 @@ const routes = [
     name: "Photos",
     component: Photos,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
   {
@@ -117,7 +110,8 @@ const routes = [
     name: "Chat",
     component: Chat,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
 
@@ -126,7 +120,8 @@ const routes = [
     name: "Change Password",
     component: ChangePassword,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'cartoon'
     }
   },
   {
@@ -134,7 +129,8 @@ const routes = [
     name: "Forgot Password",
     component: ForgotPassword,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'cartoon'
     }
   },
   // Users
@@ -143,7 +139,8 @@ const routes = [
     name: "Users",
     component: Users,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   },
   {
@@ -151,7 +148,8 @@ const routes = [
     name: "Add user",
     component: AddUser,
     meta: {
-      requiresAuth: true
+      requiresAuth: true,
+      background: 'light'
     }
   }
 ];
@@ -165,7 +163,7 @@ router.beforeEach(async (to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
 
   // Check if your logged in
-  if (requiresAuth && !await store.dispatch('getCurrentUser')) {
+  if (requiresAuth && !await firebase.getCurrentUser()) {
     next('login');
   } else {
     next();

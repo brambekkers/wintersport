@@ -1,9 +1,7 @@
 <template>
 	<v-container>
-		<v-row dense>
-			<Info />
-		</v-row>
 		<v-row align="stretch" dense>
+			<Info />
 			<Countdown />
 			<Weather />
 			<Webcam />
