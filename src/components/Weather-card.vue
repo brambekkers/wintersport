@@ -1,28 +1,34 @@
 <template>
-<v-col cols="6" sm="3" lg="3" xl="2" v-if="weatherForecast">
-	<v-card class="h-100">
-		<v-card-title class="text-h6">Weather</v-card-title>
-		<v-card-subtitle class="pb-2">
-			{{weatherForecast.forecast[0]["upper"].wx_desc}}
-		</v-card-subtitle>
-		<v-card-text class="d-flex justify-center">
-		<v-avatar class="avatar" size="80px">
-			<v-img :src="getImgUrl" contain height="100px" class="mx-4 py-2" />
-		</v-avatar>
-			<v-chip
-				color="secondary"
-				class="py-2 white--text"
-				overlap
-				borderd
-			>
-				<strong class="font-weight-bold">
-					{{weatherForecast.forecast[0]["upper"].temp_avg_c}} 
-					</strong
-				><span>°C</span>
-			</v-chip>
-		</v-card-text>
-	</v-card>
-</v-col>
+	<v-col cols="6" sm="3" lg="3" xl="2" v-if="weatherForecast">
+		<v-card class="h-100">
+			<v-card-title class="text-h6">Weather</v-card-title>
+			<v-card-subtitle class="pb-2">
+				{{ weatherForecast.forecast[0]["upper"].wx_desc }}
+			</v-card-subtitle>
+			<v-card-text class="d-flex justify-center">
+				<v-avatar class="avatar pa-2" size="80px">
+					<v-img
+						:src="getImgUrl"
+						contain
+						height="100px"
+						class="mx-4 py-2"
+					/>
+				</v-avatar>
+				<v-chip
+					color="primary"
+					class="py-2 ml-n4 white--text"
+					overlap
+					borderd
+				>
+					<strong class="font-weight-bold">
+						{{
+							weatherForecast.forecast[0]["upper"].temp_avg_c
+						}} </strong
+					><span>°C</span>
+				</v-chip>
+			</v-card-text>
+		</v-card>
+	</v-col>
 </template>
 
 <script>
@@ -114,7 +120,7 @@
 </script>
 
 <style lang="scss" scoped>
-.avatar{
-	border: solid 3px #747374 ;
-}
+	.avatar {
+		border: solid 3px #747374;
+	}
 </style>

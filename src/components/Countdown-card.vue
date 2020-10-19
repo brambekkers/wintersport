@@ -1,20 +1,25 @@
 <template>
-<v-col cols="6" sm="3" lg="3" xl="2">
-	<v-card class="h-100 d-flex flex-column justify-space-between">
-		<v-card-title class="text-h6 pb-0"> Countdown </v-card-title>
-		<div id="countdown">
-			<v-card class="number px-5 py-3 mr-1 text-h6" color="primary" v-for="num of daysToGo" :key="num"> {{num}}</v-card>
-		</div>
-		<v-card-subtitle class="daysToGo pt-0">
-			days to go
-		</v-card-subtitle>
-	</v-card>
-	
-</v-col>
+	<v-col cols="6" sm="3" lg="3" xl="2">
+		<v-card class="h-100 d-flex flex-column justify-space-between">
+			<v-card-title class="text-h6 pb-0"> Countdown </v-card-title>
+			<div id="countdown">
+				<v-card
+					class="number px-3 py-3 text-h6"
+					color="primary"
+					v-for="num of daysToGo"
+					:key="num"
+				>
+					{{ num }}</v-card
+				>
+			</div>
+			<v-card-subtitle class="daysToGo pt-0">
+				days to go
+			</v-card-subtitle>
+		</v-card>
+	</v-col>
 </template>
 
 <script>
-
 	export default {
 		computed: {
 			daysToGo() {
@@ -30,27 +35,32 @@
 				}
 				const diff = cday.getTime() - today.getTime();
 
-				return (Math.floor(diff / (1000 * 60 * 60 * 24))).toString().split("");
+				return Math.floor(diff / (1000 * 60 * 60 * 24))
+					.toString()
+					.split("");
 			},
 		},
 	};
 </script>
 
 <style lang="scss" scoped>
-		#countdown {
-			display: flex;
-			align-self: center;
-			
+	#countdown {
+		display: flex;
+		align-self: center;
+		justify-content: center;
+		width: 100%;
+		padding: 0 15px;
 
-			.number {
-				text-align: center;
-				font-weight: 800;
-				color: white !important;
-			}
+		.number {
+			text-align: center;
+			font-weight: 800;
+			color: white !important;
+			margin: 0 3px;
+			max-width: 40px !important;
 		}
+	}
 
-		.daysToGo {
-			align-self: center;
-			
-		}
+	.daysToGo {
+		align-self: center;
+	}
 </style>
