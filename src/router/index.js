@@ -8,6 +8,7 @@ import Login from "../views/Login";
 import Settings from "../views/Settings";
 import Weather from "../views/Weather";
 import Maps from "../views/Map";
+import Skibus from "../views/Skibus";
 import Location from "../views/Location";
 import Routes from "../views/Routes";
 import Webcams from "../views/Webcams";
@@ -64,6 +65,15 @@ const routes = [
     path: "/map",
     name: "Map",
     component: Maps,
+    meta: {
+      requiresAuth: true,
+      background: 'light'
+    }
+  },
+  {
+    path: "/bus",
+    name: "Ski Bus",
+    component: Skibus,
     meta: {
       requiresAuth: true,
       background: 'light'

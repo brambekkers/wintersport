@@ -7,8 +7,11 @@ import PinchZoom from "@/components/PinchZoom.vue";
 export default {
 	components: { PinchZoom },
 	computed: {
+		skibus() {
+			return this.$store.getters.skibus;
+		},
 		url() {
-			return require("@/assets/skimap.jpg");
+			return require("@/assets/skibusMap.png");
 		},
 	},
 };

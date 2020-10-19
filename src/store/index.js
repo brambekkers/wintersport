@@ -13,6 +13,7 @@ import Webcam from "./modules/webcam";
 import Photos from "./modules/photos";
 import Location from "./modules/location";
 import Notification from "./modules/notification";
+import Skibus from "./modules/skibus";
 
 
 
@@ -33,5 +34,5 @@ export default new Vuex.Store({
         sidebar: (state) => state.sidebar,
         theme: (state) => state.setting.theme
     },
-    modules: { Firebase, Weather, User, Users, Chat, Webcam, Admin, Photos, Location, Notification }
+    modules: { Firebase, Weather, User, Users, Chat, Webcam, Admin, Photos, Location, Notification, Skibus }
 });
