@@ -11,81 +11,79 @@
 </template>
 
 <script>
-	import { mapActions } from "vuex";
-	import Sidebar from "@/components/Sidebar.vue";
-	import Header from "@/components/Header.vue";
-	import Background from "@/components/Background.vue";
-	import Snackbar from "@/components/Snackbar.vue";
+import { mapActions } from "vuex";
+import Sidebar from "@/components/Sidebar.vue";
+import Header from "@/components/Header.vue";
+import Background from "@/components/Background.vue";
+import Snackbar from "@/components/Snackbar.vue";
 
-	export default {
-		name: "App",
-		components: { Sidebar, Header, Background, Snackbar },
-		methods: {
-			...mapActions([
-				"initializeApp",
-				"userWatcher",
-				"usersWatcher",
-				"webcamWatcher",
-				"initializeWeather",
-				"refreshSnowReport",
-			]),
-			// NOTIFICATION TEST
-			// TODO: Make global function to use everywhere in the app
-			askPermission() {
-				Notification.requestPermission((result) => {
-					console.log("result from permission question", result);
-					if (result !== "granted") {
-						alert("You probably do not like notifications?!");
-					} else {
-						console.log(
-							"A notification will be send from the service worker => This only works in production"
-						);
-						this.showNotification();
-					}
-				});
-			},
-			showNotification() {
-				if ("serviceWorker" in navigator) {
-					navigator.serviceWorker.ready // returns a Promise, the active SW registration
-						.then((swreg) =>
-							swreg.showNotification("Notifications granted", {
-								body: "Here is a first notification",
-								icon: "/img/icons/android-chrome-192x192.png",
-								image: "/img/autumn-forest.png",
-								vibrate: [300, 200, 300],
-								badge: "/img/icons/plint-badge-96x96.png",
-								actions: [
-									{
-										action: "confirm",
-										title: "Okay",
-										icon:
-											"/img/icons/android-chrome-192x192.png",
-									},
-									{
-										action: "cancel",
-										title: "Cancel",
-										icon:
-											"/img/icons/android-chrome-192x192.png",
-									},
-								],
-							})
-						);
+export default {
+	name: "App",
+	components: { Sidebar, Header, Background, Snackbar },
+	methods: {
+		...mapActions([
+			"initializeApp",
+			"userWatcher",
+			"usersWatcher",
+			"webcamWatcher",
+			"initializeWeather",
+			"refreshSnowReport",
+		]),
+		// NOTIFICATION TEST
+		// TODO: Make global function to use everywhere in the app
+		askPermission() {
+			Notification.requestPermission((result) => {
+				console.log("result from permission question", result);
+				if (result !== "granted") {
+					alert("You probably do not like notifications?!");
+				} else {
+					console.log(
+						"A notification will be send from the service worker => This only works in production"
+					);
+					this.showNotification();
 				}
-			},
+			});
 		},
-		async created() {
-			try {
-				await this.initializeApp();
-				this.userWatcher();
-				this.usersWatcher();
-				this.webcamWatcher();
-			} catch (error) {
-				console.error(error);
+		showNotification() {
+			if ("serviceWorker" in navigator) {
+				navigator.serviceWorker.ready // returns a Promise, the active SW registration
+					.then((swreg) =>
+						swreg.showNotification("Notifications granted", {
+							body: "Here is a first notification",
+							icon: "/img/icons/android-chrome-192x192.png",
+							image: "/img/autumn-forest.png",
+							vibrate: [300, 200, 300],
+							badge: "/img/icons/plint-badge-96x96.png",
+							actions: [
+								{
+									action: "confirm",
+									title: "Okay",
+									icon: "/img/icons/android-chrome-192x192.png",
+								},
+								{
+									action: "cancel",
+									title: "Cancel",
+									icon: "/img/icons/android-chrome-192x192.png",
+								},
+							],
+						})
+					);
 			}
-
-			this.askPermission();
 		},
-	};
+	},
+	async created() {
+		try {
+			await this.initializeApp();
+			this.userWatcher();
+			this.usersWatcher();
+			this.webcamWatcher();
+		} catch (error) {
+			console.error(error);
+		}
+
+		this.askPermission();
+	},
+};
 </script>
 
 <style lang="scss">
@@ -127,5 +125,20 @@
 		.h-100 {
 			height: 100% !important;
 		}
+	}
+
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		background-color: #f5f5f5;
+	}
+
+	::-webkit-scrollbar {
+		width: 1px;
+		background-color: #f5f5f5;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: #000000;
+		border: 2px solid #555555;
 	}
 </style>
