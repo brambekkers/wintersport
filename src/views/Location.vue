@@ -17,7 +17,13 @@
 						: `${detail.properties.difficulty} downhill ski run`
 				}}
 			</v-card-title>
-			<v-card-text></v-card-text>
+			<v-card-subtitle>
+				<div v-if="detail.properties.name">
+					{{ `${detail.properties.difficulty} downhill ski run` }}
+				</div>
+				<div>Average Slope: {{ detail.properties.distance }}</div>
+				<div>Distance: {{ detail.properties.distance }}</div>
+			</v-card-subtitle>
 		</v-card>
 		<Avatar ref="avatar" :size="30" :profile="profile" />
 	</div>
@@ -60,7 +66,7 @@
 					style: "mapbox://styles/mapbox/cjaudgl840gn32rnrepcb9b9g", // the outdoors-v10 style but without Hillshade layers
 					center: [12.617214, 47.387759], // starting position [lng, lat]
 					zoom: 15, // starting zoom
-					attributionControl: false,
+
 					// maxBounds: [
 					// 	[12.520067, 47.337654], // Southwest coordinates
 					// 	[12.802201, 47.463263],
@@ -76,19 +82,7 @@
 							url: "mapbox://mapbox.terrain-rgb",
 						});
 
-						// // ski map
-						// this.myMap.addSource("piste-tiles", {
-						// 	type: "raster",
-						// 	tiles: [
-						// 		"https://tiles.opensnowmap.org/pistes/{z}/{x}/{y}.png",
-						// 	],
-
-						// 	tileSize: 256,
-						// });
 						this.myMap.addSource("skiMap", openskimap);
-
-						this.myMap.on("click", "lifts-lines", this.setDetail);
-						this.myMap.on("click", "runs-lines", this.setDetail);
 						resolve();
 					});
 				});
@@ -132,8 +126,22 @@
 						"line-color": "gray",
 					},
 				});
-			},
 
+				// Actions
+				const maps = ["lifts-lines", "runs-lines"];
+
+				maps.forEach((map) => {
+					console.log(map);
+					this.myMap.on("mousemove", map, (e) => {
+						this.myMap.getCanvas().style.cursor = "pointer";
+					});
+					this.myMap.on("mouseleave", map, () => {
+						this.myMap.getCanvas().style.cursor = "";
+					});
+
+					this.myMap.on("click", map, this.setDetail);
+				});
+			},
 			async setDetail(e) {
 				const feature = e.features[0];
 				const coordinates = feature.geometry.coordinates[0].slice();
@@ -148,7 +156,6 @@
 				this.detail = await this.fetchOpenskimap(id);
 				console.log(this.detail);
 			},
-
 			addNavigationControl() {
 				const nav = new window.mapboxgl.NavigationControl();
 				this.myMap.addControl(nav, "top-right");
