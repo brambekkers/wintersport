@@ -145,15 +145,11 @@ export default {
 
 					el.addEventListener("click", () => {
 						this.$router.push("/webcams");
+						this.$store.commit("videoVisible", cam.name);
 					});
-
-					var popup = new window.mapboxgl.Popup({
-						offset: 25,
-					}).setText(cam.name);
 
 					new window.mapboxgl.Marker(el)
 						.setLngLat([cam.location.lng, cam.location.lat])
-						.setPopup(popup) // sets a popup on this marker
 						.addTo(this.myMap);
 				}
 			}

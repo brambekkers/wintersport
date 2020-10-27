@@ -29,14 +29,47 @@
 					{{ p.name ? p.name : `${p.difficulty} downhill ski run` }}
 				</v-card-title>
 				<v-card-subtitle>
-					<div v-if="p.name && !p.liftType">
-						{{ `${p.difficulty} downhill ski run` }}
-					</div>
-					<div v-if="p.liftType">
-						{{ p.liftType }}
-					</div>
-					<div>Average Slope: {{ averageSlope }}%</div>
-					<div>Distance: {{ distance }} meter</div>
+					<!-- Slope -->
+					<template v-if="!p.liftType">
+						<div v-if="p.name">
+							{{ `${p.difficulty} downhill ski run` }}
+						</div>
+						<div><span class="font-weight-bold mr-2">Distance:</span> {{ distance }}m</div>
+						<div><span class="font-weight-bold mr-2">Average Slope:</span> {{ averageSlope }}%</div>
+					</template>
+					<!-- Lift -->
+					<template v-if="p.liftType">
+						<v-row>
+							<v-col cols="8">
+								<div><span class="font-weight-bold mr-2">Lift type:</span> {{ p.liftType.replace(/_/g, ' ') }}</div>
+								<div><span class="font-weight-bold mr-2">Distance:</span> {{ distance }}m</div>
+								<div><span class="font-weight-bold mr-2">Ascent:</span> {{ ascent }}m</div>
+
+							</v-col>
+							<v-col cols="4">
+								<v-img
+									src="@/assets/barlift.png"
+									contain
+									height="80px"
+									v-if="p.liftType === 'platter' || p.liftType === 'rope_tow'"
+								/>
+								<v-img
+									src="@/assets/chairlift.png"
+									contain
+									height="80px"
+									v-if="p.liftType === 'chair_lift'"
+								/>
+								<v-img
+									src="@/assets/gondolam.png"
+									contain
+									height="80px"
+									v-if="p.liftType === 'gondola'"
+								/>
+							</v-col>
+						</v-row>
+
+					</template>
+
 				</v-card-subtitle>
 				<v-divider v-if="heights"></v-divider>
 
@@ -46,7 +79,7 @@
 					:smooth="true"
 					:value="heights"
 					auto-draw
-					v-if="heights"
+					v-if="heights  && !p.liftType"
 				></v-sparkline>
 
 			</v-card>
@@ -113,6 +146,13 @@ export default {
 				return Math.round(this.heights.length * this.resolution);
 			}
 			return 0;
+		},
+		ascent() {
+			if (this.heights) {
+				return Math.round(
+					this.heights[this.heights.length - 1] - this.heights[0]
+				);
+			}
 		},
 	},
 };

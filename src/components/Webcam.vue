@@ -36,14 +36,6 @@
 						{{ webcam.time }}
 					</v-card-subtitle>
 
-					<!-- 
-					<div class="bottomBar">
-						<h2>{{ webcam.name }}</h2>
-
-						<p class="time white--text">
-							{{ webcam.time }}
-						</p>
-					</div> -->
 					<v-fade-transition>
 						<v-overlay
 							v-if="hover"
@@ -87,11 +79,22 @@ export default {
 		};
 	},
 	watch: {
-		videoVisible(newValue) {
-			if (newValue != this.webcam.name) {
-				const elem = this.$refs[this.webcam.name];
-				elem.pause();
-			}
+		videoVisible: {
+			handler(newValue) {
+				setTimeout(() => {
+					const elem = this.$refs[this.webcam.name];
+					if (elem) {
+						if (newValue != this.webcam.name) {
+							elem.pause();
+						} else {
+							console.log("its me");
+							elem.muted = true;
+							elem.play();
+						}
+					}
+				}, 100);
+			},
+			immediate: true,
 		},
 	},
 	computed: {
@@ -102,9 +105,6 @@ export default {
 		fullscreen() {
 			const elem = this.$refs[this.webcam.name];
 			this.$store.commit("videoVisible", this.webcam.name);
-
-			elem.muted = true;
-			elem.play();
 		},
 	},
 };
@@ -133,8 +133,8 @@ export default {
 	}
 
 	#player {
-		position: absolute;
-		top: calc(-48px);
+		position: fixed;
+		top: calc(56px);
 		left: 0;
 		width: 100%;
 		height: calc(100vh - 56px);
