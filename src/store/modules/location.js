@@ -16,7 +16,6 @@ export default {
             state.location = val;
         },
         locationDetail(state, val) {
-            console.log(val)
             state.locationDetail = val;
         },
     },

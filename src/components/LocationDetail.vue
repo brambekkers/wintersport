@@ -31,7 +31,7 @@
 				<v-card-subtitle>
 					<!-- Slope -->
 					<template v-if="!p.liftType">
-						<div v-if="p.name">
+						<div v-if="p.name && p.difficulty">
 							{{ `${p.difficulty} downhill ski run` }}
 						</div>
 						<div><span class="font-weight-bold mr-2">Distance:</span> {{ distance }}m</div>
@@ -51,7 +51,7 @@
 									src="@/assets/barlift.png"
 									contain
 									height="80px"
-									v-if="p.liftType === 'platter' || p.liftType === 'rope_tow'"
+									v-if="p.liftType === 'platter' || p.liftType === 'rope_tow' || p.liftType === 't-bar'"
 								/>
 								<v-img
 									src="@/assets/chairlift.png"
@@ -90,7 +90,6 @@
 <script>
 import { mapGetters } from "vuex";
 import * as turf from "@turf/turf";
-console.log(turf);
 
 export default {
 	computed: {

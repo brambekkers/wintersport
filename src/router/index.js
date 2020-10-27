@@ -159,7 +159,7 @@ const routes = [
     component: AddUser,
     meta: {
       requiresAuth: true,
-      background: 'light'
+      background: 'cartoon'
     }
   }
 ];

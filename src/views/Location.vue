@@ -65,6 +65,20 @@ export default {
 		addLayers() {
 			// SkiMap - lines
 			this.myMap.addLayer({
+				id: "runs-lines-border",
+				type: "line",
+				source: "skiMap",
+				"source-layer": "runs",
+				layout: {
+					"line-cap": "round",
+					"line-join": "round",
+				},
+				paint: {
+					"line-width": 6,
+					"line-color": "white",
+				},
+			});
+			this.myMap.addLayer({
 				id: "runs-lines",
 				type: "line",
 				source: "skiMap",
@@ -80,18 +94,28 @@ export default {
 			});
 			// SkiMap - lines
 			this.myMap.addLayer({
+				id: "lifts-lines-border",
+				type: "line",
+				source: "skiMap",
+				"source-layer": "lifts",
+				paint: {
+					"line-width": 6,
+					"line-color": "white",
+				},
+			});
+			this.myMap.addLayer({
 				id: "lifts-lines",
 				type: "line",
 				source: "skiMap",
 				"source-layer": "lifts",
 				paint: {
 					"line-width": 3,
-					"line-color": "gray",
+					"line-color": "#CF4242",
 				},
 			});
 
 			// Actions
-			const maps = ["lifts-lines", "runs-lines"];
+			const maps = ["lifts-lines-border", "runs-lines-border"];
 
 			maps.forEach((map) => {
 				this.myMap.on("mousemove", map, (e) => {
